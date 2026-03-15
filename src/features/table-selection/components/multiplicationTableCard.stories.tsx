@@ -5,6 +5,9 @@ import MultiplicationTableCard from "./multiplicationTableCard";
 const meta = {
   title: "Practice/MultiplicationTableCard",
   component: MultiplicationTableCard,
+  args: {
+    onSelect: () => {},
+  },
   decorators: [
     (Story) => (
       <Box maw={320} mx="auto">

@@ -7,10 +7,12 @@ type MultiplicationTableCardProps = {
     label: string;
     unlocked: boolean;
   };
+  onSelect: (tableId: number) => void;
 };
 
 const MultiplicationTableCard: FC<MultiplicationTableCardProps> = ({
   table,
+  onSelect,
 }) => {
   const statusLabel = table.unlocked ? "Available" : "Locked";
   const statusColor = table.unlocked ? "teal" : "gray";
@@ -40,6 +42,7 @@ const MultiplicationTableCard: FC<MultiplicationTableCardProps> = ({
           color={actionColor}
           variant={actionVariant}
           disabled={actionDisabled}
+          onClick={() => onSelect(table.id)}
         >
           {actionLabel}
         </Button>
