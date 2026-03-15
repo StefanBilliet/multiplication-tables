@@ -8,10 +8,15 @@ import {
   Title,
 } from "@mantine/core";
 import type { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import MultiplicationTableCard from "./multiplicationTableCard";
 
 const TableSelection: FC = () => {
-  const handleTableSelected = () => {};
+  const navigate = useNavigate();
+
+  const handleTableSelected = (tableId: number) => {
+    navigate(`/practice/${tableId}`);
+  };
 
   return (
     <main className="app-shell">

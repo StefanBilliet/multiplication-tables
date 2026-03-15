@@ -36,6 +36,8 @@ test("GIVEN a table is locked, WHEN the card is clicked, THEN the locked state i
   expect(screen.getByText("Locked")).toBeVisible();
   expect(screen.getByText("4 times table")).toBeVisible();
   expect(screen.getByText("Unlock this table next")).toBeVisible();
-  expect(screen.getByRole("button", { name: /locked for now/i })).toBeDisabled();
+  expect(
+    screen.getByRole("button", { name: /locked for now/i }),
+  ).toBeDisabled();
   expect(onSelect).not.toHaveBeenCalled();
 });
