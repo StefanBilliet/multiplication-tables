@@ -10,7 +10,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
-    setupFiles: "./src/test/setup.ts",
+    setupFiles: "./src/shared/testing/setup.ts",
     css: true,
     execArgv: [`--localstorage-file=${localStorageFilePath}`],
   },

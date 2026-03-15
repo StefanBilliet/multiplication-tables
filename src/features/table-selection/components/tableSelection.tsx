@@ -9,7 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 
-function MultiplicationTablesOverview() {
+function TableSelection() {
   return (
     <main className="app-shell">
       <Card className="app-card" radius="xl" padding="xl" shadow="md">
@@ -136,4 +136,4 @@ function MultiplicationTablesOverview() {
   );
 }
 
-export default MultiplicationTablesOverview;
+export default TableSelection;

@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
+import "./app/styles/index.css";
 import "@mantine/core/styles.css";
-import App from "./App";
-import { AppProviders } from "./providers/AppProviders";
+import App from "./app/app";
+import { AppProviders } from "./app/providers/appProviders";
 import { registerServiceWorker } from "./pwa/registerServiceWorker";
 
 registerServiceWorker();

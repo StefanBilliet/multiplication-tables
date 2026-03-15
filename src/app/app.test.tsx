@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
-import App from "../App";
-import { AppProviders } from "../providers/AppProviders";
+import App from "./app";
+import { AppProviders } from "./providers/appProviders";
 
 describe("App", () => {
   it("renders the scaffold status", () => {
