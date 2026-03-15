@@ -12,7 +12,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "check": "biome check .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "isEverythingOk": "npm run check && npm run format && npm run build && npm run test && npm run build-storybook"
   },
   "dependencies": {
     "@mantine/core": "^8.3.17",
