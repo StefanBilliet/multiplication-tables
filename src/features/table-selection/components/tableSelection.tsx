@@ -13,6 +13,15 @@ import MultiplicationTableCard from "./multiplicationTableCard";
 
 const TableSelection: FC = () => {
   const navigate = useNavigate();
+  const tables = Array.from({ length: 10 }, (_, index) => {
+    const id = index + 1;
+
+    return {
+      id,
+      label: `${id} times table`,
+      unlocked: id <= 3,
+    };
+  });
 
   const handleTableSelected = (tableId: number) => {
     navigate(`/practice/${tableId}`);
@@ -36,35 +45,13 @@ const TableSelection: FC = () => {
           </Group>
 
           <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
-            <MultiplicationTableCard
-              table={{ id: 1, label: "1 times table", unlocked: true }}
-              onSelect={handleTableSelected}
-            />
-
-            <MultiplicationTableCard
-              table={{ id: 2, label: "2 times table", unlocked: true }}
-              onSelect={handleTableSelected}
-            />
-
-            <MultiplicationTableCard
-              table={{ id: 3, label: "3 times table", unlocked: true }}
-              onSelect={handleTableSelected}
-            />
-
-            <MultiplicationTableCard
-              table={{ id: 4, label: "4 times table", unlocked: false }}
-              onSelect={handleTableSelected}
-            />
-
-            <MultiplicationTableCard
-              table={{ id: 5, label: "5 times table", unlocked: false }}
-              onSelect={handleTableSelected}
-            />
-
-            <MultiplicationTableCard
-              table={{ id: 6, label: "6 times table", unlocked: false }}
-              onSelect={handleTableSelected}
-            />
+            {tables.map((table) => (
+              <MultiplicationTableCard
+                key={table.id}
+                table={table}
+                onSelect={handleTableSelected}
+              />
+            ))}
           </SimpleGrid>
         </Stack>
       </Card>

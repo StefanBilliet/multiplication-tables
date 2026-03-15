@@ -26,3 +26,13 @@ test("GIVEN the home route is shown, WHEN the app is rendered, THEN the table se
     screen.getByRole("heading", { name: /choose a table to practice/i }),
   ).toBeVisible();
 });
+
+test("GIVEN the home route is shown, WHEN the app is rendered, THEN table options from 1 to 10 are shown", () => {
+  const sut = <App />;
+
+  renderWithRouter(sut);
+
+  for (let table = 1; table <= 10; table += 1) {
+    expect(screen.getByText(`${table} times table`)).toBeVisible();
+  }
+});
