@@ -1,7 +1,8 @@
+import type { FC } from "react";
 import TableSelection from "../features/table-selection/components/tableSelection";
 
-function App() {
+const App: FC = () => {
   return <TableSelection />;
-}
+};
 
 export default App;

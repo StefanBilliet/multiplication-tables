@@ -1,6 +1,5 @@
 import {
   Badge,
-  Button,
   Card,
   Group,
   SimpleGrid,
@@ -8,8 +7,10 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import type { FC } from "react";
+import MultiplicationTableCard from "./multiplicationTableCard";
 
-function TableSelection() {
+const TableSelection: FC = () => {
   return (
     <main className="app-shell">
       <Card className="app-card" radius="xl" padding="xl" shadow="md">
@@ -28,112 +29,34 @@ function TableSelection() {
           </Group>
 
           <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
-            <Card radius="lg" padding="lg" withBorder bg="teal.0">
-              <Stack gap="md" h="100%" justify="space-between">
-                <Stack gap="xs">
-                  <Badge variant="light" color="teal" w="fit-content">
-                    Available
-                  </Badge>
-                  <Title order={3}>1 times table</Title>
-                  <Text c="dimmed" size="sm">
-                    Ready to practice
-                  </Text>
-                </Stack>
+            <MultiplicationTableCard
+              table={{ id: 1, label: "1 times table", unlocked: true }}
+            />
 
-                <Button color="teal">Start practice</Button>
-              </Stack>
-            </Card>
+            <MultiplicationTableCard
+              table={{ id: 2, label: "2 times table", unlocked: true }}
+            />
 
-            <Card radius="lg" padding="lg" withBorder bg="teal.0">
-              <Stack gap="md" h="100%" justify="space-between">
-                <Stack gap="xs">
-                  <Badge variant="light" color="teal" w="fit-content">
-                    Available
-                  </Badge>
-                  <Title order={3}>2 times table</Title>
-                  <Text c="dimmed" size="sm">
-                    Play again anytime
-                  </Text>
-                </Stack>
+            <MultiplicationTableCard
+              table={{ id: 3, label: "3 times table", unlocked: true }}
+            />
 
-                <Button color="teal">Start practice</Button>
-              </Stack>
-            </Card>
+            <MultiplicationTableCard
+              table={{ id: 4, label: "4 times table", unlocked: false }}
+            />
 
-            <Card radius="lg" padding="lg" withBorder bg="teal.0">
-              <Stack gap="md" h="100%" justify="space-between">
-                <Stack gap="xs">
-                  <Badge variant="light" color="teal" w="fit-content">
-                    Available
-                  </Badge>
-                  <Title order={3}>3 times table</Title>
-                  <Text c="dimmed" size="sm">
-                    Ready to practice
-                  </Text>
-                </Stack>
+            <MultiplicationTableCard
+              table={{ id: 5, label: "5 times table", unlocked: false }}
+            />
 
-                <Button color="teal">Start practice</Button>
-              </Stack>
-            </Card>
-
-            <Card radius="lg" padding="lg" withBorder bg="gray.0">
-              <Stack gap="md" h="100%" justify="space-between">
-                <Stack gap="xs">
-                  <Badge variant="light" color="gray" w="fit-content">
-                    Locked
-                  </Badge>
-                  <Title order={3}>4 times table</Title>
-                  <Text c="dimmed" size="sm">
-                    Unlock this table next
-                  </Text>
-                </Stack>
-
-                <Button variant="default" disabled>
-                  Locked for now
-                </Button>
-              </Stack>
-            </Card>
-
-            <Card radius="lg" padding="lg" withBorder bg="gray.0">
-              <Stack gap="md" h="100%" justify="space-between">
-                <Stack gap="xs">
-                  <Badge variant="light" color="gray" w="fit-content">
-                    Locked
-                  </Badge>
-                  <Title order={3}>5 times table</Title>
-                  <Text c="dimmed" size="sm">
-                    Unlock this table next
-                  </Text>
-                </Stack>
-
-                <Button variant="default" disabled>
-                  Locked for now
-                </Button>
-              </Stack>
-            </Card>
-
-            <Card radius="lg" padding="lg" withBorder bg="gray.0">
-              <Stack gap="md" h="100%" justify="space-between">
-                <Stack gap="xs">
-                  <Badge variant="light" color="gray" w="fit-content">
-                    Locked
-                  </Badge>
-                  <Title order={3}>6 times table</Title>
-                  <Text c="dimmed" size="sm">
-                    Unlock this table next
-                  </Text>
-                </Stack>
-
-                <Button variant="default" disabled>
-                  Locked for now
-                </Button>
-              </Stack>
-            </Card>
+            <MultiplicationTableCard
+              table={{ id: 6, label: "6 times table", unlocked: false }}
+            />
           </SimpleGrid>
         </Stack>
       </Card>
     </main>
   );
-}
+};
 
 export default TableSelection;

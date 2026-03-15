@@ -1,5 +1,5 @@
 import { createTheme, MantineProvider } from "@mantine/core";
-import type { PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 const theme = createTheme({
   primaryColor: "teal",
@@ -9,6 +9,6 @@ const theme = createTheme({
   },
 });
 
-export function AppProviders({ children }: PropsWithChildren) {
+export const AppProviders: FC<PropsWithChildren> = ({ children }) => {
   return <MantineProvider theme={theme}>{children}</MantineProvider>;
-}
+};
