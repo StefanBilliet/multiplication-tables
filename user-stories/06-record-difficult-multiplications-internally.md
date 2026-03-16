@@ -1,4 +1,4 @@
-## User Story 7 - Record difficult multiplications internally
+## User Story 6 - Record difficult multiplications internally
 
 As a parent or future version of the system,  
 I want the app to remember which multiplications were answered incorrectly,  

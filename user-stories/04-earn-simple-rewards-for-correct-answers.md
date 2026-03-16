@@ -1,4 +1,4 @@
-## User Story 5 - Earn simple rewards for correct answers
+## User Story 4 - Earn simple rewards for correct answers
 
 As a child,  
 I want to earn small rewards when I answer correctly,  

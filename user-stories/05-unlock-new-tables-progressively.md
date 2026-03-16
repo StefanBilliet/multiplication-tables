@@ -1,4 +1,4 @@
-## User Story 6 - Unlock new tables progressively
+## User Story 5 - Unlock new tables progressively
 
 As a child,  
 I want to unlock new multiplication tables over time,  

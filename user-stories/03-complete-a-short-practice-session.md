@@ -1,4 +1,4 @@
-## User Story 4 - Complete a short practice session
+## User Story 3 - Complete a short practice session
 
 As a child,  
 I want practice to happen in short sessions,  

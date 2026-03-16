@@ -1,4 +1,4 @@
-## User Story 8 - Resume progress later
+## User Story 7 - Resume progress later
 
 As a child,  
 I want my unlocked tables and progress to still be there later,  
