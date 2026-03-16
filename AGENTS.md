@@ -61,3 +61,9 @@ This project uses strict, conversation-driven TDD for behavior changes. The goal
 ```bash
 npm run isEverythingOk
 ```
+
+## Commits
+
+- When a commit clearly belongs to a specific user story, prefix the commit message with that user story identifier.
+- Example:
+  - `US-001 feat: start table practice sessions from the selection screen`
