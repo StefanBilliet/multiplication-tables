@@ -1,5 +1,7 @@
 ## User Story 1 - Start a practice session for a chosen table
 
+Status: Finished
+
 As a child,  
 I want to choose a multiplication table to practice,  
 so that I can focus on learning one table at a time.
