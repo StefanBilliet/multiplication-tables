@@ -28,23 +28,3 @@ body {
 a {
   color: inherit;
 }
-
-.app-shell {
-  min-height: 100vh;
-  padding: 24px;
-  display: grid;
-  place-items: center;
-}
-
-.app-card {
-  width: min(100%, 720px);
-  border: 1px solid rgba(23, 49, 55, 0.08);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(16px);
-}
-
-@media (max-width: 640px) {
-  .app-shell {
-    padding: 16px;
-  }
-}

@@ -1,6 +1,7 @@
 import {
   Badge,
   Card,
+  Center,
   Group,
   SimpleGrid,
   Stack,
@@ -28,8 +29,8 @@ const TableSelection: FC = () => {
   };
 
   return (
-    <main className="app-shell">
-      <Card className="app-card" radius="xl" padding="xl" shadow="md">
+    <Center mih="100vh" p={{ base: "md", sm: "xl" }}>
+      <Card w="100%" maw={720} variant="shell">
         <Stack gap="lg">
           <Group justify="space-between" align="flex-start">
             <Stack gap={8}>
@@ -55,7 +56,7 @@ const TableSelection: FC = () => {
           </SimpleGrid>
         </Stack>
       </Card>
-    </main>
+    </Center>
   );
 };
 
