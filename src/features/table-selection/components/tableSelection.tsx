@@ -24,7 +24,7 @@ const TableSelection: FC = () => {
   });
 
   const handleTableSelected = (tableId: number) => {
-    navigate(`/practice/${tableId}`);
+    navigate(`/tables/${tableId}/practice`);
   };
 
   return (

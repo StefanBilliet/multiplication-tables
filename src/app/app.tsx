@@ -7,7 +7,7 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<TableSelection />} />
-      <Route path="/practice/:tableId" element={<PracticeScreen />} />
+      <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
     </Routes>
   );
 };

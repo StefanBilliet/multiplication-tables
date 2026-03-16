@@ -11,11 +11,19 @@ import {
   Title,
 } from "@mantine/core";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import PracticeScreen from "./practiceScreen";
 
 const meta = {
   title: "Practice/PracticeScreen",
   component: PracticeScreen,
+} satisfies Meta<typeof PracticeScreen>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Mockup: Story = {
   render: () => (
     <main className="app-shell">
       <Card className="app-card" radius="xl" padding="xl" shadow="md">
@@ -85,10 +93,14 @@ const meta = {
       </Card>
     </main>
   ),
-} satisfies Meta<typeof PracticeScreen>;
+};
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const FirstQuestion: Story = {};
+export const Component: Story = {
+  render: () => (
+    <MemoryRouter initialEntries={["/tables/3/practice"]}>
+      <Routes>
+        <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
+      </Routes>
+    </MemoryRouter>
+  ),
+};
