@@ -1,6 +1,9 @@
 import { Card, Center, Group, Stack, Text } from "@mantine/core";
 import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
+import AnswerState, {
+  type AnswerState as AnswerStateType,
+} from "../models/answerState";
 import AnswerPad from "./answerPad";
 import BackToTablesButton from "./backToTablesButton";
 import CheckAnswerButton from "./checkAnswerButton";
@@ -8,49 +11,37 @@ import ContinueButton from "./continueButton";
 import CurrentQuestionPrompt from "./currentQuestionPrompt";
 import Header from "./header";
 
-type AnswerState =
-  | { kind: "idle" }
-  | { kind: "selected"; answer: number }
-  | { kind: "incorrect" }
-  | { kind: "correct"; answer: number };
-
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
   const selectedTable = Number(tableId);
   const [currentMultiplier, setCurrentMultiplier] = useState(1);
-  const [answerState, setAnswerState] = useState<AnswerState>({ kind: "idle" });
+  const [answerState, setAnswerState] = useState<AnswerStateType>({
+    kind: "idle",
+  });
   const answerOptions = Array.from(
     { length: 10 },
     (_, index) => selectedTable * (index + 1),
   );
   const correctAnswer = currentMultiplier * selectedTable;
-  const hasCorrectFeedback = answerState.kind === "correct";
-  const selectedAnswer =
-    answerState.kind === "selected" || answerState.kind === "correct"
-      ? answerState.answer
-      : null;
+  const hasCorrectFeedback = AnswerState.isCorrect(answerState);
+  const selectedAnswer = AnswerState.selectedAnswer(answerState);
   const feedback =
-    answerState.kind === "correct"
-      ? "Correct!"
-      : answerState.kind === "incorrect"
-        ? "Try again."
-        : null;
+    answerState.kind === "validated" ? AnswerState.feedback(answerState) : null;
 
   const handleSelectAnswer = (answer: number) => {
     setAnswerState({ kind: "selected", answer });
   };
 
   const handleCheckAnswer = () => {
-    if (answerState.kind !== "selected") {
+    if (!AnswerState.canCheck(answerState)) {
       return;
     }
 
-    if (answerState.answer === correctAnswer) {
-      setAnswerState({ kind: "correct", answer: answerState.answer });
-      return;
-    }
-
-    setAnswerState({ kind: "incorrect" });
+    setAnswerState({
+      kind: "validated",
+      answer: answerState.answer,
+      result: answerState.answer === correctAnswer ? "correct" : "incorrect",
+    });
   };
 
   const handleContinue = () => {
@@ -83,11 +74,11 @@ const PracticeScreen: FC = () => {
           <Group justify="space-between">
             <BackToTablesButton />
 
-            {feedback === "Correct!" ? (
+            {hasCorrectFeedback ? (
               <ContinueButton onClick={handleContinue} />
             ) : (
               <CheckAnswerButton
-                disabled={answerState.kind !== "selected"}
+                disabled={!AnswerState.canCheck(answerState)}
                 onClick={handleCheckAnswer}
               />
             )}
