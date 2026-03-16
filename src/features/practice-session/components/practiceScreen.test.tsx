@@ -107,6 +107,23 @@ test("GIVEN I have selected the correct answer, WHEN I press Check answer, THEN 
   expect(screen.getByRole("button", { name: /continue/i })).toBeVisible();
 });
 
+test("GIVEN the question was answered correctly, WHEN the practice screen is shown, THEN the answer buttons are disabled", async () => {
+  const sut = (
+    <Routes>
+      <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
+    </Routes>
+  );
+  const { user } = renderWithRouter(sut, {
+    initialEntries: ["/tables/3/practice"],
+  });
+
+  await user.click(screen.getByRole("button", { name: "3" }));
+  await user.click(screen.getByRole("button", { name: /check answer/i }));
+
+  expect(screen.getByRole("button", { name: "3" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "6" })).toBeDisabled();
+});
+
 test("GIVEN I have selected an incorrect answer, WHEN I press Check answer, THEN incorrect feedback is displayed and the same question remains active", async () => {
   const sut = (
     <Routes>
