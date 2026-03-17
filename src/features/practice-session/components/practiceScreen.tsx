@@ -1,4 +1,4 @@
-import { Card, Center, Group, Stack, Text } from "@mantine/core";
+import { Card, Center, Group, Stack } from "@mantine/core";
 import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import PracticeSession from "../models/practiceSession";
@@ -17,9 +17,10 @@ const PracticeScreen: FC = () => {
     PracticeSession.start(selectedTable),
   );
   const answerOptions = PracticeSession.answerOptions(session);
+  const feedbackAnimation = PracticeSession.feedbackAnimation(session);
   const hasCorrectFeedback = PracticeSession.hasCorrectFeedback(session);
   const selectedAnswer = PracticeSession.selectedAnswer(session);
-  const feedback = PracticeSession.feedback(session);
+  const feedbackState = PracticeSession.feedbackState(session);
 
   const handleSelectAnswer = (answer: number) => {
     setSession((currentSession) =>
@@ -65,12 +66,12 @@ const PracticeScreen: FC = () => {
             <Stack gap="md">
               <AnswerPad
                 answerOptions={answerOptions}
+                feedbackAnimation={feedbackAnimation}
+                feedbackState={feedbackState}
                 hasCorrectFeedback={hasCorrectFeedback}
                 selectedAnswer={selectedAnswer}
                 onSelectAnswer={handleSelectAnswer}
               />
-
-              {feedback !== null ? <Text>{feedback}</Text> : null}
             </Stack>
           )}
 

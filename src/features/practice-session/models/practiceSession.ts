@@ -93,6 +93,20 @@ const PracticeSession = {
     return AnswerState.selectedAnswer(session.answerState);
   },
 
+  feedbackState(session: PracticeSession): "correct" | "incorrect" | null {
+    return session.answerState.kind === "validated"
+      ? session.answerState.result
+      : null;
+  },
+
+  feedbackAnimation(session: PracticeSession): "pop" | "wobble" | null {
+    return session.answerState.kind === "validated"
+      ? session.answerState.result === "correct"
+        ? "pop"
+        : "wobble"
+      : null;
+  },
+
   feedback(session: PracticeSession): string | null {
     return session.answerState.kind === "validated"
       ? AnswerState.feedback(session.answerState)

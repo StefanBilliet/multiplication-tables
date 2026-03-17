@@ -53,7 +53,9 @@ test("GIVEN I have selected the correct answer, WHEN I press Check answer, THEN 
 
   await page.answerQuestion(3);
 
-  expect(page.feedbackMessage("Correct!")).toBeVisible();
+  expect(page.answerField()).toHaveAttribute("data-feedback-state", "correct");
+  expect(page.answerField()).toHaveAttribute("data-feedback-animation", "pop");
+  expect(screen.queryByText("Correct!")).not.toBeInTheDocument();
 });
 
 test("GIVEN I have selected the correct answer, WHEN I press Check answer, THEN Continue replaces the Check answer action", async () => {
@@ -81,7 +83,15 @@ test("GIVEN I have selected an incorrect answer, WHEN I press Check answer, THEN
 
   await page.answerQuestion(6);
 
-  expect(page.feedbackMessage("Try again.")).toBeVisible();
+  expect(page.answerField()).toHaveAttribute(
+    "data-feedback-state",
+    "incorrect",
+  );
+  expect(page.answerField()).toHaveAttribute(
+    "data-feedback-animation",
+    "wobble",
+  );
+  expect(screen.queryByText("Try again.")).not.toBeInTheDocument();
   expect(page.question("1 x 3 = ?")).toBeVisible();
 });
 
@@ -177,7 +187,7 @@ test("GIVEN the next question is shown, WHEN I submit the correct answer for tha
   await page.continuePractice();
   await page.answerQuestion(6);
 
-  expect(page.feedbackMessage("Correct!")).toBeVisible();
+  expect(page.answerField()).toHaveAttribute("data-feedback-state", "correct");
 });
 
 test("GIVEN the practice screen is shown, WHEN back to tables is selected, THEN the table selection screen is shown", async () => {

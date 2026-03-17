@@ -1,8 +1,11 @@
-import { Button, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
+import { Button, SimpleGrid, Stack, Text } from "@mantine/core";
 import type { FC } from "react";
+import AnswerField from "./answerField";
 
 type AnswerPadProps = {
   answerOptions: number[];
+  feedbackAnimation: "pop" | "wobble" | null;
+  feedbackState: "correct" | "incorrect" | null;
   hasCorrectFeedback: boolean;
   selectedAnswer: number | null;
   onSelectAnswer: (answer: number) => void;
@@ -10,6 +13,8 @@ type AnswerPadProps = {
 
 const AnswerPad: FC<AnswerPadProps> = ({
   answerOptions,
+  feedbackAnimation,
+  feedbackState,
   hasCorrectFeedback,
   selectedAnswer,
   onSelectAnswer,
@@ -17,27 +22,10 @@ const AnswerPad: FC<AnswerPadProps> = ({
   <Stack gap="md">
     <Text fw={600}>Answer</Text>
 
-    <TextInput
-      label="Answer"
-      readOnly
-      value={selectedAnswer === null ? "" : String(selectedAnswer)}
-      placeholder="Choose a number"
-      size="lg"
-      radius="lg"
-      styles={{
-        label: { display: "none" },
-        input: {
-          backgroundColor: "var(--mantine-color-white)",
-          borderColor: "rgba(23, 49, 55, 0.12)",
-          color:
-            selectedAnswer === null
-              ? "var(--mantine-color-dimmed)"
-              : "var(--mantine-color-dark-8)",
-          fontSize: "var(--mantine-font-size-xl)",
-          fontWeight: 700,
-          minHeight: "3.5rem",
-        },
-      }}
+    <AnswerField
+      feedbackAnimation={feedbackAnimation}
+      feedbackState={feedbackState}
+      selectedAnswer={selectedAnswer}
     />
 
     <SimpleGrid cols={3} spacing="sm">
