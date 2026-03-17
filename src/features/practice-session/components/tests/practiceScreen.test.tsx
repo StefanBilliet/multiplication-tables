@@ -136,7 +136,21 @@ test("GIVEN one question needs a retry, WHEN the summary screen is shown, THEN i
   await page.continuePractice();
 
   expect(page.completionMessage()).toBeVisible();
+  expect(screen.getByText("Session summary")).toBeVisible();
   expect(screen.getByText("9 correct answers")).toBeVisible();
+  expect(
+    screen.getByText("You've completed this practice session."),
+  ).toBeVisible();
+  expect(
+    screen.queryByText(
+      "Solve each question one by one. Keep going until all 10 are done.",
+    ),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.getByText(
+      "Great work. You answered 9 out of 10 questions correctly.",
+    ),
+  ).toBeVisible();
 });
 
 test("GIVEN all questions are answered correctly on the first try, WHEN the summary screen is shown, THEN it displays 10 correct answers", async () => {

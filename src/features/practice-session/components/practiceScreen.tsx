@@ -8,6 +8,7 @@ import CheckAnswerButton from "./checkAnswerButton";
 import ContinueButton from "./continueButton";
 import CurrentQuestionPrompt from "./currentQuestionPrompt";
 import Header from "./header";
+import SessionSummary from "./sessionSummary";
 
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
@@ -40,13 +41,19 @@ const PracticeScreen: FC = () => {
     <Center mih="100vh" p={{ base: "md", sm: "xl" }}>
       <Card w="100%" maw={720} variant="shell">
         <Stack gap="xl">
-          <Header selectedTable={selectedTable} />
+          <Header
+            description={
+              session.isComplete
+                ? "You've completed this practice session."
+                : undefined
+            }
+            selectedTable={selectedTable}
+          />
 
           {session.isComplete ? (
-            <Stack gap="xs">
-              <Text fw={700}>Practice session complete</Text>
-              <Text>{session.firstTryCorrectAnswerCount} correct answers</Text>
-            </Stack>
+            <SessionSummary
+              correctAnswerCount={session.firstTryCorrectAnswerCount}
+            />
           ) : (
             <CurrentQuestionPrompt
               multiplier={session.currentMultiplier}
