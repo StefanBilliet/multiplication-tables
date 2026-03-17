@@ -14,6 +14,28 @@ export type PracticeSession = {
 const LAST_MULTIPLIER = 10;
 const REWARD_ELIGIBILITY_THRESHOLD = 7;
 
+const shuffleAnswerOptions = (
+  answerOptions: Array<number>,
+  seed: number,
+): Array<number> => {
+  const shuffledAnswerOptions = [...answerOptions];
+  let currentSeed = seed;
+
+  for (
+    let currentIndex = shuffledAnswerOptions.length - 1;
+    currentIndex > 0;
+    currentIndex -= 1
+  ) {
+    currentSeed = (currentSeed * 9301 + 49297) % 233280;
+    const randomIndex = currentSeed % (currentIndex + 1);
+
+    [shuffledAnswerOptions[currentIndex], shuffledAnswerOptions[randomIndex]] =
+      [shuffledAnswerOptions[randomIndex], shuffledAnswerOptions[currentIndex]];
+  }
+
+  return shuffledAnswerOptions;
+};
+
 const PracticeSession = {
   start(selectedTable: number): PracticeSession {
     return {
@@ -27,9 +49,14 @@ const PracticeSession = {
   },
 
   answerOptions(session: PracticeSession): Array<number> {
-    return Array.from(
+    const answerOptions = Array.from(
       { length: LAST_MULTIPLIER },
       (_, index) => session.selectedTable * (index + 1),
+    );
+
+    return shuffleAnswerOptions(
+      answerOptions,
+      session.selectedTable * 100 + session.currentMultiplier,
     );
   },
 
