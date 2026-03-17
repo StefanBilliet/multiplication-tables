@@ -1,9 +1,7 @@
 import { Card, Center, Group, Stack, Text } from "@mantine/core";
 import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
-import AnswerState, {
-  type AnswerState as AnswerStateType,
-} from "../models/answerState";
+import PracticeSession from "../models/practiceSession";
 import AnswerPad from "./answerPad";
 import BackToTablesButton from "./backToTablesButton";
 import CheckAnswerButton from "./checkAnswerButton";
@@ -14,45 +12,28 @@ import Header from "./header";
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
   const selectedTable = Number(tableId);
-  const [currentMultiplier, setCurrentMultiplier] = useState(1);
-  const [isSessionComplete, setIsSessionComplete] = useState(false);
-  const [answerState, setAnswerState] = useState<AnswerStateType>({
-    kind: "idle",
-  });
-  const answerOptions = Array.from(
-    { length: 10 },
-    (_, index) => selectedTable * (index + 1),
+  const [session, setSession] = useState(() =>
+    PracticeSession.start(selectedTable),
   );
-  const correctAnswer = currentMultiplier * selectedTable;
-  const hasCorrectFeedback = AnswerState.isCorrect(answerState);
-  const selectedAnswer = AnswerState.selectedAnswer(answerState);
-  const feedback =
-    answerState.kind === "validated" ? AnswerState.feedback(answerState) : null;
+  const answerOptions = PracticeSession.answerOptions(session);
+  const hasCorrectFeedback = PracticeSession.hasCorrectFeedback(session);
+  const selectedAnswer = PracticeSession.selectedAnswer(session);
+  const feedback = PracticeSession.feedback(session);
 
   const handleSelectAnswer = (answer: number) => {
-    setAnswerState({ kind: "selected", answer });
+    setSession((currentSession) =>
+      PracticeSession.selectAnswer(currentSession, answer),
+    );
   };
 
   const handleCheckAnswer = () => {
-    if (!AnswerState.canCheck(answerState)) {
-      return;
-    }
-
-    setAnswerState({
-      kind: "validated",
-      answer: answerState.answer,
-      result: answerState.answer === correctAnswer ? "correct" : "incorrect",
-    });
+    setSession((currentSession) => PracticeSession.checkAnswer(currentSession));
   };
 
   const handleContinue = () => {
-    if (currentMultiplier === 10) {
-      setIsSessionComplete(true);
-      return;
-    }
-
-    setCurrentMultiplier((previousMultiplier) => previousMultiplier + 1);
-    setAnswerState({ kind: "idle" });
+    setSession((currentSession) =>
+      PracticeSession.continueSession(currentSession),
+    );
   };
 
   return (
@@ -61,16 +42,19 @@ const PracticeScreen: FC = () => {
         <Stack gap="xl">
           <Header selectedTable={selectedTable} />
 
-          {isSessionComplete ? (
-            <Text fw={700}>Practice session complete</Text>
+          {session.isComplete ? (
+            <Stack gap="xs">
+              <Text fw={700}>Practice session complete</Text>
+              <Text>{session.firstTryCorrectAnswerCount} correct answers</Text>
+            </Stack>
           ) : (
             <CurrentQuestionPrompt
-              multiplier={currentMultiplier}
+              multiplier={session.currentMultiplier}
               table={selectedTable}
             />
           )}
 
-          {isSessionComplete ? null : (
+          {session.isComplete ? null : (
             <Stack gap="md">
               <AnswerPad
                 answerOptions={answerOptions}
@@ -86,11 +70,11 @@ const PracticeScreen: FC = () => {
           <Group justify="space-between">
             <BackToTablesButton />
 
-            {isSessionComplete ? null : hasCorrectFeedback ? (
+            {session.isComplete ? null : hasCorrectFeedback ? (
               <ContinueButton onClick={handleContinue} />
             ) : (
               <CheckAnswerButton
-                disabled={!AnswerState.canCheck(answerState)}
+                disabled={!PracticeSession.canCheck(session)}
                 onClick={handleCheckAnswer}
               />
             )}

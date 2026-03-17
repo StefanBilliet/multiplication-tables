@@ -20,7 +20,8 @@ type PracticeScreenMockupProps = {
     | "no-answer-selected"
     | "answer-selected"
     | "incorrect-feedback-retry"
-    | "correct-feedback-continue";
+    | "correct-feedback-continue"
+    | "session-summary";
 };
 
 const meta = {
@@ -43,6 +44,7 @@ const PracticeScreenMockup = ({ scenario }: PracticeScreenMockupProps) =>
       scenario === "answer-selected" || scenario === "correct-feedback-continue"
         ? 9
         : undefined;
+    const isSessionSummary = scenario === "session-summary";
     const checkAnswerDisabled =
       scenario === "no-answer-selected" ||
       scenario === "incorrect-feedback-retry";
@@ -77,27 +79,48 @@ const PracticeScreenMockup = ({ scenario }: PracticeScreenMockupProps) =>
                   </Text>
                 </Stack>
 
-                <Text fw={700} c="teal.7">
-                  Question 1 of 10
-                </Text>
+                {isSessionSummary ? null : (
+                  <Text fw={700} c="teal.7">
+                    Question 1 of 10
+                  </Text>
+                )}
               </Group>
 
-              <Progress value={10} color="teal" radius="xl" size="lg" />
+              {isSessionSummary ? null : (
+                <Progress value={10} color="teal" radius="xl" size="lg" />
+              )}
             </Stack>
 
-            <Paper radius="xl" p="xl" bg="teal.0" withBorder>
-              <Stack gap="md" align="center">
-                <Text size="sm" tt="uppercase" fw={700} c="teal.8">
-                  Current question
-                </Text>
-                <Title order={2} size="h1">
-                  1 x 3 = ?
-                </Title>
-                <Text c="dimmed" ta="center">
-                  Tap a number below to build your answer.
-                </Text>
-              </Stack>
-            </Paper>
+            {isSessionSummary ? (
+              <Paper radius="xl" p="xl" bg="teal.0" withBorder>
+                <Stack gap="md" align="center">
+                  <Text size="sm" tt="uppercase" fw={700} c="teal.8">
+                    Session summary
+                  </Text>
+                  <Title order={2}>Practice session complete</Title>
+                  <Text size="xl" fw={700} c="teal.8">
+                    9 correct answers
+                  </Text>
+                  <Text c="dimmed" ta="center">
+                    Great work. You answered 9 out of 10 questions correctly.
+                  </Text>
+                </Stack>
+              </Paper>
+            ) : (
+              <Paper radius="xl" p="xl" bg="teal.0" withBorder>
+                <Stack gap="md" align="center">
+                  <Text size="sm" tt="uppercase" fw={700} c="teal.8">
+                    Current question
+                  </Text>
+                  <Title order={2} size="h1">
+                    1 x 3 = ?
+                  </Title>
+                  <Text c="dimmed" ta="center">
+                    Tap a number below to build your answer.
+                  </Text>
+                </Stack>
+              </Paper>
+            )}
 
             {feedback ? (
               <Paper
@@ -120,30 +143,32 @@ const PracticeScreenMockup = ({ scenario }: PracticeScreenMockupProps) =>
               </Paper>
             ) : null}
 
-            <Stack gap="md">
-              <Text fw={600}>Answer</Text>
-              <Paper radius="lg" p="md" withBorder bg="white">
-                <Text size="xl" fw={700} c={answer ? "dark.8" : "dimmed"}>
-                  {answer ?? "Choose a number"}
-                </Text>
-              </Paper>
+            {isSessionSummary ? null : (
+              <Stack gap="md">
+                <Text fw={600}>Answer</Text>
+                <Paper radius="lg" p="md" withBorder bg="white">
+                  <Text size="xl" fw={700} c={answer ? "dark.8" : "dimmed"}>
+                    {answer ?? "Choose a number"}
+                  </Text>
+                </Paper>
 
-              <SimpleGrid cols={3} spacing="sm">
-                {[3, 6, 9, 12, 15, 18, 21, 24, 27, 30].map((option) => (
-                  <Button
-                    key={option}
-                    color={selectedAnswer === option ? "teal" : undefined}
-                    variant={selectedAnswer === option ? "filled" : "default"}
-                  >
-                    {option}
-                  </Button>
-                ))}
-              </SimpleGrid>
-            </Stack>
+                <SimpleGrid cols={3} spacing="sm">
+                  {[3, 6, 9, 12, 15, 18, 21, 24, 27, 30].map((option) => (
+                    <Button
+                      key={option}
+                      color={selectedAnswer === option ? "teal" : undefined}
+                      variant={selectedAnswer === option ? "filled" : "default"}
+                    >
+                      {option}
+                    </Button>
+                  ))}
+                </SimpleGrid>
+              </Stack>
+            )}
 
             <Group justify="space-between">
               <Button variant="default">Back to tables</Button>
-              {showContinue ? (
+              {isSessionSummary ? null : showContinue ? (
                 <Button color="teal">Continue</Button>
               ) : (
                 <Button color="teal" disabled={checkAnswerDisabled}>
@@ -175,6 +200,10 @@ export const IncorrectFeedbackRetry: Story = {
 
 export const CorrectFeedbackContinue: Story = {
   render: () => <PracticeScreenMockup scenario="correct-feedback-continue" />,
+};
+
+export const SessionSummary: Story = {
+  render: () => <PracticeScreenMockup scenario="session-summary" />,
 };
 
 export const Component: Story = {

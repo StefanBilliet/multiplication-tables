@@ -118,6 +118,44 @@ test("GIVEN I have answered the tenth question correctly, WHEN I choose to conti
   expect(screen.queryByText("11 x 3 = ?")).not.toBeInTheDocument();
 });
 
+test("GIVEN one question needs a retry, WHEN the summary screen is shown, THEN it displays how many questions were answered correctly on the first try", async () => {
+  const page = renderPracticeScreen();
+
+  await page.answerQuestion(6);
+  await page.answerQuestion(3);
+  await page.continuePractice();
+
+  for (let multiplier = 2; multiplier <= 10; multiplier += 1) {
+    await page.answerQuestion(multiplier * 3);
+
+    if (multiplier < 10) {
+      await page.continuePractice();
+    }
+  }
+
+  await page.continuePractice();
+
+  expect(page.completionMessage()).toBeVisible();
+  expect(screen.getByText("9 correct answers")).toBeVisible();
+});
+
+test("GIVEN all questions are answered correctly on the first try, WHEN the summary screen is shown, THEN it displays 10 correct answers", async () => {
+  const page = renderPracticeScreen();
+
+  for (let multiplier = 1; multiplier <= 10; multiplier += 1) {
+    await page.answerQuestion(multiplier * 3);
+
+    if (multiplier < 10) {
+      await page.continuePractice();
+    }
+  }
+
+  await page.continuePractice();
+
+  expect(page.completionMessage()).toBeVisible();
+  expect(screen.getByText("10 correct answers")).toBeVisible();
+});
+
 test("GIVEN the next question is shown, WHEN I submit the correct answer for that question, THEN the app evaluates the currently visible answer against the current question", async () => {
   const page = renderPracticeScreen();
 
