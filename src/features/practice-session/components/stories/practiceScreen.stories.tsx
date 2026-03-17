@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import PracticeScreen from "./practiceScreen";
+import PracticeScreen from "../practiceScreen.tsx";
 
 type PracticeScreenMockupProps = {
   scenario:

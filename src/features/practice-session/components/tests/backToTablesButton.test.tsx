@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
-import renderWithRouter from "../../../shared/testing/renderWithRouter";
-import BackToTablesButton from "./backToTablesButton";
+import renderWithRouter from "../../../../shared/testing/renderWithRouter.tsx";
+import BackToTablesButton from "../backToTablesButton.tsx";
 
 test("GIVEN the back to tables action is shown, WHEN I press it, THEN the app navigates to the table selection screen", async () => {
   const sut = (
