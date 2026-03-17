@@ -1,9 +1,29 @@
 import { screen } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
+import App from "../../../../app/app.tsx";
 import renderWithRouter from "../../../../shared/testing/renderWithRouter.tsx";
 import PracticeScreen from "../practiceScreen.tsx";
 import { practiceScreenPage } from "./practiceScreenPage.tsx";
 import { renderPracticeScreen } from "./renderPracticeScreen.tsx";
+
+beforeEach(() => {
+  localStorage.clear();
+});
+
+const completePerfectSession = async (
+  page: ReturnType<typeof practiceScreenPage>,
+  selectedTable: number,
+) => {
+  for (let multiplier = 1; multiplier <= 10; multiplier += 1) {
+    await page.answerQuestion(multiplier * selectedTable);
+
+    if (multiplier < 10) {
+      await page.continuePractice();
+    }
+  }
+
+  await page.continuePractice();
+};
 
 test.each([
   { table: 1, question: "1 x 1 = ?" },
@@ -178,6 +198,69 @@ test("GIVEN all questions are answered correctly on the first try, WHEN the summ
 
   expect(page.completionMessage()).toBeVisible();
   expect(screen.getByText("10 correct answers")).toBeVisible();
+});
+
+test("GIVEN at least 7 questions are answered correctly on the first try, WHEN the summary screen is shown, THEN it shows that 1 reward was earned", async () => {
+  const page = renderPracticeScreen();
+
+  for (let multiplier = 1; multiplier <= 7; multiplier += 1) {
+    await page.answerQuestion(multiplier * 3);
+    await page.continuePractice();
+  }
+
+  for (let multiplier = 8; multiplier <= 10; multiplier += 1) {
+    await page.answerQuestion((multiplier - 1) * 3);
+    await page.answerQuestion(multiplier * 3);
+
+    if (multiplier < 10) {
+      await page.continuePractice();
+    }
+  }
+
+  await page.continuePractice();
+
+  expect(screen.getByText("You earned 1 reward")).toBeVisible();
+});
+
+test("GIVEN fewer than 7 questions are answered correctly on the first try, WHEN the summary screen is shown, THEN it does not show the reward celebration", async () => {
+  const page = renderPracticeScreen();
+
+  for (let multiplier = 1; multiplier <= 6; multiplier += 1) {
+    await page.answerQuestion(multiplier * 3);
+    await page.continuePractice();
+  }
+
+  for (let multiplier = 7; multiplier <= 10; multiplier += 1) {
+    await page.answerQuestion((multiplier - 1) * 3);
+    await page.answerQuestion(multiplier * 3);
+
+    if (multiplier < 10) {
+      await page.continuePractice();
+    }
+  }
+
+  await page.continuePractice();
+
+  expect(screen.queryByText("You earned 1 reward")).not.toBeInTheDocument();
+  expect(screen.queryByText(/total rewards/i)).not.toBeInTheDocument();
+});
+
+test("GIVEN a child earns rewards in separate completed sessions, WHEN the later summary screen is shown, THEN it shows the updated lifetime total", async () => {
+  const sut = <App />;
+  const { user } = renderWithRouter(sut);
+  const page = practiceScreenPage(user);
+
+  await user.click(
+    screen.getAllByRole("button", { name: /start practice/i })[0],
+  );
+  await completePerfectSession(page, 1);
+  await page.backToTables();
+  await user.click(
+    screen.getAllByRole("button", { name: /start practice/i })[0],
+  );
+  await completePerfectSession(page, 1);
+
+  expect(screen.getByText("2 total rewards")).toBeVisible();
 });
 
 test("GIVEN the next question is shown, WHEN I submit the correct answer for that question, THEN the app evaluates the currently visible answer against the current question", async () => {

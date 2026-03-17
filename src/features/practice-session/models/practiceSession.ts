@@ -12,6 +12,7 @@ export type PracticeSession = {
 };
 
 const LAST_MULTIPLIER = 10;
+const REWARD_ELIGIBILITY_THRESHOLD = 7;
 
 const PracticeSession = {
   start(selectedTable: number): PracticeSession {
@@ -111,6 +112,10 @@ const PracticeSession = {
     return session.answerState.kind === "validated"
       ? AnswerState.feedback(session.answerState)
       : null;
+  },
+
+  hasEarnedReward(session: PracticeSession): boolean {
+    return session.firstTryCorrectAnswerCount >= REWARD_ELIGIBILITY_THRESHOLD;
   },
 };
 

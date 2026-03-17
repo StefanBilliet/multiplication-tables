@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import Header from "../header.tsx";
+import RewardEarnedSummary from "../rewardEarnedSummary.tsx";
 import SessionSummary from "../sessionSummary.tsx";
 
 const meta = {
@@ -94,14 +95,27 @@ export const RewardEarned: Story = {
     correctAnswerCount: 8,
   },
   render: () => (
-    <SessionSummaryPreview
-      celebration={{
-        title: "You earned 1 reward",
-        body: "Strong first-try work adds to the child's running collection.",
-      }}
-      correctAnswerCount={8}
-      lifetimeRewardTotal={6}
-    />
+    <Center mih="100vh" p={{ base: "md", sm: "xl" }}>
+      <Card w="100%" maw={720} variant="shell">
+        <Stack gap="xl">
+          <Stack gap="md">
+            <Badge variant="light" color="teal" w="fit-content">
+              Practice session
+            </Badge>
+            <Header
+              description="You've completed this practice session."
+              selectedTable={3}
+            />
+          </Stack>
+
+          <RewardEarnedSummary correctAnswerCount={8} lifetimeRewardTotal={6} />
+
+          <Group justify="space-between">
+            <Button variant="default">Back to tables</Button>
+          </Group>
+        </Stack>
+      </Card>
+    </Center>
   ),
 };
 

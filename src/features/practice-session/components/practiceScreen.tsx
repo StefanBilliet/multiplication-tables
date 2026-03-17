@@ -8,7 +8,9 @@ import CheckAnswerButton from "./checkAnswerButton";
 import ContinueButton from "./continueButton";
 import CurrentQuestionPrompt from "./currentQuestionPrompt";
 import Header from "./header";
+import RewardEarnedSummary from "./rewardEarnedSummary";
 import SessionSummary from "./sessionSummary";
+import useLifetimeRewardTotal from "./useLifetimeRewardTotal";
 
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
@@ -16,9 +18,11 @@ const PracticeScreen: FC = () => {
   const [session, setSession] = useState(() =>
     PracticeSession.start(selectedTable),
   );
+  const { addReward, lifetimeRewardTotal } = useLifetimeRewardTotal();
   const answerOptions = PracticeSession.answerOptions(session);
   const feedbackAnimation = PracticeSession.feedbackAnimation(session);
   const hasCorrectFeedback = PracticeSession.hasCorrectFeedback(session);
+  const hasEarnedReward = PracticeSession.hasEarnedReward(session);
   const selectedAnswer = PracticeSession.selectedAnswer(session);
   const feedbackState = PracticeSession.feedbackState(session);
 
@@ -33,9 +37,16 @@ const PracticeScreen: FC = () => {
   };
 
   const handleContinue = () => {
-    setSession((currentSession) =>
-      PracticeSession.continueSession(currentSession),
-    );
+    const nextSession = PracticeSession.continueSession(session);
+
+    if (
+      nextSession.isComplete &&
+      PracticeSession.hasEarnedReward(nextSession)
+    ) {
+      addReward();
+    }
+
+    setSession(nextSession);
   };
 
   return (
@@ -52,9 +63,16 @@ const PracticeScreen: FC = () => {
           />
 
           {session.isComplete ? (
-            <SessionSummary
-              correctAnswerCount={session.firstTryCorrectAnswerCount}
-            />
+            hasEarnedReward ? (
+              <RewardEarnedSummary
+                correctAnswerCount={session.firstTryCorrectAnswerCount}
+                lifetimeRewardTotal={lifetimeRewardTotal}
+              />
+            ) : (
+              <SessionSummary
+                correctAnswerCount={session.firstTryCorrectAnswerCount}
+              />
+            )
           ) : (
             <CurrentQuestionPrompt
               multiplier={session.currentMultiplier}
