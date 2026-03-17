@@ -1,5 +1,7 @@
 ## User Story 3 - Complete a short practice session
 
+Status: Finished
+
 As a child,  
 I want practice to happen in short sessions,  
 so that it feels manageable and fun.
