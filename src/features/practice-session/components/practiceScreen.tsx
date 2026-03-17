@@ -15,6 +15,7 @@ const PracticeScreen: FC = () => {
   const { tableId } = useParams();
   const selectedTable = Number(tableId);
   const [currentMultiplier, setCurrentMultiplier] = useState(1);
+  const [isSessionComplete, setIsSessionComplete] = useState(false);
   const [answerState, setAnswerState] = useState<AnswerStateType>({
     kind: "idle",
   });
@@ -45,6 +46,11 @@ const PracticeScreen: FC = () => {
   };
 
   const handleContinue = () => {
+    if (currentMultiplier === 10) {
+      setIsSessionComplete(true);
+      return;
+    }
+
     setCurrentMultiplier((previousMultiplier) => previousMultiplier + 1);
     setAnswerState({ kind: "idle" });
   };
@@ -55,26 +61,32 @@ const PracticeScreen: FC = () => {
         <Stack gap="xl">
           <Header selectedTable={selectedTable} />
 
-          <CurrentQuestionPrompt
-            multiplier={currentMultiplier}
-            table={selectedTable}
-          />
-
-          <Stack gap="md">
-            <AnswerPad
-              answerOptions={answerOptions}
-              hasCorrectFeedback={hasCorrectFeedback}
-              selectedAnswer={selectedAnswer}
-              onSelectAnswer={handleSelectAnswer}
+          {isSessionComplete ? (
+            <Text fw={700}>Practice session complete</Text>
+          ) : (
+            <CurrentQuestionPrompt
+              multiplier={currentMultiplier}
+              table={selectedTable}
             />
+          )}
 
-            {feedback !== null ? <Text>{feedback}</Text> : null}
-          </Stack>
+          {isSessionComplete ? null : (
+            <Stack gap="md">
+              <AnswerPad
+                answerOptions={answerOptions}
+                hasCorrectFeedback={hasCorrectFeedback}
+                selectedAnswer={selectedAnswer}
+                onSelectAnswer={handleSelectAnswer}
+              />
+
+              {feedback !== null ? <Text>{feedback}</Text> : null}
+            </Stack>
+          )}
 
           <Group justify="space-between">
             <BackToTablesButton />
 
-            {hasCorrectFeedback ? (
+            {isSessionComplete ? null : hasCorrectFeedback ? (
               <ContinueButton onClick={handleContinue} />
             ) : (
               <CheckAnswerButton

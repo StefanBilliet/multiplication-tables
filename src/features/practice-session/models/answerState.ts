@@ -8,7 +8,8 @@ type ValidatedAnswerState = Extract<AnswerState, { kind: "validated" }>;
 
 const AnswerState = {
   selectedAnswer(state: AnswerState): number | null {
-    return state.kind === "selected" || state.kind === "validated"
+    return state.kind === "selected" ||
+      (state.kind === "validated" && state.result === "correct")
       ? state.answer
       : null;
   },

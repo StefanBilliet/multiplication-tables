@@ -154,7 +154,7 @@ test("GIVEN I have selected an incorrect answer, WHEN I press Check answer, THEN
   await user.click(screen.getByRole("button", { name: "6" }));
   await user.click(screen.getByRole("button", { name: /check answer/i }));
 
-  expect(screen.queryByText("Selected answer: 6")).not.toBeInTheDocument();
+  expect(screen.getByRole("textbox")).toHaveValue("");
   expect(screen.getByRole("button", { name: /check answer/i })).toBeDisabled();
 });
 
@@ -173,6 +173,32 @@ test("GIVEN correct feedback is visible, WHEN I choose to continue, THEN the app
   await user.click(screen.getByRole("button", { name: /continue/i }));
 
   expect(screen.getByText("2 x 3 = ?")).toBeVisible();
+});
+
+test("GIVEN I have answered the tenth question correctly, WHEN I choose to continue, THEN the practice session is completed instead of showing an eleventh question", async () => {
+  const sut = (
+    <Routes>
+      <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
+    </Routes>
+  );
+  const { user } = renderWithRouter(sut, {
+    initialEntries: ["/tables/3/practice"],
+  });
+
+  for (let multiplier = 1; multiplier < 10; multiplier += 1) {
+    await user.click(
+      screen.getByRole("button", { name: String(multiplier * 3) }),
+    );
+    await user.click(screen.getByRole("button", { name: /check answer/i }));
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+  }
+
+  await user.click(screen.getByRole("button", { name: "30" }));
+  await user.click(screen.getByRole("button", { name: /check answer/i }));
+  await user.click(screen.getByRole("button", { name: /continue/i }));
+
+  expect(screen.getByText("Practice session complete")).toBeVisible();
+  expect(screen.queryByText("11 x 3 = ?")).not.toBeInTheDocument();
 });
 
 test("GIVEN the next question is shown, WHEN I submit the correct answer for that question, THEN the app evaluates the currently visible answer against the current question", async () => {
