@@ -26,6 +26,36 @@ export const practiceScreenPage = (user: UserEvent) => ({
     await user.click(screen.getByRole("button", { name: String(answer) }));
     await user.click(screen.getByRole("button", { name: /check answer/i }));
   },
+  completePartialSession: async (
+    questionCount: number,
+    selectedTable: number,
+  ) => {
+    for (let multiplier = 1; multiplier <= questionCount; multiplier += 1) {
+      await user.click(
+        screen.getByRole("button", {
+          name: String(multiplier * selectedTable),
+        }),
+      );
+      await user.click(screen.getByRole("button", { name: /check answer/i }));
+      await user.click(screen.getByRole("button", { name: /continue/i }));
+    }
+  },
+  completePerfectSession: async (selectedTable: number) => {
+    for (let multiplier = 1; multiplier <= 10; multiplier += 1) {
+      await user.click(
+        screen.getByRole("button", {
+          name: String(multiplier * selectedTable),
+        }),
+      );
+      await user.click(screen.getByRole("button", { name: /check answer/i }));
+
+      if (multiplier < 10) {
+        await user.click(screen.getByRole("button", { name: /continue/i }));
+      }
+    }
+
+    await user.click(screen.getByRole("button", { name: /continue/i }));
+  },
   backToTables: async () => {
     await user.click(screen.getByRole("button", { name: /back to tables/i }));
   },

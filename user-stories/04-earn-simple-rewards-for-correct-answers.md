@@ -1,5 +1,7 @@
 ## User Story 4 - Earn simple rewards for correct answers
 
+Status: Done
+
 As a child,  
 I want to earn small rewards when I answer correctly,  
 so that practicing feels fun and motivating.

@@ -10,21 +10,6 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-const completePerfectSession = async (
-  page: ReturnType<typeof practiceScreenPage>,
-  selectedTable: number,
-) => {
-  for (let multiplier = 1; multiplier <= 10; multiplier += 1) {
-    await page.answerQuestion(multiplier * selectedTable);
-
-    if (multiplier < 10) {
-      await page.continuePractice();
-    }
-  }
-
-  await page.continuePractice();
-};
-
 test.each([
   { table: 1, question: "1 x 1 = ?" },
   { table: 3, question: "1 x 3 = ?" },
@@ -253,14 +238,81 @@ test("GIVEN a child earns rewards in separate completed sessions, WHEN the later
   await user.click(
     screen.getAllByRole("button", { name: /start practice/i })[0],
   );
-  await completePerfectSession(page, 1);
+  await page.completePerfectSession(1);
   await page.backToTables();
   await user.click(
     screen.getAllByRole("button", { name: /start practice/i })[0],
   );
-  await completePerfectSession(page, 1);
+  await page.completePerfectSession(1);
 
   expect(screen.getByText("2 total rewards")).toBeVisible();
+});
+
+test("GIVEN a qualifying session is abandoned before completion, WHEN the child completes the next session, THEN only the completed session contributes to the lifetime total", async () => {
+  const sut = <App />;
+  const { user } = renderWithRouter(sut);
+  const page = practiceScreenPage(user);
+
+  await user.click(
+    screen.getAllByRole("button", { name: /start practice/i })[0],
+  );
+  await page.completePartialSession(7, 1);
+
+  await page.backToTables();
+  await user.click(
+    screen.getAllByRole("button", { name: /start practice/i })[0],
+  );
+  await page.completePerfectSession(1);
+
+  expect(screen.getByText("1 total rewards")).toBeVisible();
+});
+
+test("GIVEN the same table is started again after a finished session, WHEN the new session is completed without enough first-try correct answers, THEN no additional reward is earned", async () => {
+  const sut = <App />;
+  const { user } = renderWithRouter(sut);
+  const page = practiceScreenPage(user);
+
+  await user.click(
+    screen.getAllByRole("button", { name: /start practice/i })[0],
+  );
+  await page.completePerfectSession(1);
+  await page.backToTables();
+  await user.click(
+    screen.getAllByRole("button", { name: /start practice/i })[0],
+  );
+
+  await page.completePartialSession(6, 1);
+
+  for (let multiplier = 7; multiplier <= 10; multiplier += 1) {
+    await page.answerQuestion(multiplier - 1);
+    await page.answerQuestion(multiplier);
+
+    if (multiplier < 10) {
+      await page.continuePractice();
+    }
+  }
+
+  await page.continuePractice();
+
+  expect(screen.queryByText("You earned 1 reward")).not.toBeInTheDocument();
+  expect(screen.getByText("6 correct answers")).toBeVisible();
+  expect(screen.queryByText("2 total rewards")).not.toBeInTheDocument();
+});
+
+test("GIVEN a lifetime reward total already exists, WHEN one qualifying session is completed, THEN the persisted total increases by exactly 1", async () => {
+  localStorage.setItem("lifetimeRewardTotal", "4");
+
+  const sut = <App />;
+  const { user } = renderWithRouter(sut);
+  const page = practiceScreenPage(user);
+
+  await user.click(
+    screen.getAllByRole("button", { name: /start practice/i })[0],
+  );
+  await page.completePerfectSession(1);
+
+  expect(screen.getByText("5 total rewards")).toBeVisible();
+  expect(localStorage.getItem("lifetimeRewardTotal")).toBe("5");
 });
 
 test("GIVEN the next question is shown, WHEN I submit the correct answer for that question, THEN the app evaluates the currently visible answer against the current question", async () => {
