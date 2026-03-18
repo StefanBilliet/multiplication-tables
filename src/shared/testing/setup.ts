@@ -13,3 +13,7 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: () => false,
   }),
 });
+
+vi.mock("react-confetti", () => ({
+  default: vi.fn(() => null),
+}));
