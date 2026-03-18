@@ -5,11 +5,10 @@ import PracticeSession from "../models/practiceSession";
 import AnswerPad from "./answerPad";
 import BackToTablesButton from "./backToTablesButton";
 import CheckAnswerButton from "./checkAnswerButton";
+import CompletedPracticeSessionSummary from "./completedPracticeSessionSummary";
 import ContinueButton from "./continueButton";
 import CurrentQuestionPrompt from "./currentQuestionPrompt";
 import Header from "./header";
-import RewardEarnedSummary from "./rewardEarnedSummary";
-import SessionSummary from "./sessionSummary";
 import useLifetimeRewardTotal from "./useLifetimeRewardTotal";
 
 const PracticeScreen: FC = () => {
@@ -18,11 +17,10 @@ const PracticeScreen: FC = () => {
   const [session, setSession] = useState(() =>
     PracticeSession.start(selectedTable),
   );
-  const { addReward, lifetimeRewardTotal } = useLifetimeRewardTotal();
+  const { addReward } = useLifetimeRewardTotal();
   const answerOptions = PracticeSession.answerOptions(session);
   const feedbackAnimation = PracticeSession.feedbackAnimation(session);
   const hasCorrectFeedback = PracticeSession.hasCorrectFeedback(session);
-  const hasEarnedReward = PracticeSession.hasEarnedReward(session);
   const selectedAnswer = PracticeSession.selectedAnswer(session);
   const feedbackState = PracticeSession.feedbackState(session);
 
@@ -63,16 +61,7 @@ const PracticeScreen: FC = () => {
           />
 
           {session.isComplete ? (
-            hasEarnedReward ? (
-              <RewardEarnedSummary
-                correctAnswerCount={session.firstTryCorrectAnswerCount}
-                lifetimeRewardTotal={lifetimeRewardTotal}
-              />
-            ) : (
-              <SessionSummary
-                correctAnswerCount={session.firstTryCorrectAnswerCount}
-              />
-            )
+            <CompletedPracticeSessionSummary session={session} />
           ) : (
             <CurrentQuestionPrompt
               multiplier={session.currentMultiplier}
