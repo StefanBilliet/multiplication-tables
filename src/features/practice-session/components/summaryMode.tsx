@@ -1,11 +1,11 @@
 import { Group } from "@mantine/core";
 import type { FC } from "react";
-import type { PracticeSession as PracticeSessionType } from "../models/practiceSession";
+import type { PracticeFlow as PracticeFlowType } from "../models/practiceFlow";
 import BackToTablesButton from "./backToTablesButton";
 import CompletedPracticeSessionSummary from "./completedPracticeSessionSummary";
 
 type SummaryModeProps = {
-  session: PracticeSessionType;
+  session: PracticeFlowType;
 };
 
 const SummaryMode: FC<SummaryModeProps> = ({ session }) => (

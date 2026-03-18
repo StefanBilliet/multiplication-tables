@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 import renderComponent from "../../../../shared/testing/renderComponent";
-import type { PracticeSession } from "../../models/practiceSession";
+import type { PracticeFlow } from "../../models/practiceFlow";
 import CompletedPracticeSessionSummary from "../completedPracticeSessionSummary";
 
 vi.mock("../useLifetimeRewardTotal", () => ({
@@ -11,13 +11,10 @@ vi.mock("../useLifetimeRewardTotal", () => ({
 }));
 
 test("GIVEN a completed qualifying session, WHEN the completed summary is rendered, THEN it shows the earned reward summary", () => {
-  const session: PracticeSession = {
-    selectedTable: 3,
-    currentMultiplier: 10,
+  const session: PracticeFlow = {
+    kind: "sessionComplete",
     firstTryCorrectAnswerCount: 7,
-    hasRetriedCurrentQuestion: false,
-    isComplete: true,
-    answerState: { kind: "idle" },
+    hasEarnedReward: true,
   };
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);
@@ -27,13 +24,10 @@ test("GIVEN a completed qualifying session, WHEN the completed summary is render
 });
 
 test("GIVEN a completed non-qualifying session, WHEN the completed summary is rendered, THEN it shows the plain session summary", () => {
-  const session: PracticeSession = {
-    selectedTable: 3,
-    currentMultiplier: 10,
+  const session: PracticeFlow = {
+    kind: "sessionComplete",
     firstTryCorrectAnswerCount: 6,
-    hasRetriedCurrentQuestion: false,
-    isComplete: true,
-    answerState: { kind: "idle" },
+    hasEarnedReward: false,
   };
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);

@@ -1,12 +1,12 @@
 import type { FC } from "react";
-import type { PracticeSession as PracticeSessionType } from "../models/practiceSession";
-import PracticeSession from "../models/practiceSession";
+import type { PracticeFlow as PracticeFlowType } from "../models/practiceFlow";
+import PracticeFlow from "../models/practiceFlow";
 import RewardEarnedSummary from "./rewardEarnedSummary";
 import SessionSummary from "./sessionSummary";
 import useLifetimeRewardTotal from "./useLifetimeRewardTotal";
 
 type CompletedPracticeSessionSummaryProps = {
-  session: PracticeSessionType;
+  session: PracticeFlowType;
 };
 
 const CompletedPracticeSessionSummary: FC<
@@ -14,7 +14,7 @@ const CompletedPracticeSessionSummary: FC<
 > = ({ session }) => {
   const { lifetimeRewardTotal } = useLifetimeRewardTotal();
 
-  return PracticeSession.hasEarnedReward(session) ? (
+  return PracticeFlow.hasEarnedReward(session) ? (
     <RewardEarnedSummary
       correctAnswerCount={session.firstTryCorrectAnswerCount}
       lifetimeRewardTotal={lifetimeRewardTotal}

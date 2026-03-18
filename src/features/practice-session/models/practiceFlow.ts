@@ -19,6 +19,8 @@ type SessionComplete = {
 
 type PracticeFlow = CurrentQuestionState | SessionComplete;
 
+export type { PracticeFlow };
+
 export type CurrentQuestionState = {
   kind: "currentQuestion";
   currentQuestion: CurrentQuestion;
@@ -45,7 +47,9 @@ const PracticeFlow = {
     };
   },
 
-  selectAnswer(flow: CurrentQuestionState, answer: number): PracticeFlow {
+  selectAnswer(flow: PracticeFlow, answer: number): PracticeFlow {
+    if (flow.kind === "sessionComplete") return flow;
+
     return {
       ...flow,
       currentQuestion: {
@@ -56,7 +60,8 @@ const PracticeFlow = {
     };
   },
 
-  checkAnswer(flow: CurrentQuestionState): PracticeFlow {
+  checkAnswer(flow: PracticeFlow): PracticeFlow {
+    if (flow.kind === "sessionComplete") return flow;
     if (flow.currentQuestion.selectedAnswer === null) {
       return flow;
     }
@@ -85,7 +90,9 @@ const PracticeFlow = {
     };
   },
 
-  nextQuestion(flow: CurrentQuestionState): PracticeFlow {
+  nextQuestion(flow: PracticeFlow): PracticeFlow {
+    if (flow.kind === "sessionComplete") return flow;
+
     const nextMultiplier = flow.currentQuestion.multiplier + 1;
 
     return {
@@ -115,13 +122,63 @@ const PracticeFlow = {
     return shuffleAnswerOptions(answerOptions, table * 100 + multiplier);
   },
 
-  continueSession(flow: CurrentQuestionState): PracticeFlow {
-    return {
-      kind: "sessionComplete",
-      firstTryCorrectAnswerCount: flow.firstTryCorrectAnswerCount,
-      hasEarnedReward:
-        flow.firstTryCorrectAnswerCount >= REWARD_ELIGIBILITY_THRESHOLD,
-    };
+  getAnswerOptions(flow: PracticeFlow): number[] {
+    return flow.kind === "currentQuestion"
+      ? flow.currentQuestion.answerOptions
+      : [];
+  },
+
+  continueSession(flow: PracticeFlow): PracticeFlow {
+    if (flow.kind === "sessionComplete") return flow;
+    if (flow.currentQuestion.multiplier >= 10) {
+      return {
+        kind: "sessionComplete",
+        firstTryCorrectAnswerCount: flow.firstTryCorrectAnswerCount,
+        hasEarnedReward:
+          flow.firstTryCorrectAnswerCount >= REWARD_ELIGIBILITY_THRESHOLD,
+      };
+    }
+
+    return this.nextQuestion(flow);
+  },
+
+  hasCorrectFeedback(flow: PracticeFlow): boolean {
+    return (
+      flow.kind === "currentQuestion" &&
+      flow.currentQuestion.feedbackState === "correct"
+    );
+  },
+
+  selectedAnswer(flow: PracticeFlow): number | null {
+    return flow.kind === "currentQuestion"
+      ? flow.currentQuestion.selectedAnswer
+      : null;
+  },
+
+  canCheck(flow: PracticeFlow): boolean {
+    return (
+      flow.kind === "currentQuestion" && flow.currentQuestion.canCheckAnswer
+    );
+  },
+
+  feedbackAnimation(flow: PracticeFlow): "pop" | "wobble" | null {
+    if (flow.kind !== "currentQuestion") return null;
+    if (flow.currentQuestion.feedbackState === null) return null;
+    return flow.currentQuestion.feedbackState === "correct" ? "pop" : "wobble";
+  },
+
+  isComplete(flow: PracticeFlow): boolean {
+    return flow.kind === "sessionComplete";
+  },
+
+  hasEarnedReward(flow: PracticeFlow): boolean {
+    return flow.kind === "sessionComplete" && flow.hasEarnedReward;
+  },
+
+  feedbackState(flow: PracticeFlow): "correct" | "incorrect" | null {
+    return flow.kind === "currentQuestion"
+      ? flow.currentQuestion.feedbackState
+      : null;
   },
 };
 

@@ -1,5 +1,26 @@
 import PracticeFlow, { type CurrentQuestionState } from "./practiceFlow";
 
+function completeSession(
+  startFlow: CurrentQuestionState,
+  wrongMultipliers: number[] = [],
+): PracticeFlow {
+  let flow: CurrentQuestionState = startFlow;
+
+  for (let i = 1; i <= 10; i += 1) {
+    const answer = wrongMultipliers.includes(i)
+      ? 999
+      : i * startFlow.currentQuestion.table;
+    flow = PracticeFlow.checkAnswer(
+      PracticeFlow.selectAnswer(flow, answer) as CurrentQuestionState,
+    ) as CurrentQuestionState;
+    if (i < 10) {
+      flow = PracticeFlow.nextQuestion(flow) as CurrentQuestionState;
+    }
+  }
+
+  return PracticeFlow.continueSession(flow);
+}
+
 test("GIVEN a table is started, WHEN the first practice flow state is created, THEN it exposes the first current question", () => {
   const sut = PracticeFlow.start(3);
 
@@ -122,32 +143,215 @@ test("GIVEN an incorrect answer was checked and the user retries, WHEN the corre
   expect(flowWithCheckedRetryAnswer.firstTryCorrectAnswerCount).toBe(0);
 });
 
+test("GIVEN a current question state with correct feedback, WHEN hasCorrectFeedback is called, THEN it returns true", () => {
+  const sut = PracticeFlow.checkAnswer(
+    PracticeFlow.selectAnswer(
+      PracticeFlow.start(3) as CurrentQuestionState,
+      3,
+    ) as CurrentQuestionState,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.hasCorrectFeedback(sut);
+
+  expect(result).toBe(true);
+});
+
+test("GIVEN a current question state with incorrect feedback, WHEN hasCorrectFeedback is called, THEN it returns false", () => {
+  const sut = PracticeFlow.checkAnswer(
+    PracticeFlow.selectAnswer(
+      PracticeFlow.start(3) as CurrentQuestionState,
+      6,
+    ) as CurrentQuestionState,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.hasCorrectFeedback(sut);
+
+  expect(result).toBe(false);
+});
+
+test("GIVEN a current question state without checked answer, WHEN hasCorrectFeedback is called, THEN it returns false", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.hasCorrectFeedback(sut);
+
+  expect(result).toBe(false);
+});
+
+test("GIVEN a session with a selected answer, WHEN selectedAnswer is called, THEN it returns that answer", () => {
+  const sut = PracticeFlow.selectAnswer(
+    PracticeFlow.start(3) as CurrentQuestionState,
+    12,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.selectedAnswer(sut);
+
+  expect(result).toBe(12);
+});
+
+test("GIVEN a session without a selected answer, WHEN selectedAnswer is called, THEN it returns null", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.selectedAnswer(sut);
+
+  expect(result).toBeNull();
+});
+
+test("GIVEN a session with an answer selected, WHEN canCheck is called, THEN it returns true", () => {
+  const sut = PracticeFlow.selectAnswer(
+    PracticeFlow.start(3) as CurrentQuestionState,
+    12,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.canCheck(sut);
+
+  expect(result).toBe(true);
+});
+
+test("GIVEN a session without an answer selected, WHEN canCheck is called, THEN it returns false", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.canCheck(sut);
+
+  expect(result).toBe(false);
+});
+
+test("GIVEN a session with correct feedback, WHEN feedbackAnimation is called, THEN it returns 'pop'", () => {
+  const sut = PracticeFlow.checkAnswer(
+    PracticeFlow.selectAnswer(
+      PracticeFlow.start(3) as CurrentQuestionState,
+      3,
+    ) as CurrentQuestionState,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.feedbackAnimation(sut);
+
+  expect(result).toBe("pop");
+});
+
+test("GIVEN a session with incorrect feedback, WHEN feedbackAnimation is called, THEN it returns 'wobble'", () => {
+  const sut = PracticeFlow.checkAnswer(
+    PracticeFlow.selectAnswer(
+      PracticeFlow.start(3) as CurrentQuestionState,
+      6,
+    ) as CurrentQuestionState,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.feedbackAnimation(sut);
+
+  expect(result).toBe("wobble");
+});
+
+test("GIVEN a session without feedback, WHEN feedbackAnimation is called, THEN it returns null", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.feedbackAnimation(sut);
+
+  expect(result).toBeNull();
+});
+
+test("GIVEN a session in progress, WHEN isComplete is called, THEN it returns false", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.isComplete(sut);
+
+  expect(result).toBe(false);
+});
+
+test("GIVEN a completed session, WHEN isComplete is called, THEN it returns true", () => {
+  const sut = completeSession(PracticeFlow.start(3) as CurrentQuestionState);
+
+  const result = PracticeFlow.isComplete(sut);
+
+  expect(result).toBe(true);
+});
+
+test("GIVEN a session in progress, WHEN hasEarnedReward is called, THEN it returns false", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.hasEarnedReward(sut);
+
+  expect(result).toBe(false);
+});
+
+test("GIVEN a completed session with 7+ correct answers, WHEN hasEarnedReward is called, THEN it returns true", () => {
+  const sut = completeSession(PracticeFlow.start(3) as CurrentQuestionState);
+
+  const result = PracticeFlow.hasEarnedReward(sut);
+
+  expect(result).toBe(true);
+});
+
+test("GIVEN a completed session with 6 correct answers, WHEN hasEarnedReward is called, THEN it returns false", () => {
+  const sut = completeSession(
+    PracticeFlow.start(3) as CurrentQuestionState,
+    [1, 2, 3, 4],
+  );
+
+  const result = PracticeFlow.hasEarnedReward(sut);
+
+  expect(result).toBe(false);
+});
+
+test("GIVEN a session with correct feedback, WHEN feedbackState is called, THEN it returns 'correct'", () => {
+  const sut = PracticeFlow.checkAnswer(
+    PracticeFlow.selectAnswer(
+      PracticeFlow.start(3) as CurrentQuestionState,
+      3,
+    ) as CurrentQuestionState,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.feedbackState(sut);
+
+  expect(result).toBe("correct");
+});
+
+test("GIVEN a session with incorrect feedback, WHEN feedbackState is called, THEN it returns 'incorrect'", () => {
+  const sut = PracticeFlow.checkAnswer(
+    PracticeFlow.selectAnswer(
+      PracticeFlow.start(3) as CurrentQuestionState,
+      6,
+    ) as CurrentQuestionState,
+  ) as CurrentQuestionState;
+
+  const result = PracticeFlow.feedbackState(sut);
+
+  expect(result).toBe("incorrect");
+});
+
+test("GIVEN a session without feedback, WHEN feedbackState is called, THEN it returns null", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.feedbackState(sut);
+
+  expect(result).toBeNull();
+});
+
+test("GIVEN a current question state, WHEN getAnswerOptions is called, THEN it returns the answer options from the current question", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const result = PracticeFlow.getAnswerOptions(sut);
+
+  expect(result).toEqual([6, 9, 15, 21, 30, 24, 18, 3, 12, 27]);
+});
+
 test.each([
-  { correctCount: 0, hasEarnedReward: false },
-  { correctCount: 6, hasEarnedReward: false },
-  { correctCount: 7, hasEarnedReward: true },
-  { correctCount: 10, hasEarnedReward: true },
+  {
+    correctCount: 0,
+    hasEarnedReward: false,
+    wrongMultipliers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  },
+  { correctCount: 6, hasEarnedReward: false, wrongMultipliers: [1, 2, 3, 4] },
+  { correctCount: 7, hasEarnedReward: true, wrongMultipliers: [1, 2, 3] },
+  { correctCount: 10, hasEarnedReward: true, wrongMultipliers: [] },
 ])("GIVEN $correctCount questions are answered correctly on first try, WHEN the session completes, THEN hasEarnedReward is $hasEarnedReward", ({
   correctCount,
   hasEarnedReward,
+  wrongMultipliers,
 }) => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
-
-  let flow: CurrentQuestionState = sut;
-  const wrongCount = 10 - correctCount;
-  const wrongMultipliers = Array.from({ length: wrongCount }, (_, i) => i + 1);
-
-  for (let multiplier = 1; multiplier <= 10; multiplier += 1) {
-    const answer = wrongMultipliers.includes(multiplier) ? 999 : multiplier * 3;
-    flow = PracticeFlow.selectAnswer(flow, answer) as CurrentQuestionState;
-    flow = PracticeFlow.checkAnswer(flow) as CurrentQuestionState;
-
-    if (multiplier < 10) {
-      flow = PracticeFlow.nextQuestion(flow) as CurrentQuestionState;
-    }
-  }
-
-  const completedFlow = PracticeFlow.continueSession(flow);
+  const completedFlow = completeSession(
+    PracticeFlow.start(3) as CurrentQuestionState,
+    wrongMultipliers,
+  );
 
   expect(completedFlow).toEqual({
     kind: "sessionComplete",

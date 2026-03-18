@@ -1,7 +1,7 @@
 import { Card, Center, Stack } from "@mantine/core";
 import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
-import PracticeSession from "../models/practiceSession";
+import PracticeFlow from "../models/practiceFlow";
 import ActiveSessionMode from "./activeSessionMode";
 import Header from "./header";
 import SummaryMode from "./summaryMode";
@@ -11,25 +11,25 @@ const PracticeScreen: FC = () => {
   const { tableId } = useParams();
   const selectedTable = Number(tableId);
   const [session, setSession] = useState(() =>
-    PracticeSession.start(selectedTable),
+    PracticeFlow.start(selectedTable),
   );
   const { addReward } = useLifetimeRewardTotal();
   const handleSelectAnswer = (answer: number) => {
     setSession((currentSession) =>
-      PracticeSession.selectAnswer(currentSession, answer),
+      PracticeFlow.selectAnswer(currentSession, answer),
     );
   };
 
   const handleCheckAnswer = () => {
-    setSession((currentSession) => PracticeSession.checkAnswer(currentSession));
+    setSession((currentSession) => PracticeFlow.checkAnswer(currentSession));
   };
 
   const handleContinue = () => {
-    const nextSession = PracticeSession.continueSession(session);
+    const nextSession = PracticeFlow.continueSession(session);
 
     if (
-      nextSession.isComplete &&
-      PracticeSession.hasEarnedReward(nextSession)
+      PracticeFlow.isComplete(nextSession) &&
+      PracticeFlow.hasEarnedReward(nextSession)
     ) {
       addReward();
     }
@@ -43,14 +43,14 @@ const PracticeScreen: FC = () => {
         <Stack gap="xl">
           <Header
             description={
-              session.isComplete
+              PracticeFlow.isComplete(session)
                 ? "You've completed this practice session."
                 : undefined
             }
             selectedTable={selectedTable}
           />
 
-          {session.isComplete ? (
+          {PracticeFlow.isComplete(session) ? (
             <SummaryMode session={session} />
           ) : (
             <ActiveSessionMode

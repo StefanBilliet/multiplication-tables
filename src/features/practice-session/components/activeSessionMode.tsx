@@ -1,7 +1,7 @@
 import { Group, Stack } from "@mantine/core";
 import type { FC } from "react";
-import type { PracticeSession as PracticeSessionType } from "../models/practiceSession";
-import PracticeSession from "../models/practiceSession";
+import type { PracticeFlow as PracticeFlowType } from "../models/practiceFlow";
+import PracticeFlow from "../models/practiceFlow";
 import AnswerPad from "./answerPad";
 import BackToTablesButton from "./backToTablesButton";
 import CheckAnswerButton from "./checkAnswerButton";
@@ -9,7 +9,7 @@ import ContinueButton from "./continueButton";
 import CurrentQuestionPrompt from "./currentQuestionPrompt";
 
 type ActiveSessionModeProps = {
-  session: PracticeSessionType;
+  session: PracticeFlowType;
   selectedTable: number;
   onCheckAnswer: () => void;
   onContinue: () => void;
@@ -23,16 +23,20 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
   onContinue,
   onSelectAnswer,
 }) => {
-  const answerOptions = PracticeSession.answerOptions(session);
-  const feedbackAnimation = PracticeSession.feedbackAnimation(session);
-  const hasCorrectFeedback = PracticeSession.hasCorrectFeedback(session);
-  const selectedAnswer = PracticeSession.selectedAnswer(session);
-  const feedbackState = PracticeSession.feedbackState(session);
+  const answerOptions = PracticeFlow.getAnswerOptions(session);
+  const feedbackAnimation = PracticeFlow.feedbackAnimation(session);
+  const hasCorrectFeedback = PracticeFlow.hasCorrectFeedback(session);
+  const selectedAnswer = PracticeFlow.selectedAnswer(session);
+  const feedbackState = PracticeFlow.feedbackState(session);
 
   return (
     <>
       <CurrentQuestionPrompt
-        multiplier={session.currentMultiplier}
+        multiplier={
+          session.kind === "currentQuestion"
+            ? session.currentQuestion.multiplier
+            : 1
+        }
         table={selectedTable}
       />
 
@@ -54,7 +58,7 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
           <ContinueButton onClick={onContinue} />
         ) : (
           <CheckAnswerButton
-            disabled={!PracticeSession.canCheck(session)}
+            disabled={!PracticeFlow.canCheck(session)}
             onClick={onCheckAnswer}
           />
         )}
