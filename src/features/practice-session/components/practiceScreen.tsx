@@ -1,14 +1,10 @@
-import { Card, Center, Group, Stack } from "@mantine/core";
+import { Card, Center, Stack } from "@mantine/core";
 import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import PracticeSession from "../models/practiceSession";
-import AnswerPad from "./answerPad";
-import BackToTablesButton from "./backToTablesButton";
-import CheckAnswerButton from "./checkAnswerButton";
-import CompletedPracticeSessionSummary from "./completedPracticeSessionSummary";
-import ContinueButton from "./continueButton";
-import CurrentQuestionPrompt from "./currentQuestionPrompt";
+import ActiveSessionMode from "./activeSessionMode";
 import Header from "./header";
+import SummaryMode from "./summaryMode";
 import useLifetimeRewardTotal from "./useLifetimeRewardTotal";
 
 const PracticeScreen: FC = () => {
@@ -18,12 +14,6 @@ const PracticeScreen: FC = () => {
     PracticeSession.start(selectedTable),
   );
   const { addReward } = useLifetimeRewardTotal();
-  const answerOptions = PracticeSession.answerOptions(session);
-  const feedbackAnimation = PracticeSession.feedbackAnimation(session);
-  const hasCorrectFeedback = PracticeSession.hasCorrectFeedback(session);
-  const selectedAnswer = PracticeSession.selectedAnswer(session);
-  const feedbackState = PracticeSession.feedbackState(session);
-
   const handleSelectAnswer = (answer: number) => {
     setSession((currentSession) =>
       PracticeSession.selectAnswer(currentSession, answer),
@@ -61,39 +51,16 @@ const PracticeScreen: FC = () => {
           />
 
           {session.isComplete ? (
-            <CompletedPracticeSessionSummary session={session} />
+            <SummaryMode session={session} />
           ) : (
-            <CurrentQuestionPrompt
-              multiplier={session.currentMultiplier}
-              table={selectedTable}
+            <ActiveSessionMode
+              session={session}
+              selectedTable={selectedTable}
+              onCheckAnswer={handleCheckAnswer}
+              onContinue={handleContinue}
+              onSelectAnswer={handleSelectAnswer}
             />
           )}
-
-          {session.isComplete ? null : (
-            <Stack gap="md">
-              <AnswerPad
-                answerOptions={answerOptions}
-                feedbackAnimation={feedbackAnimation}
-                feedbackState={feedbackState}
-                hasCorrectFeedback={hasCorrectFeedback}
-                selectedAnswer={selectedAnswer}
-                onSelectAnswer={handleSelectAnswer}
-              />
-            </Stack>
-          )}
-
-          <Group justify="space-between">
-            <BackToTablesButton />
-
-            {session.isComplete ? null : hasCorrectFeedback ? (
-              <ContinueButton onClick={handleContinue} />
-            ) : (
-              <CheckAnswerButton
-                disabled={!PracticeSession.canCheck(session)}
-                onClick={handleCheckAnswer}
-              />
-            )}
-          </Group>
         </Stack>
       </Card>
     </Center>
