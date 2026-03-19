@@ -127,8 +127,13 @@ info "Step 3/5 — Adding federated credential for GitHub..."
 
 issuer="https://token.actions.githubusercontent.com"
 repo_slug=$(basename "$repo_url")
-owner=$(basename "$(dirname "$repo_url")")
-subject="repo:${owner}/${repo_slug}:ref:refs/heads/${branch}"
+raw_owner=$(basename "$(dirname "$repo_url")")
+
+if command -v gh > /dev/null 2>&1; then
+  owner=$(gh api "repos/${raw_owner}/${repo_slug}" --jq '.owner.login' 2>/dev/null || echo "$raw_owner")
+else
+  owner="$raw_owner"
+fi
 credential_name="github-deploy"
 
 # Check if credential already exists
@@ -144,8 +149,8 @@ else
     --parameters "{ \
       \"name\": \"$credential_name\", \
       \"issuer\": \"$issuer\", \
-      \"subject\": \"$subject\", \
-      \"audiences\": [\"api://${client_id}\"] \
+      \"subject\": \"repo:${owner}/${repo_slug}:environment:production\", \
+      \"audiences\": [\"api://AzureADTokenExchange\"] \
     }" > /dev/null
   info "Federated credential added (issuer: $issuer)"
 fi
