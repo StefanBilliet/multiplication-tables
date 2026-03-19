@@ -2,9 +2,22 @@ import { screen } from "@testing-library/react";
 import renderWithRouter from "../shared/testing/renderWithRouter";
 import App from "./app";
 
+const useLifetimeRewardTotalMock = vi.fn();
+
 vi.mock("../features/practice-session/components/practiceScreen", () => ({
   default: () => <div>Practice screen stub</div>,
 }));
+
+vi.mock("../shared/rewards/useLifetimeRewardTotal", () => ({
+  default: () => useLifetimeRewardTotalMock(),
+}));
+
+beforeEach(() => {
+  useLifetimeRewardTotalMock.mockReturnValue({
+    addReward: vi.fn(),
+    lifetimeRewardTotal: 46,
+  });
+});
 
 test("GIVEN the home route is shown, WHEN an available table is selected, THEN the selected table practice screen is shown", async () => {
   const sut = <App />;

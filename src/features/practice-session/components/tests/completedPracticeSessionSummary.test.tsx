@@ -5,7 +5,7 @@ import renderComponent from "../../../../shared/testing/renderComponent";
 import type { PracticeFlow } from "../../models/practiceFlow";
 import CompletedPracticeSessionSummary from "../completedPracticeSessionSummary";
 
-vi.mock("../useLifetimeRewardTotal", () => ({
+vi.mock("../../../../shared/rewards/useLifetimeRewardTotal", () => ({
   default: () => ({
     addReward: vi.fn(),
     lifetimeRewardTotal: 6,

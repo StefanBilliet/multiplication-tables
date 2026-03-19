@@ -1,11 +1,11 @@
 import { Card, Center, Stack } from "@mantine/core";
 import { type FC, useState } from "react";
 import { useParams } from "react-router-dom";
+import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import PracticeFlow from "../models/practiceFlow";
 import ActiveSessionMode from "./activeSessionMode";
 import Header from "./header";
 import SummaryMode from "./summaryMode";
-import useLifetimeRewardTotal from "./useLifetimeRewardTotal";
 
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();

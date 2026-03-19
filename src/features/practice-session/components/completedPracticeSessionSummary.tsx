@@ -1,11 +1,11 @@
 import type { FC } from "react";
 import ReactConfetti from "react-confetti";
 import { createPortal } from "react-dom";
+import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import type { PracticeFlow as PracticeFlowType } from "../models/practiceFlow";
 import PracticeFlow from "../models/practiceFlow";
 import RewardEarnedSummary from "./rewardEarnedSummary";
 import SessionSummary from "./sessionSummary";
-import useLifetimeRewardTotal from "./useLifetimeRewardTotal";
 
 type CompletedPracticeSessionSummaryProps = {
   session: PracticeFlowType;

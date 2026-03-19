@@ -10,17 +10,22 @@ import {
 } from "@mantine/core";
 import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
+import { calculateRewardsNeeded } from "./calculateRewardsNeeded";
 import MultiplicationTableCard from "./multiplicationTableCard";
 
 const TableSelection: FC = () => {
   const navigate = useNavigate();
+  const { lifetimeRewardTotal } = useLifetimeRewardTotal();
   const tables = Array.from({ length: 10 }, (_, index) => {
     const id = index + 1;
+    const rewardsNeeded = calculateRewardsNeeded(lifetimeRewardTotal, id);
 
     return {
       id,
       label: `${id} times table`,
-      unlocked: id <= 3,
+      rewardsNeeded,
+      unlocked: rewardsNeeded === 0,
     };
   });
 
@@ -49,6 +54,7 @@ const TableSelection: FC = () => {
             {tables.map((table) => (
               <MultiplicationTableCard
                 key={table.id}
+                lifetimeRewardTotal={lifetimeRewardTotal}
                 table={table}
                 onSelect={handleTableSelected}
               />

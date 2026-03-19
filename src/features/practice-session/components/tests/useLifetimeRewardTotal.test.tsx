@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
-import useLifetimeRewardTotal from "../useLifetimeRewardTotal";
+import useLifetimeRewardTotal from "../../../../shared/rewards/useLifetimeRewardTotal";
 
 const createStorage = (storedValue: string | null = null) => {
   let value = storedValue;
