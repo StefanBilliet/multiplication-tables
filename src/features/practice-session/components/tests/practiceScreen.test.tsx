@@ -189,3 +189,23 @@ test("GIVEN Dutch is the active language, WHEN the practice screen is shown befo
     ),
   ).toBeVisible();
 });
+
+test("GIVEN an active practice session in English, WHEN I switch the app language to Dutch, THEN the visible practice text updates without losing the current question", async () => {
+  await i18n.changeLanguage("en");
+
+  const page = renderPracticeScreen();
+
+  await page.answerQuestion(3);
+  await page.continuePractice();
+  await page.selectAnswer(9);
+  await screen
+    .findByRole("button", { name: "Nederlands" })
+    .then((button) => button.click());
+
+  expect(
+    screen.getByRole("heading", { name: "Oefen de tafel van 3" }),
+  ).toBeVisible();
+  expect(screen.getByRole("button", { name: "Controleer" })).toBeVisible();
+  expect(page.question("2 x 3 = ?")).toBeVisible();
+  expect(page.answerField()).toHaveValue("9");
+});

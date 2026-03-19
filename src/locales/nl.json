@@ -3,7 +3,9 @@
     "title": "Kies een tafel om te oefenen",
     "description": "Kies een tafel die klaar is. Vergrendelde tafels blijven zichtbaar zodat een kind kan zien wat hierna vrijkomt.",
     "startScreenBadge": "Startscherm",
-    "tableLabel": "Tafel van {{table}}"
+    "tableLabel": "Tafel van {{table}}",
+    "switchToDutch": "Nederlands",
+    "switchToEnglish": "English"
   },
   "tableCard": {
     "available": "Beschikbaar",

@@ -1,5 +1,6 @@
 import { Button, SimpleGrid, Stack, Text } from "@mantine/core";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import AnswerField from "./answerField";
 
 type AnswerPadProps = {
@@ -18,29 +19,33 @@ const AnswerPad: FC<AnswerPadProps> = ({
   hasCorrectFeedback,
   selectedAnswer,
   onSelectAnswer,
-}) => (
-  <Stack gap="md">
-    <Text fw={600}>Answer</Text>
+}) => {
+  const { t } = useTranslation();
 
-    <AnswerField
-      feedbackAnimation={feedbackAnimation}
-      feedbackState={feedbackState}
-      selectedAnswer={selectedAnswer}
-    />
+  return (
+    <Stack gap="md">
+      <Text fw={600}>{t("practiceSession.answerPad.answerLabel")}</Text>
 
-    <SimpleGrid cols={3} spacing="sm">
-      {answerOptions.map((answerOption) => (
-        <Button
-          key={answerOption}
-          variant="default"
-          disabled={hasCorrectFeedback}
-          onClick={() => onSelectAnswer(answerOption)}
-        >
-          {answerOption}
-        </Button>
-      ))}
-    </SimpleGrid>
-  </Stack>
-);
+      <AnswerField
+        feedbackAnimation={feedbackAnimation}
+        feedbackState={feedbackState}
+        selectedAnswer={selectedAnswer}
+      />
+
+      <SimpleGrid cols={3} spacing="sm">
+        {answerOptions.map((answerOption) => (
+          <Button
+            key={answerOption}
+            variant="default"
+            disabled={hasCorrectFeedback}
+            onClick={() => onSelectAnswer(answerOption)}
+          >
+            {answerOption}
+          </Button>
+        ))}
+      </SimpleGrid>
+    </Stack>
+  );
+};
 
 export default AnswerPad;

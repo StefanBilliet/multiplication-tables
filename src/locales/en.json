@@ -3,7 +3,9 @@
     "title": "Choose a table to practice",
     "description": "Pick any table that is ready. Locked tables stay visible so a child can see what opens up next.",
     "startScreenBadge": "Start screen",
-    "tableLabel": "{{table}} times table"
+    "tableLabel": "{{table}} times table",
+    "switchToDutch": "Nederlands",
+    "switchToEnglish": "English"
   },
   "tableCard": {
     "available": "Available",

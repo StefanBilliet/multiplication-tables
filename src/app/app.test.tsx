@@ -1,4 +1,5 @@
 import { screen } from "@testing-library/react";
+import i18n from "../shared/i18n";
 import renderWithRouter from "../shared/testing/renderWithRouter";
 import App from "./app";
 
@@ -12,11 +13,25 @@ vi.mock("../shared/rewards/useLifetimeRewardTotal", () => ({
   default: () => useLifetimeRewardTotalMock(),
 }));
 
-beforeEach(() => {
+beforeEach(async () => {
+  await i18n.changeLanguage("en");
   useLifetimeRewardTotalMock.mockReturnValue({
     addReward: vi.fn(),
     lifetimeRewardTotal: 46,
   });
+});
+
+test("GIVEN Dutch is active, WHEN I switch the app language to English, THEN the table-selection text updates immediately", async () => {
+  await i18n.changeLanguage("nl");
+
+  const sut = <App />;
+  const { user } = renderWithRouter(sut);
+
+  await user.click(screen.getByRole("button", { name: "English" }));
+
+  expect(
+    screen.getByRole("heading", { name: "Choose a table to practice" }),
+  ).toBeVisible();
 });
 
 test("GIVEN the home route is shown, WHEN an available table is selected, THEN the selected table practice screen is shown", async () => {

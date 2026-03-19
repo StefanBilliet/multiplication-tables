@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import { calculateRewardsNeeded } from "./calculateRewardsNeeded";
+import LanguageSwitcher from "./languageSwitcher";
 import MultiplicationTableCard from "./multiplicationTableCard";
 
 const TableSelection: FC = () => {
@@ -49,6 +50,8 @@ const TableSelection: FC = () => {
               <Title order={1}>{t("tableSelection.title")}</Title>
               <Text maw={560}>{t("tableSelection.description")}</Text>
             </Stack>
+
+            <LanguageSwitcher />
           </Group>
 
           <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">

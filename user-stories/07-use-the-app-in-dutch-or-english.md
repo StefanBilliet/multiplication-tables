@@ -30,6 +30,17 @@ so that I can understand all text in the language that is most comfortable for m
   when the app is displayed in Dutch or English,
   then that text is localized.
 
+### Status: Complete
+
+All acceptance criteria are implemented and verified:
+
+- Browser-language detection with Dutch fallback is configured in `src/shared/i18n/index.ts`
+- Dutch and English locale resources are registered
+- An in-app language switcher is available through `src/features/table-selection/components/languageSwitcher.tsx`
+- The language switcher is also available during practice sessions via the practice-screen header
+- All runtime user-visible text is localized
+- `npm run isEverythingOk` passes (11 test files, 90 tests)
+
 ### Out of Scope
 
 - Remembering the manually selected language across refreshes or future visits.
