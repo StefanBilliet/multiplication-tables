@@ -1,0 +1,23 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclusions": [
+      "*.js",
+      "*.css",
+      "*.ico",
+      "*.png",
+      "*.svg",
+      "*.jpg",
+      "*.webmanifest"
+    ]
+  },
+  "platform": {
+    "apiRuntime": "disabled"
+  },
+  "globalHeaders": {
+    "Cache-Control": "no-cache"
+  },
+  "mimeTypes": {
+    ".webmanifest": "application/manifest+json"
+  }
+}
