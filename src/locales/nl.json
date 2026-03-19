@@ -1,0 +1,45 @@
+{
+  "tableSelection": {
+    "title": "Kies een tafel om te oefenen",
+    "description": "Kies een tafel die klaar is. Vergrendelde tafels blijven zichtbaar zodat een kind kan zien wat hierna vrijkomt.",
+    "startScreenBadge": "Startscherm",
+    "tableLabel": "Tafel van {{table}}"
+  },
+  "tableCard": {
+    "available": "Beschikbaar",
+    "locked": "Vergrendeld",
+    "readyToPractice": "Klaar om te oefenen",
+    "unlockNext": "Speel deze tafel hierna vrij",
+    "startPractice": "Start oefenen",
+    "lockedForNow": "Nu vergrendeld",
+    "rewardsNeededMessage": "Je hebt nog {{rewardsNeeded}} beloningen nodig om deze tafel vrij te spelen"
+  },
+  "practiceSession": {
+    "header": {
+      "title": "Oefen de tafel van {{table}}",
+      "defaultDescription": "Los elke vraag een voor een op. Ga door tot alle 10 klaar zijn.",
+      "completedDescription": "Je hebt deze oefensessie voltooid."
+    },
+    "questionPrompt": {
+      "title": "Huidige vraag"
+    },
+    "answerPad": {
+      "answerLabel": "Antwoord",
+      "placeholderLabel": "Kies een getal"
+    },
+    "rewardEarned": {
+      "title": "Je hebt 1 beloning verdiend",
+      "description": "Sterk werk bij de eerste poging telt mee voor de verzameling van het kind.",
+      "totalRewards": "{{lifetimeRewardTotal}} beloningen in totaal"
+    },
+    "sessionSummary": {
+      "title": "Samenvatting van de sessie",
+      "completedTitle": "Oefensessie voltooid",
+      "correctAnswers": "{{correctAnswerCount}} goede antwoorden",
+      "description": "Goed gedaan. Je beantwoordde {{correctAnswerCount}} van de {{totalQuestionCount}} vragen correct."
+    },
+    "backToTablesButton": "Terug naar tafels",
+    "continueButton": "Verder",
+    "checkAnswerButton": "Controleer"
+  }
+}

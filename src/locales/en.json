@@ -1,0 +1,45 @@
+{
+  "tableSelection": {
+    "title": "Choose a table to practice",
+    "description": "Pick any table that is ready. Locked tables stay visible so a child can see what opens up next.",
+    "startScreenBadge": "Start screen",
+    "tableLabel": "{{table}} times table"
+  },
+  "tableCard": {
+    "available": "Available",
+    "locked": "Locked",
+    "readyToPractice": "Ready to practice",
+    "unlockNext": "Unlock this table next",
+    "startPractice": "Start practice",
+    "lockedForNow": "Locked for now",
+    "rewardsNeededMessage": "You need {{rewardsNeeded}} more rewards to unlock this table"
+  },
+  "practiceSession": {
+    "header": {
+      "title": "Practice the {{table}} times table",
+      "defaultDescription": "Solve each question one by one. Keep going until all 10 are done.",
+      "completedDescription": "You've completed this practice session."
+    },
+    "questionPrompt": {
+      "title": "Current question"
+    },
+    "answerPad": {
+      "answerLabel": "Answer",
+      "placeholderLabel": "Choose a number"
+    },
+    "rewardEarned": {
+      "title": "You earned 1 reward",
+      "description": "Strong first-try work adds to the child's running collection.",
+      "totalRewards": "{{lifetimeRewardTotal}} total rewards"
+    },
+    "sessionSummary": {
+      "title": "Session summary",
+      "completedTitle": "Practice session complete",
+      "correctAnswers": "{{correctAnswerCount}} correct answers",
+      "description": "Great work. You answered {{correctAnswerCount}} out of {{totalQuestionCount}} questions correctly."
+    },
+    "backToTablesButton": "Back to tables",
+    "continueButton": "Continue",
+    "checkAnswerButton": "Check answer"
+  }
+}

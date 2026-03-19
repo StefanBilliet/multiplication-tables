@@ -1,5 +1,6 @@
 import { Text, TextInput } from "@mantine/core";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import classes from "./answerField.module.css";
 
 type AnswerFieldProps = {
@@ -24,6 +25,7 @@ const AnswerField: FC<AnswerFieldProps> = ({
       ? classes.empty
       : classes.filled;
   const sectionFeedbackState = feedbackState ?? "idle";
+  const { t } = useTranslation();
 
   return (
     <TextInput
@@ -33,7 +35,7 @@ const AnswerField: FC<AnswerFieldProps> = ({
       }}
       data-feedback-animation={feedbackAnimation ?? undefined}
       data-feedback-state={feedbackState ?? undefined}
-      label="Answer"
+      label={t("practiceSession.answerPad.answerLabel")}
       readOnly
       rightSection={
         <Text
@@ -50,7 +52,7 @@ const AnswerField: FC<AnswerFieldProps> = ({
       rightSectionPointerEvents="none"
       rightSectionWidth={44}
       value={selectedAnswer === null ? "" : String(selectedAnswer)}
-      placeholder="Choose a number"
+      placeholder={t("practiceSession.answerPad.placeholderLabel")}
       size="lg"
       radius="lg"
       styles={{ label: { display: "none" } }}

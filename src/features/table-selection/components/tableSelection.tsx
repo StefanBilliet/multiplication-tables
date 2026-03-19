@@ -9,6 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import { calculateRewardsNeeded } from "./calculateRewardsNeeded";
@@ -17,13 +18,14 @@ import MultiplicationTableCard from "./multiplicationTableCard";
 const TableSelection: FC = () => {
   const navigate = useNavigate();
   const { lifetimeRewardTotal } = useLifetimeRewardTotal();
+  const { t } = useTranslation();
   const tables = Array.from({ length: 10 }, (_, index) => {
     const id = index + 1;
     const rewardsNeeded = calculateRewardsNeeded(lifetimeRewardTotal, id);
 
     return {
       id,
-      label: `${id} times table`,
+      label: t("tableSelection.tableLabel", { table: id }),
       unlockState: {
         rewardsNeeded,
         unlocked: rewardsNeeded === 0,
@@ -42,13 +44,10 @@ const TableSelection: FC = () => {
           <Group justify="space-between" align="flex-start">
             <Stack gap={8}>
               <Badge variant="light" color="teal" w="fit-content">
-                Start screen
+                {t("tableSelection.startScreenBadge")}
               </Badge>
-              <Title order={1}>Choose a table to practice</Title>
-              <Text maw={560}>
-                Pick any table that is ready. Locked tables stay visible so a
-                child can see what opens up next.
-              </Text>
+              <Title order={1}>{t("tableSelection.title")}</Title>
+              <Text maw={560}>{t("tableSelection.description")}</Text>
             </Stack>
           </Group>
 

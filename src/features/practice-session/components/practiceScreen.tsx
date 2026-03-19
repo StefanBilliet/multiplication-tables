@@ -1,5 +1,6 @@
 import { Card, Center, Stack } from "@mantine/core";
 import { type FC, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import PracticeFlow from "../models/practiceFlow";
@@ -9,6 +10,7 @@ import SummaryMode from "./summaryMode";
 
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
+  const { t } = useTranslation();
   const selectedTable = Number(tableId);
   const [session, setSession] = useState(() =>
     PracticeFlow.start(selectedTable),
@@ -44,7 +46,7 @@ const PracticeScreen: FC = () => {
           <Header
             description={
               PracticeFlow.isComplete(session)
-                ? "You've completed this practice session."
+                ? t("practiceSession.header.completedDescription")
                 : undefined
             }
             selectedTable={selectedTable}

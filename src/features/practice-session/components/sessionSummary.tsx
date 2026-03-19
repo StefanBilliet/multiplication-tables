@@ -1,5 +1,6 @@
 import { Paper, Stack, Text, Title } from "@mantine/core";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type SessionSummaryProps = {
   correctAnswerCount: number;
@@ -10,19 +11,27 @@ const SessionSummary: FC<SessionSummaryProps> = ({
   correctAnswerCount,
   totalQuestionCount = 10,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Paper radius="xl" p="xl" bg="teal.0" withBorder>
       <Stack gap="md" align="center">
         <Text size="sm" tt="uppercase" fw={700} c="teal.8">
-          Session summary
+          {t("practiceSession.sessionSummary.title")}
         </Text>
-        <Title order={2}>Practice session complete</Title>
+        <Title order={2}>
+          {t("practiceSession.sessionSummary.completedTitle")}
+        </Title>
         <Text size="xl" fw={700} c="teal.8">
-          {correctAnswerCount} correct answers
+          {t("practiceSession.sessionSummary.correctAnswers", {
+            correctAnswerCount,
+          })}
         </Text>
         <Text c="dimmed" ta="center">
-          Great work. You answered {correctAnswerCount} out of{" "}
-          {totalQuestionCount} questions correctly.
+          {t("practiceSession.sessionSummary.description", {
+            correctAnswerCount,
+            totalQuestionCount,
+          })}
         </Text>
       </Stack>
     </Paper>

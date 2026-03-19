@@ -1,5 +1,6 @@
 import { Badge, Button, Card, Stack, Text, Title } from "@mantine/core";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type MultiplicationTableCardProps = {
   table: {
@@ -17,15 +18,18 @@ const MultiplicationTableCard: FC<MultiplicationTableCardProps> = ({
   table,
   onSelect,
 }) => {
-  const statusLabel = table.unlockState.unlocked ? "Available" : "Locked";
+  const { t } = useTranslation();
+  const statusLabel = table.unlockState.unlocked
+    ? t("tableCard.available")
+    : t("tableCard.locked");
   const statusColor = table.unlockState.unlocked ? "teal" : "gray";
   const description = table.unlockState.unlocked
-    ? "Ready to practice"
-    : "Unlock this table next";
+    ? t("tableCard.readyToPractice")
+    : t("tableCard.unlockNext");
   const cardBackground = table.unlockState.unlocked ? "teal.0" : "gray.0";
   const actionLabel = table.unlockState.unlocked
-    ? "Start practice"
-    : "Locked for now";
+    ? t("tableCard.startPractice")
+    : t("tableCard.lockedForNow");
   const actionVariant = table.unlockState.unlocked ? "filled" : "default";
   const actionColor = table.unlockState.unlocked ? "teal" : undefined;
   const actionDisabled = !table.unlockState.unlocked;
@@ -44,8 +48,9 @@ const MultiplicationTableCard: FC<MultiplicationTableCardProps> = ({
           {!table.unlockState.unlocked &&
             table.unlockState.rewardsNeeded > 0 && (
               <Text c="dimmed" size="xs" fs="italic">
-                You need {table.unlockState.rewardsNeeded} more rewards to
-                unlock this table
+                {t("tableCard.rewardsNeededMessage", {
+                  rewardsNeeded: table.unlockState.rewardsNeeded,
+                })}
               </Text>
             )}
         </Stack>

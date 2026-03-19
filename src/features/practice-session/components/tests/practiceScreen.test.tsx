@@ -1,5 +1,6 @@
 import { screen } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
+import i18n from "../../../../shared/i18n";
 import renderWithRouter from "../../../../shared/testing/renderWithRouter.tsx";
 import PracticeScreen from "../practiceScreen.tsx";
 import { practiceScreenPage } from "./practiceScreenPage.tsx";
@@ -175,4 +176,16 @@ test("GIVEN I return to the start screen, WHEN I select the same available table
   await user.click(screen.getByRole("button", { name: /start practice/i }));
 
   expect(screen.getByRole("button", { name: /start practice/i })).toBeVisible();
+});
+
+test("GIVEN Dutch is the active language, WHEN the practice screen is shown before the session is complete, THEN the header shows the Dutch default description", async () => {
+  await i18n.changeLanguage("nl");
+
+  renderPracticeScreen();
+
+  expect(
+    screen.getByText(
+      "Los elke vraag een voor een op. Ga door tot alle 10 klaar zijn.",
+    ),
+  ).toBeVisible();
 });

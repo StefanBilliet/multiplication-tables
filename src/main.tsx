@@ -6,6 +6,7 @@ import "@mantine/core/styles.css";
 import App from "./app/app";
 import { AppProviders } from "./app/providers/appProviders";
 import { registerServiceWorker } from "./pwa/registerServiceWorker";
+import "./shared/i18n";
 
 registerServiceWorker();
 
