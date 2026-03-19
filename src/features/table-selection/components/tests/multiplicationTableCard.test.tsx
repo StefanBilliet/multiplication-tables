@@ -4,11 +4,14 @@ import renderComponent from "../../../../shared/testing/renderComponent";
 import MultiplicationTableCard from "../multiplicationTableCard";
 
 describe("MultiplicationTableCard", () => {
-  test("GIVEN a locked table with rewards needed, WHEN rendered, THEN it displays the rewards needed message", () => {
+  test("GIVEN a locked table view model, WHEN rendered, THEN it displays the rewards needed message", () => {
     renderComponent(
       <MultiplicationTableCard
-        table={{ id: 4, label: "4 times table", unlocked: false }}
-        lifetimeRewardTotal={2}
+        table={{
+          id: 4,
+          label: "4 times table",
+          unlockState: { unlocked: false, rewardsNeeded: 5 },
+        }}
         onSelect={() => {}}
       />,
     );
@@ -18,11 +21,14 @@ describe("MultiplicationTableCard", () => {
     ).toBeVisible();
   });
 
-  test("GIVEN a locked table with 14 rewards needed, WHEN rendered, THEN it displays the correct message", () => {
+  test("GIVEN a locked table view model with 14 rewards needed, WHEN rendered, THEN it displays the correct message", () => {
     renderComponent(
       <MultiplicationTableCard
-        table={{ id: 6, label: "6 times table", unlocked: false }}
-        lifetimeRewardTotal={2}
+        table={{
+          id: 6,
+          label: "6 times table",
+          unlockState: { unlocked: false, rewardsNeeded: 14 },
+        }}
         onSelect={() => {}}
       />,
     );
@@ -32,11 +38,14 @@ describe("MultiplicationTableCard", () => {
     ).toBeVisible();
   });
 
-  test("GIVEN an unlocked table, WHEN rendered, THEN it does not display a rewards message", () => {
+  test("GIVEN an unlocked table view model, WHEN rendered, THEN it does not display a rewards message", () => {
     renderComponent(
       <MultiplicationTableCard
-        table={{ id: 4, label: "4 times table", unlocked: true }}
-        lifetimeRewardTotal={7}
+        table={{
+          id: 4,
+          label: "4 times table",
+          unlockState: { unlocked: true, rewardsNeeded: 0 },
+        }}
         onSelect={() => {}}
       />,
     );

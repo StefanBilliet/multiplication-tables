@@ -24,8 +24,10 @@ const TableSelection: FC = () => {
     return {
       id,
       label: `${id} times table`,
-      rewardsNeeded,
-      unlocked: rewardsNeeded === 0,
+      unlockState: {
+        rewardsNeeded,
+        unlocked: rewardsNeeded === 0,
+      },
     };
   });
 
@@ -54,7 +56,6 @@ const TableSelection: FC = () => {
             {tables.map((table) => (
               <MultiplicationTableCard
                 key={table.id}
-                lifetimeRewardTotal={lifetimeRewardTotal}
                 table={table}
                 onSelect={handleTableSelected}
               />

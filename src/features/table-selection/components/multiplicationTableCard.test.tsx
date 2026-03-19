@@ -6,9 +6,12 @@ test("GIVEN a table is available, WHEN the card is clicked, THEN the available s
   const onSelect = vi.fn();
   const sut = (
     <MultiplicationTableCard
-      lifetimeRewardTotal={4}
       onSelect={onSelect}
-      table={{ id: 3, label: "3 times table", unlocked: true }}
+      table={{
+        id: 3,
+        label: "3 times table",
+        unlockState: { unlocked: true, rewardsNeeded: 0 },
+      }}
     />
   );
   const { user } = renderComponent(sut);
@@ -26,8 +29,11 @@ test("GIVEN a table is locked, WHEN the card is clicked, THEN the locked state i
   const onSelect = vi.fn();
   const sut = (
     <MultiplicationTableCard
-      lifetimeRewardTotal={4}
-      table={{ id: 4, label: "4 times table", unlocked: false }}
+      table={{
+        id: 4,
+        label: "4 times table",
+        unlockState: { unlocked: false, rewardsNeeded: 3 },
+      }}
       onSelect={onSelect}
     />
   );

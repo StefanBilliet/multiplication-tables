@@ -6,7 +6,6 @@ const meta = {
   title: "Practice/MultiplicationTableCard",
   component: MultiplicationTableCard,
   args: {
-    lifetimeRewardTotal: 0,
     onSelect: () => {},
   },
   decorators: [
@@ -24,14 +23,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Available: Story = {
   args: {
-    lifetimeRewardTotal: 4,
-    table: { id: 3, label: "3 times table", unlocked: true },
+    table: {
+      id: 3,
+      label: "3 times table",
+      unlockState: { unlocked: true, rewardsNeeded: 0 },
+    },
   },
 };
 
 export const Locked: Story = {
   args: {
-    lifetimeRewardTotal: 4,
-    table: { id: 4, label: "4 times table", unlocked: false },
+    table: {
+      id: 4,
+      label: "4 times table",
+      unlockState: { unlocked: false, rewardsNeeded: 3 },
+    },
   },
 };

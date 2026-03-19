@@ -24,7 +24,7 @@ test("GIVEN 46 lifetime rewards, WHEN the table selection is rendered, THEN all 
   ).toHaveLength(10);
 });
 
-test("GIVEN 4 lifetime rewards, WHEN the table selection is rendered, THEN table 5 is locked and shows the remaining rewards needed", () => {
+test("GIVEN 4 lifetime rewards, WHEN the table selection is rendered, THEN the first three tables are available", () => {
   useLifetimeRewardTotalMock.mockReturnValue({
     addReward: vi.fn(),
     lifetimeRewardTotal: 4,
@@ -35,25 +35,8 @@ test("GIVEN 4 lifetime rewards, WHEN the table selection is rendered, THEN table
   expect(
     screen.getAllByRole("button", { name: "Start practice" }),
   ).toHaveLength(3);
-  expect(screen.getByRole("heading", { name: "5 times table" })).toBeVisible();
-  expect(
-    screen.getByText("You need 7 more rewards to unlock this table"),
-  ).toBeVisible();
-});
-
-test("GIVEN 6 lifetime rewards, WHEN the table selection is rendered, THEN table 4 is locked and shows 1 more reward needed", () => {
-  useLifetimeRewardTotalMock.mockReturnValue({
-    addReward: vi.fn(),
-    lifetimeRewardTotal: 6,
-  });
-
-  renderWithRouter(<TableSelection />);
-
-  expect(
-    screen.getAllByRole("button", { name: "Start practice" }),
-  ).toHaveLength(3);
   expect(screen.getByRole("heading", { name: "4 times table" })).toBeVisible();
   expect(
-    screen.getByText("You need 1 more rewards to unlock this table"),
-  ).toBeVisible();
+    screen.getAllByRole("button", { name: "Locked for now" }),
+  ).toHaveLength(7);
 });

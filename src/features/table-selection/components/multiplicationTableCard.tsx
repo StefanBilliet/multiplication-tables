@@ -1,33 +1,34 @@
 import { Badge, Button, Card, Stack, Text, Title } from "@mantine/core";
 import type { FC } from "react";
-import { calculateRewardsNeeded } from "./calculateRewardsNeeded";
 
 type MultiplicationTableCardProps = {
   table: {
     id: number;
     label: string;
-    unlocked: boolean;
+    unlockState: {
+      unlocked: boolean;
+      rewardsNeeded: number;
+    };
   };
-  lifetimeRewardTotal: number;
   onSelect: (tableId: number) => void;
 };
 
 const MultiplicationTableCard: FC<MultiplicationTableCardProps> = ({
   table,
-  lifetimeRewardTotal,
   onSelect,
 }) => {
-  const statusLabel = table.unlocked ? "Available" : "Locked";
-  const statusColor = table.unlocked ? "teal" : "gray";
-  const rewardsNeeded = calculateRewardsNeeded(lifetimeRewardTotal, table.id);
-  const description = table.unlocked
+  const statusLabel = table.unlockState.unlocked ? "Available" : "Locked";
+  const statusColor = table.unlockState.unlocked ? "teal" : "gray";
+  const description = table.unlockState.unlocked
     ? "Ready to practice"
     : "Unlock this table next";
-  const cardBackground = table.unlocked ? "teal.0" : "gray.0";
-  const actionLabel = table.unlocked ? "Start practice" : "Locked for now";
-  const actionVariant = table.unlocked ? "filled" : "default";
-  const actionColor = table.unlocked ? "teal" : undefined;
-  const actionDisabled = !table.unlocked;
+  const cardBackground = table.unlockState.unlocked ? "teal.0" : "gray.0";
+  const actionLabel = table.unlockState.unlocked
+    ? "Start practice"
+    : "Locked for now";
+  const actionVariant = table.unlockState.unlocked ? "filled" : "default";
+  const actionColor = table.unlockState.unlocked ? "teal" : undefined;
+  const actionDisabled = !table.unlockState.unlocked;
 
   return (
     <Card radius="lg" padding="lg" withBorder bg={cardBackground}>
@@ -40,11 +41,13 @@ const MultiplicationTableCard: FC<MultiplicationTableCardProps> = ({
           <Text c="dimmed" size="sm">
             {description}
           </Text>
-          {!table.unlocked && rewardsNeeded > 0 && (
-            <Text c="dimmed" size="xs" fs="italic">
-              You need {rewardsNeeded} more rewards to unlock this table
-            </Text>
-          )}
+          {!table.unlockState.unlocked &&
+            table.unlockState.rewardsNeeded > 0 && (
+              <Text c="dimmed" size="xs" fs="italic">
+                You need {table.unlockState.rewardsNeeded} more rewards to
+                unlock this table
+              </Text>
+            )}
         </Stack>
 
         <Button
