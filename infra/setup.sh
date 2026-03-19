@@ -83,7 +83,7 @@ if [[ -n "$rg_exists" && "$rg_exists" != "None" ]]; then
     --name "$deployment_name" \
     --resource-group "$rg_name" \
     --template-file "$INFRA_DIR/staticwebapp.bicep" \
-    --parameters staticWebAppName="$app_name" repositoryUrl="$repo_url" branch="$branch" \
+    --parameters staticWebAppName="$app_name" \
     --query "properties.outputs.staticWebAppName.value" -o tsv | tr -d '\n'
 else
   info "Creating resource group and deploying..."

@@ -63,10 +63,9 @@ jobs:
         uses: azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'
-          app_location: '/'
-          output_location: 'dist'
+          app_location: 'dist'
+          skip_app_build: true
 
       - name: Copy staticwebapp.config.json
         run: az staticwebapp appsettings set --name multiplication-tables --setting-file infra/staticwebapp.config.json

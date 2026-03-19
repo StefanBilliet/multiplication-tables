@@ -9,12 +9,6 @@ param staticWebAppName string
 @description('Name of the resource group to create')
 param resourceGroupName string = 'rg-${staticWebAppName}'
 
-@description('Full GitHub repository URL')
-param repositoryUrl string = 'https://github.com/stefanbilliet/multiplication-tables'
-
-@description('GitHub branch to deploy from')
-param branch string = 'main'
-
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: resourceGroupName
   location: location
@@ -25,8 +19,6 @@ module staticWebApp 'staticwebapp.bicep' = {
   scope: resourceGroup
   params: {
     staticWebAppName: staticWebAppName
-    repositoryUrl: repositoryUrl
-    branch: branch
   }
 }
 

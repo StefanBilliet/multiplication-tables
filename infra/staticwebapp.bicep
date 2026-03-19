@@ -3,24 +3,11 @@ targetScope = 'resourceGroup'
 @description('Name of the Static Web App')
 param staticWebAppName string
 
-@description('Full GitHub repository URL')
-param repositoryUrl string
-
-@description('GitHub branch to deploy from')
-param branch string
-
 resource staticWebApp 'Microsoft.Web/staticSites@2023-12-01' = {
   name: staticWebAppName
   location: resourceGroup().location
   properties: {
-    repositoryUrl: repositoryUrl
-    branch: branch
-    buildProperties: {
-      appLocation: '/'
-      outputLocation: 'dist'
-      apiLocation: ''
-    }
-    provider: 'GitHub'
+    provider: 'None'
   }
   sku: {
     name: 'Free'
