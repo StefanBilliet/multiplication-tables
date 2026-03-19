@@ -1,4 +1,4 @@
-## User Story 8 - Use the app in Dutch or English
+## User Story 7 - Use the app in Dutch or English
 
 As a child using the app,  
 I want to use the app in Dutch or English,  

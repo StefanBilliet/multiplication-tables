@@ -1,4 +1,4 @@
-## User Story 9 - Remember the selected language
+## User Story 8 - Remember the selected language
 
 As a returning user,  
 I want the app to remember the language I selected,  
