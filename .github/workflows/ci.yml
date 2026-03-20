@@ -48,6 +48,12 @@ jobs:
       contents: read
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            infra
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
