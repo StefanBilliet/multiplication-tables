@@ -68,4 +68,4 @@ jobs:
           action: 'upload'
           app_location: 'dist'
           skip_app_build: true
-          config_file_location: 'infra/staticwebapp.config.json'
+          config_file_location: 'infra'
