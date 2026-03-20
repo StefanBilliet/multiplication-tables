@@ -77,13 +77,7 @@ Edit `infra/parameters.json` before running `setup.sh`:
 The federated credential subject doesn't match. Re-run `setup.sh` — it checks for existing credentials and skips them. Verify the GitHub repo/branch in `infra/parameters.json` matches.
 
 ### 404 on refresh after deploy
-Run the config command manually:
-
-```bash
-az staticwebapp appsettings set \
-  --name multiplication-tables \
-  --setting-file infra/staticwebapp.config.json
-```
+The `staticwebapp.config.json` is applied automatically by the GitHub Actions step (`config_file_location`). If you need to apply it manually, use the Azure Portal or re-run the workflow.
 
 ### Workflow succeeds but app is stale
 The `dist/` artifact in the workflow is fresh. Hard-refresh the browser or check the deployment timestamp in the Azure Portal.
