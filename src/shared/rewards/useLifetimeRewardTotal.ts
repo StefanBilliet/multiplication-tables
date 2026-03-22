@@ -1,25 +1,13 @@
-import { useEffect, useState } from "react";
-import LifetimeRewardStorage, {
-  type StorageLike,
-} from "./lifetimeRewardStorage";
+import { useStore } from "zustand";
+import { getLifetimeRewardStore } from "./lifetimeRewardStore";
 
-const useLifetimeRewardTotal = (
-  storage: StorageLike = globalThis.localStorage,
-) => {
-  const lifetimeRewardStorage = LifetimeRewardStorage(storage);
-  const [lifetimeRewardTotal, setLifetimeRewardTotal] = useState(() =>
-    lifetimeRewardStorage.load(),
+const useLifetimeRewardTotal = () => {
+  const lifetimeRewardStore = getLifetimeRewardStore();
+  const lifetimeRewardTotal = useStore(
+    lifetimeRewardStore,
+    (state) => state.lifetimeRewardTotal,
   );
-
-  useEffect(() => {
-    lifetimeRewardStorage.save(lifetimeRewardTotal);
-  }, [lifetimeRewardStorage, lifetimeRewardTotal]);
-
-  const addReward = () => {
-    setLifetimeRewardTotal(
-      (currentLifetimeRewardTotal) => currentLifetimeRewardTotal + 1,
-    );
-  };
+  const addReward = useStore(lifetimeRewardStore, (state) => state.addReward);
 
   return {
     addReward,
