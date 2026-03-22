@@ -1,3 +1,6 @@
+# TS-01
+Status: done
+
 ## Technical Spike - Investigate Mantine styling approach and reduce unnecessary inline styling in the DOM
 
 ### Purpose
@@ -14,7 +17,7 @@ Investigate how to avoid Mantine polluting the DOM with unnecessary inline styli
 
 ### Definition of Done
 
-- [ ] Audit complete: documented list of components with inline styles
-- [ ] Recommendations provided: which components should/shouldn't be migrated
-- [ ] Effort estimate created for full or partial migration
-- [ ] Findings documented and shared with the team
+- [x] Audit complete: documented list of components with inline styles
+- [x] Recommendations provided: which components should/shouldn't be migrated
+- [x] Effort estimate created for full or partial migration
+- [x] Findings documented and shared with the team
