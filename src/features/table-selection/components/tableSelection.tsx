@@ -11,8 +11,8 @@ import {
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import LanguageSwitcher from "../../../shared/i18n/languageSwitcher";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
-import LanguageSwitcher from "./languageSwitcher";
 import MultiplicationTableCard from "./multiplicationTableCard";
 import { useMultiplicationTables } from "./useMultiplicationTables.tsx";
 

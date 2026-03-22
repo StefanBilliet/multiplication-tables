@@ -11,13 +11,13 @@ const LanguageSwitcher: FC = () => {
         variant={i18n.resolvedLanguage === "nl" ? "filled" : "light"}
         onClick={() => i18n.changeLanguage("nl")}
       >
-        {t("tableSelection.switchToDutch")}
+        {t("languageSwitcher.switchToDutch")}
       </Button>
       <Button
         variant={i18n.resolvedLanguage === "en" ? "filled" : "light"}
         onClick={() => i18n.changeLanguage("en")}
       >
-        {t("tableSelection.switchToEnglish")}
+        {t("languageSwitcher.switchToEnglish")}
       </Button>
     </Group>
   );

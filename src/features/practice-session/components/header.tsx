@@ -1,7 +1,7 @@
 import { Group, Stack, Text, Title } from "@mantine/core";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "../../table-selection/components/languageSwitcher";
+import LanguageSwitcher from "../../../shared/i18n/languageSwitcher";
 
 type HeaderProps = {
   description?: string;
