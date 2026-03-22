@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import PracticeFlow, {
   type PracticeFlow as PracticeSession,
@@ -18,6 +18,14 @@ const usePracticeSession = (
     PracticeFlow.start(selectedTable),
   );
   const { addReward } = useLifetimeRewardTotal();
+  const shouldAddReward =
+    PracticeFlow.isComplete(session) && PracticeFlow.hasEarnedReward(session);
+
+  useEffect(() => {
+    if (shouldAddReward) {
+      addReward();
+    }
+  }, [addReward, shouldAddReward]);
 
   const selectAnswer = (answer: number) => {
     setSession((currentSession) =>
@@ -30,18 +38,9 @@ const usePracticeSession = (
   };
 
   const continueSession = () => {
-    setSession((currentSession) => {
-      const nextSession = PracticeFlow.continueSession(currentSession);
-
-      if (
-        PracticeFlow.isComplete(nextSession) &&
-        PracticeFlow.hasEarnedReward(nextSession)
-      ) {
-        addReward();
-      }
-
-      return nextSession;
-    });
+    setSession((currentSession) =>
+      PracticeFlow.continueSession(currentSession),
+    );
   };
 
   return {

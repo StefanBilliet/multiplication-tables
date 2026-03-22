@@ -1,4 +1,5 @@
 import { screen } from "@testing-library/react";
+import { act } from "react";
 import { Route, Routes } from "react-router-dom";
 import i18n from "../../../../shared/i18n";
 import renderWithRouter from "../../../../shared/testing/renderWithRouter.tsx";
@@ -179,7 +180,9 @@ test("GIVEN I return to the start screen, WHEN I select the same available table
 });
 
 test("GIVEN Dutch is the active language, WHEN the practice screen is shown before the session is complete, THEN the header shows the Dutch default description", async () => {
-  await i18n.changeLanguage("nl");
+  await act(async () => {
+    await i18n.changeLanguage("nl");
+  });
 
   renderPracticeScreen();
 
@@ -191,16 +194,19 @@ test("GIVEN Dutch is the active language, WHEN the practice screen is shown befo
 });
 
 test("GIVEN an active practice session in English, WHEN I switch the app language to Dutch, THEN the visible practice text updates without losing the current question", async () => {
-  await i18n.changeLanguage("en");
+  await act(async () => {
+    await i18n.changeLanguage("en");
+  });
 
   const page = renderPracticeScreen();
 
   await page.answerQuestion(3);
   await page.continuePractice();
   await page.selectAnswer(9);
-  await screen
-    .findByRole("button", { name: "Nederlands" })
-    .then((button) => button.click());
+  await act(async () => {
+    const button = await screen.findByRole("button", { name: "Nederlands" });
+    await button.click();
+  });
 
   expect(
     screen.getByRole("heading", { name: "Oefen de tafel van 3" }),
