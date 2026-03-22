@@ -1,38 +1,17 @@
-import {
-  Badge,
-  Card,
-  Center,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import {Badge, Card, Center, Group, SimpleGrid, Stack, Text, Title,} from "@mantine/core";
+import type {FC} from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
-import { calculateRewardsNeeded } from "./calculateRewardsNeeded";
 import LanguageSwitcher from "./languageSwitcher";
 import MultiplicationTableCard from "./multiplicationTableCard";
+import {useMultiplicationTables} from "./useMultiplicationTables.tsx";
 
 const TableSelection: FC = () => {
   const navigate = useNavigate();
   const { lifetimeRewardTotal } = useLifetimeRewardTotal();
+  const tables = useMultiplicationTables(lifetimeRewardTotal);
   const { t } = useTranslation();
-  const tables = Array.from({ length: 10 }, (_, index) => {
-    const id = index + 1;
-    const rewardsNeeded = calculateRewardsNeeded(lifetimeRewardTotal, id);
-
-    return {
-      id,
-      label: t("tableSelection.tableLabel", { table: id }),
-      unlockState: {
-        rewardsNeeded,
-        unlocked: rewardsNeeded === 0,
-      },
-    };
-  });
 
   const handleTableSelected = (tableId: number) => {
     navigate(`/tables/${tableId}/practice`);
