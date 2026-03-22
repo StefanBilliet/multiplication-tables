@@ -1,43 +1,23 @@
 import { Card, Center, Stack } from "@mantine/core";
-import { type FC, useState } from "react";
+import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import PracticeFlow from "../models/practiceFlow";
 import ActiveSessionMode from "./activeSessionMode";
 import Header from "./header";
 import SummaryMode from "./summaryMode";
+import usePracticeSession from "./usePracticeSession";
 
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
   const { t } = useTranslation();
   const selectedTable = Number(tableId);
-  const [session, setSession] = useState(() =>
-    PracticeFlow.start(selectedTable),
-  );
-  const { addReward } = useLifetimeRewardTotal();
-  const handleSelectAnswer = (answer: number) => {
-    setSession((currentSession) =>
-      PracticeFlow.selectAnswer(currentSession, answer),
-    );
-  };
-
-  const handleCheckAnswer = () => {
-    setSession((currentSession) => PracticeFlow.checkAnswer(currentSession));
-  };
-
-  const handleContinue = () => {
-    const nextSession = PracticeFlow.continueSession(session);
-
-    if (
-      PracticeFlow.isComplete(nextSession) &&
-      PracticeFlow.hasEarnedReward(nextSession)
-    ) {
-      addReward();
-    }
-
-    setSession(nextSession);
-  };
+  const {
+    session,
+    selectAnswer: handleSelectAnswer,
+    checkAnswer: handleCheckAnswer,
+    continueSession: handleContinue,
+  } = usePracticeSession(selectedTable);
 
   return (
     <Center mih="100vh" p={{ base: "md", sm: "xl" }}>

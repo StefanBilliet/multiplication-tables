@@ -4,7 +4,7 @@ import { getRewardsNeededForTable } from "../tableRewards.ts";
 export function useMultiplicationTables(lifetimeRewardTotal: number) {
   const { t } = useTranslation();
 
-  const tables = Array.from({ length: 10 }, (_, index) => {
+  return Array.from({ length: 10 }, (_, index) => {
     const id = index + 1;
     const rewardsNeeded = getRewardsNeededForTable(lifetimeRewardTotal, id);
 
@@ -17,5 +17,4 @@ export function useMultiplicationTables(lifetimeRewardTotal: number) {
       },
     };
   });
-  return tables;
 }
