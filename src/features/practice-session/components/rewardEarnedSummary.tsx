@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import Celebration from "./celebration";
 import SessionSummary from "./sessionSummary";
 
 type RewardEarnedSummaryProps = {
@@ -23,30 +24,35 @@ const RewardEarnedSummary: FC<RewardEarnedSummaryProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Stack gap="xl">
-      <Paper radius="xl" p="lg" bg="yellow.1" withBorder>
-        <Group align="center" justify="space-between" gap="md">
-          <Group align="center" wrap="nowrap">
-            <ThemeIcon size="xl" radius="xl" color="yellow">
-              <Text fw={700}>+1</Text>
-            </ThemeIcon>
-            <Stack gap={2}>
-              <Title order={3}>{t("practiceSession.rewardEarned.title")}</Title>
-              <Text c="dimmed">
-                {t("practiceSession.rewardEarned.description")}
-              </Text>
-            </Stack>
+    <>
+      <Celebration />
+      <Stack gap="xl">
+        <Paper radius="xl" p="lg" bg="yellow.1" withBorder>
+          <Group align="center" justify="space-between" gap="md">
+            <Group align="center" wrap="nowrap">
+              <ThemeIcon size="xl" radius="xl" color="yellow">
+                <Text fw={700}>+1</Text>
+              </ThemeIcon>
+              <Stack gap={2}>
+                <Title order={3}>
+                  {t("practiceSession.rewardEarned.title")}
+                </Title>
+                <Text c="dimmed">
+                  {t("practiceSession.rewardEarned.description")}
+                </Text>
+              </Stack>
+            </Group>
+            <Badge variant="filled" color="teal" size="lg" radius="xl">
+              {t("practiceSession.rewardEarned.totalRewards", {
+                lifetimeRewardTotal,
+              })}
+            </Badge>
           </Group>
-          <Badge variant="filled" color="teal" size="lg" radius="xl">
-            {t("practiceSession.rewardEarned.totalRewards", {
-              lifetimeRewardTotal,
-            })}
-          </Badge>
-        </Group>
-      </Paper>
+        </Paper>
 
-      <SessionSummary correctAnswerCount={correctAnswerCount} />
-    </Stack>
+        <SessionSummary correctAnswerCount={correctAnswerCount} />
+      </Stack>
+    </>
   );
 };
 
