@@ -1,11 +1,20 @@
-import {Badge, Card, Center, Group, SimpleGrid, Stack, Text, Title,} from "@mantine/core";
-import type {FC} from "react";
-import {useTranslation} from "react-i18next";
-import {useNavigate} from "react-router-dom";
+import {
+  Badge,
+  Card,
+  Center,
+  Group,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
+import type { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import LanguageSwitcher from "./languageSwitcher";
 import MultiplicationTableCard from "./multiplicationTableCard";
-import {useMultiplicationTables} from "./useMultiplicationTables.tsx";
+import { useMultiplicationTables } from "./useMultiplicationTables.tsx";
 
 const TableSelection: FC = () => {
   const navigate = useNavigate();

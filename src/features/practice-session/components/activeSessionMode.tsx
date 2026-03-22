@@ -1,12 +1,12 @@
 import { Group, Stack } from "@mantine/core";
 import type { FC } from "react";
 import type { PracticeFlow as PracticeFlowType } from "../models/practiceFlow";
-import PracticeFlow from "../models/practiceFlow";
 import AnswerPad from "./answerPad";
 import BackToTablesButton from "./backToTablesButton";
 import CheckAnswerButton from "./checkAnswerButton";
 import ContinueButton from "./continueButton";
 import CurrentQuestionPrompt from "./currentQuestionPrompt";
+import useActiveSessionViewModel from "./useActiveSessionViewModel";
 
 type ActiveSessionModeProps = {
   session: PracticeFlowType;
@@ -23,30 +23,22 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
   onContinue,
   onSelectAnswer,
 }) => {
-  const answerOptions = PracticeFlow.getAnswerOptions(session);
-  const feedbackAnimation = PracticeFlow.feedbackAnimation(session);
-  const hasCorrectFeedback = PracticeFlow.hasCorrectFeedback(session);
-  const selectedAnswer = PracticeFlow.selectedAnswer(session);
-  const feedbackState = PracticeFlow.feedbackState(session);
+  const viewModel = useActiveSessionViewModel(session);
 
   return (
     <>
       <CurrentQuestionPrompt
-        multiplier={
-          session.kind === "currentQuestion"
-            ? session.currentQuestion.multiplier
-            : 1
-        }
+        multiplier={viewModel.multiplier}
         table={selectedTable}
       />
 
       <Stack gap="md">
         <AnswerPad
-          answerOptions={answerOptions}
-          feedbackAnimation={feedbackAnimation}
-          feedbackState={feedbackState}
-          hasCorrectFeedback={hasCorrectFeedback}
-          selectedAnswer={selectedAnswer}
+          answerOptions={viewModel.answerOptions}
+          feedbackAnimation={viewModel.feedbackAnimation}
+          feedbackState={viewModel.feedbackState}
+          hasCorrectFeedback={viewModel.hasCorrectFeedback}
+          selectedAnswer={viewModel.selectedAnswer}
           onSelectAnswer={onSelectAnswer}
         />
       </Stack>
@@ -54,11 +46,11 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
       <Group justify="space-between">
         <BackToTablesButton />
 
-        {hasCorrectFeedback ? (
+        {viewModel.hasCorrectFeedback ? (
           <ContinueButton onClick={onContinue} />
         ) : (
           <CheckAnswerButton
-            disabled={!PracticeFlow.canCheck(session)}
+            disabled={!viewModel.canCheck}
             onClick={onCheckAnswer}
           />
         )}
