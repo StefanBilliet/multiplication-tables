@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LifetimeRewardStorage, {
   type StorageLike,
 } from "./lifetimeRewardStorage";
@@ -11,14 +11,14 @@ const useLifetimeRewardTotal = (
     lifetimeRewardStorage.load(),
   );
 
+  useEffect(() => {
+    lifetimeRewardStorage.save(lifetimeRewardTotal);
+  }, [lifetimeRewardStorage, lifetimeRewardTotal]);
+
   const addReward = () => {
-    setLifetimeRewardTotal((currentLifetimeRewardTotal) => {
-      const updatedLifetimeRewardTotal = currentLifetimeRewardTotal + 1;
-
-      lifetimeRewardStorage.save(updatedLifetimeRewardTotal);
-
-      return updatedLifetimeRewardTotal;
-    });
+    setLifetimeRewardTotal(
+      (currentLifetimeRewardTotal) => currentLifetimeRewardTotal + 1,
+    );
   };
 
   return {
