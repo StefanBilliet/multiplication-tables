@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import LanguageSwitcher from "../../../shared/i18n/languageSwitcher";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import MultiplicationTableCard from "./multiplicationTableCard";
+import classes from "./tableSelection.module.css";
 import { useMultiplicationTables } from "./useMultiplicationTables.tsx";
 
 const TableSelection: FC = () => {
@@ -27,31 +28,29 @@ const TableSelection: FC = () => {
   };
 
   return (
-    <Center mih="100vh" p={{ base: "md", sm: "xl" }}>
-      <Card w="100%" maw={720} variant="shell">
-        <Stack gap="lg">
-          <Group justify="space-between" align="flex-start">
-            <Stack gap={8}>
-              <Badge variant="light" color="teal" w="fit-content">
-                {t("tableSelection.startScreenBadge")}
-              </Badge>
-              <Title order={1}>{t("tableSelection.title")}</Title>
-              <Text maw={560}>{t("tableSelection.description")}</Text>
-            </Stack>
+    <Center className={classes.page}>
+      <Card variant="shell" className={classes.pageCard}>
+        <Group component="header">
+          <Stack>
+            <Badge variant="light" color="teal">
+              {t("tableSelection.startScreenBadge")}
+            </Badge>
+            <Title order={1}>{t("tableSelection.title")}</Title>
+            <Text>{t("tableSelection.description")}</Text>
+          </Stack>
 
-            <LanguageSwitcher />
-          </Group>
+          <LanguageSwitcher />
+        </Group>
 
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
-            {tables.map((table) => (
-              <MultiplicationTableCard
-                key={table.id}
-                table={table}
-                onSelect={handleTableSelected}
-              />
-            ))}
-          </SimpleGrid>
-        </Stack>
+        <SimpleGrid component="section" cols={{ base: 1, sm: 2, md: 3 }}>
+          {tables.map((table) => (
+            <MultiplicationTableCard
+              key={table.id}
+              table={table}
+              onSelect={handleTableSelected}
+            />
+          ))}
+        </SimpleGrid>
       </Card>
     </Center>
   );

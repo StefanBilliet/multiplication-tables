@@ -1,0 +1,21 @@
+.content {
+  gap: var(--mantine-spacing-xl);
+}
+
+.rewardPanel {
+  padding: var(--mantine-spacing-lg);
+}
+
+.rewardPanel > section {
+  align-items: center;
+  gap: var(--mantine-spacing-md);
+  justify-content: space-between;
+}
+
+.rewardPanel > section > *:first-child {
+  align-items: center;
+}
+
+.rewardPanel > section > *:first-child > *:last-child {
+  gap: 0.125rem;
+}

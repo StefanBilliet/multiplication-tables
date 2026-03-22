@@ -1,6 +1,7 @@
 import { Group, Stack } from "@mantine/core";
 import type { FC } from "react";
 import type { PracticeFlow as PracticeFlowType } from "../models/practiceFlow";
+import classes from "./activeSessionMode.module.css";
 import AnswerPad from "./answerPad";
 import BackToTablesButton from "./backToTablesButton";
 import CheckAnswerButton from "./checkAnswerButton";
@@ -26,24 +27,22 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
   const viewModel = useActiveSessionViewModel(session);
 
   return (
-    <>
+    <Stack className={classes.content}>
       <CurrentQuestionPrompt
         multiplier={viewModel.multiplier}
         table={selectedTable}
       />
 
-      <Stack gap="md">
-        <AnswerPad
-          answerOptions={viewModel.answerOptions}
-          feedbackAnimation={viewModel.feedbackAnimation}
-          feedbackState={viewModel.feedbackState}
-          hasCorrectFeedback={viewModel.hasCorrectFeedback}
-          selectedAnswer={viewModel.selectedAnswer}
-          onSelectAnswer={onSelectAnswer}
-        />
-      </Stack>
+      <AnswerPad
+        answerOptions={viewModel.answerOptions}
+        feedbackAnimation={viewModel.feedbackAnimation}
+        feedbackState={viewModel.feedbackState}
+        hasCorrectFeedback={viewModel.hasCorrectFeedback}
+        selectedAnswer={viewModel.selectedAnswer}
+        onSelectAnswer={onSelectAnswer}
+      />
 
-      <Group justify="space-between">
+      <Group component="footer" className={classes.footerActions}>
         <BackToTablesButton />
 
         {viewModel.hasCorrectFeedback ? (
@@ -55,7 +54,7 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
           />
         )}
       </Group>
-    </>
+    </Stack>
   );
 };
 

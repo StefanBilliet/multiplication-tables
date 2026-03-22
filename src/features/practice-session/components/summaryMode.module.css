@@ -1,0 +1,7 @@
+.content {
+  gap: var(--mantine-spacing-xl);
+}
+
+.content > footer {
+  justify-content: space-between;
+}

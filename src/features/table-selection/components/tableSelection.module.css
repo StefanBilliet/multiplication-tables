@@ -1,0 +1,33 @@
+.page {
+  min-height: 100dvh;
+  padding: var(--mantine-spacing-md);
+}
+
+.pageCard {
+  display: grid;
+  gap: var(--mantine-spacing-lg);
+  width: min(100%, 45rem);
+}
+
+.pageCard > header {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mantine-spacing-md);
+  justify-content: space-between;
+}
+
+.pageCard > header > *:first-child {
+  gap: var(--mantine-spacing-xs);
+  max-width: 35rem;
+}
+
+.pageCard > section {
+  gap: var(--mantine-spacing-md);
+}
+
+@media (min-width: 48em) {
+  .page {
+    padding: var(--mantine-spacing-xl);
+  }
+}

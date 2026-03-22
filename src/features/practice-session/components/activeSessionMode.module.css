@@ -1,0 +1,9 @@
+.content {
+  gap: var(--mantine-spacing-md);
+}
+
+.footerActions {
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 100%;
+}

@@ -1,0 +1,12 @@
+.header {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mantine-spacing-md);
+  justify-content: space-between;
+}
+
+.header > *:first-child {
+  gap: var(--mantine-spacing-xs);
+  max-width: 32.5rem;
+}

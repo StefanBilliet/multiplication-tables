@@ -10,6 +10,7 @@ import {
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import Celebration from "./celebration";
+import classes from "./rewardEarnedSummary.module.css";
 import SessionSummary from "./sessionSummary";
 
 type RewardEarnedSummaryProps = {
@@ -26,14 +27,19 @@ const RewardEarnedSummary: FC<RewardEarnedSummaryProps> = ({
   return (
     <>
       <Celebration />
-      <Stack gap="xl">
-        <Paper radius="xl" p="lg" bg="yellow.1" withBorder>
-          <Group align="center" justify="space-between" gap="md">
-            <Group align="center" wrap="nowrap">
+      <Stack className={classes.content}>
+        <Paper
+          radius="xl"
+          bg="yellow.1"
+          withBorder
+          className={classes.rewardPanel}
+        >
+          <Group component="section">
+            <Group wrap="nowrap">
               <ThemeIcon size="xl" radius="xl" color="yellow">
                 <Text fw={700}>+1</Text>
               </ThemeIcon>
-              <Stack gap={2}>
+              <Stack>
                 <Title order={3}>
                   {t("practiceSession.rewardEarned.title")}
                 </Title>

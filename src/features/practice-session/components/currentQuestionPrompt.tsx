@@ -1,6 +1,7 @@
 import { Paper, Stack, Text, Title } from "@mantine/core";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
+import classes from "./currentQuestionPrompt.module.css";
 
 type CurrentQuestionPromptProps = {
   multiplier: number;
@@ -14,8 +15,8 @@ const CurrentQuestionPrompt: FC<CurrentQuestionPromptProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Paper radius="xl" p="xl" bg="teal.0" withBorder>
-      <Stack gap="md" align="center">
+    <Paper radius="xl" bg="teal.0" withBorder className={classes.panel}>
+      <Stack>
         <Text size="sm" tt="uppercase" fw={700} c="teal.8">
           {t("practiceSession.questionPrompt.title")}
         </Text>
