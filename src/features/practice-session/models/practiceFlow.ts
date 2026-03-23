@@ -1,31 +1,11 @@
-import { shuffleAnswerOptions } from "../utils/practiceFlowUtils";
-
-type CurrentQuestion = {
-  answerOptions: number[];
-  canCheckAnswer: boolean;
-  canContinue: boolean;
-  feedbackState: "correct" | "incorrect" | null;
-  hasRetriedCurrentQuestion: boolean;
-  multiplier: number;
-  selectedAnswer: number | null;
-  table: number;
-};
-
-type SessionComplete = {
-  kind: "sessionComplete";
-  firstTryCorrectAnswerCount: number;
-  hasEarnedReward: boolean;
-};
+import { answerOptions } from "./answerOptions.ts";
+import { correctAnswerResult } from "./correctAnswerResult.ts";
+import { incorrectAnswerResult } from "./incorrectAnswerResult.ts";
+import type { CurrentQuestionState, SessionComplete } from "./types.ts";
 
 type PracticeFlow = CurrentQuestionState | SessionComplete;
 
 export type { PracticeFlow };
-
-export type CurrentQuestionState = {
-  kind: "currentQuestion";
-  currentQuestion: CurrentQuestion;
-  firstTryCorrectAnswerCount: number;
-};
 
 const REWARD_ELIGIBILITY_THRESHOLD = 7;
 
@@ -34,7 +14,7 @@ const PracticeFlow = {
     return {
       kind: "currentQuestion",
       currentQuestion: {
-        answerOptions: this.answerOptions(table, 1),
+        answerOptions: answerOptions(table, 1),
         canCheckAnswer: false,
         canContinue: false,
         feedbackState: null,
@@ -44,6 +24,7 @@ const PracticeFlow = {
         table,
       },
       firstTryCorrectAnswerCount: 0,
+      multiplicationErrors: [],
     };
   },
 
@@ -70,24 +51,11 @@ const PracticeFlow = {
       flow.currentQuestion.multiplier * flow.currentQuestion.table;
     const isCorrect = flow.currentQuestion.selectedAnswer === correctAnswer;
 
-    const earnedFirstTryPoint =
-      isCorrect && !flow.currentQuestion.hasRetriedCurrentQuestion;
+    if (!isCorrect) {
+      return incorrectAnswerResult(flow);
+    }
 
-    return {
-      ...flow,
-      currentQuestion: {
-        ...flow.currentQuestion,
-        canCheckAnswer: false,
-        canContinue: isCorrect,
-        feedbackState: isCorrect ? "correct" : "incorrect",
-        selectedAnswer: isCorrect ? flow.currentQuestion.selectedAnswer : null,
-        hasRetriedCurrentQuestion:
-          !isCorrect || flow.currentQuestion.hasRetriedCurrentQuestion,
-      },
-      firstTryCorrectAnswerCount: earnedFirstTryPoint
-        ? flow.firstTryCorrectAnswerCount + 1
-        : flow.firstTryCorrectAnswerCount,
-    };
+    return correctAnswerResult(flow);
   },
 
   nextQuestion(flow: PracticeFlow): PracticeFlow {
@@ -105,21 +73,12 @@ const PracticeFlow = {
         hasRetriedCurrentQuestion: false,
         multiplier: nextMultiplier,
         selectedAnswer: null,
-        answerOptions: this.answerOptions(
+        answerOptions: answerOptions(
           flow.currentQuestion.table,
           nextMultiplier,
         ),
       },
     };
-  },
-
-  answerOptions(table: number, multiplier: number): number[] {
-    const answerOptions = Array.from(
-      { length: 10 },
-      (_, index) => table * (index + 1),
-    );
-
-    return shuffleAnswerOptions(answerOptions, table * 100 + multiplier);
   },
 
   getAnswerOptions(flow: PracticeFlow): number[] {
@@ -136,6 +95,7 @@ const PracticeFlow = {
         firstTryCorrectAnswerCount: flow.firstTryCorrectAnswerCount,
         hasEarnedReward:
           flow.firstTryCorrectAnswerCount >= REWARD_ELIGIBILITY_THRESHOLD,
+        multiplicationErrors: flow.multiplicationErrors,
       };
     }
 

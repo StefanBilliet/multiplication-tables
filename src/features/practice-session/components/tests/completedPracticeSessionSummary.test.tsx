@@ -21,6 +21,7 @@ test("GIVEN a completed qualifying session, WHEN the completed summary is render
     kind: "sessionComplete",
     firstTryCorrectAnswerCount: 7,
     hasEarnedReward: true,
+    multiplicationErrors: [],
   };
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);
@@ -34,6 +35,7 @@ test("GIVEN a completed non-qualifying session, WHEN the completed summary is re
     kind: "sessionComplete",
     firstTryCorrectAnswerCount: 6,
     hasEarnedReward: false,
+    multiplicationErrors: [],
   };
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);
@@ -47,6 +49,7 @@ test("GIVEN a completed qualifying session, WHEN the completed summary is render
     kind: "sessionComplete",
     firstTryCorrectAnswerCount: 7,
     hasEarnedReward: true,
+    multiplicationErrors: [],
   };
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);
@@ -65,6 +68,7 @@ test("GIVEN a completed non-qualifying session, WHEN the completed summary is re
     kind: "sessionComplete",
     firstTryCorrectAnswerCount: 6,
     hasEarnedReward: false,
+    multiplicationErrors: [],
   };
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);

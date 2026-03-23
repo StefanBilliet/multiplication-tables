@@ -16,6 +16,7 @@ test("GIVEN a current question session, WHEN the hook is created, THEN it return
       table: 6,
     },
     firstTryCorrectAnswerCount: 2,
+    multiplicationErrors: [],
   };
 
   const { result } = renderHook(() => useActiveSessionViewModel(session));
@@ -36,6 +37,7 @@ test("GIVEN a completed session, WHEN the hook is created, THEN it returns fallb
     kind: "sessionComplete",
     firstTryCorrectAnswerCount: 8,
     hasEarnedReward: true,
+    multiplicationErrors: [],
   };
 
   const { result } = renderHook(() => useActiveSessionViewModel(session));

@@ -14,6 +14,7 @@ export const RewardEarned: StoryObj = {
       kind: "sessionComplete",
       firstTryCorrectAnswerCount: 8,
       hasEarnedReward: true,
+      multiplicationErrors: [],
     };
     return <CompletedPracticeSessionSummary session={session} />;
   },
@@ -25,6 +26,7 @@ export const NoRewardEarned: StoryObj = {
       kind: "sessionComplete",
       firstTryCorrectAnswerCount: 5,
       hasEarnedReward: false,
+      multiplicationErrors: [],
     };
     return <CompletedPracticeSessionSummary session={session} />;
   },

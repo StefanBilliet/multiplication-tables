@@ -1,4 +1,5 @@
-import PracticeFlow, { type CurrentQuestionState } from "./practiceFlow";
+import PracticeFlow from "../practiceFlow.ts";
+import type { CurrentQuestionState } from "../types.ts";
 
 function completeSession(
   startFlow: CurrentQuestionState,
@@ -37,6 +38,7 @@ test("GIVEN a table is started, WHEN the first practice flow state is created, T
       table: 3,
     },
     firstTryCorrectAnswerCount: 0,
+    multiplicationErrors: [],
   });
 });
 
@@ -64,6 +66,7 @@ test("GIVEN a current question is shown, WHEN a correct answer is selected and c
       table: 3,
     },
     firstTryCorrectAnswerCount: 1,
+    multiplicationErrors: [],
   });
 });
 
@@ -91,7 +94,22 @@ test("GIVEN a current question is shown, WHEN an incorrect answer is selected an
       table: 3,
     },
     firstTryCorrectAnswerCount: 0,
+    multiplicationErrors: [{ table: 3, multiplier: 1 }],
   });
+});
+
+test("GIVEN a current question is shown, WHEN an incorrect answer is selected and checked, THEN the flow tracks that multiplication error", () => {
+  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+
+  const flowWithSelectedAnswer = PracticeFlow.selectAnswer(
+    sut,
+    6,
+  ) as CurrentQuestionState;
+  const nextFlow = PracticeFlow.checkAnswer(
+    flowWithSelectedAnswer,
+  ) as CurrentQuestionState;
+
+  expect(nextFlow.multiplicationErrors).toEqual([{ table: 3, multiplier: 1 }]);
 });
 
 test("GIVEN a correct answer was checked, WHEN the user continues to the next question, THEN the next question is shown with multiplier 2", () => {
@@ -119,6 +137,7 @@ test("GIVEN a correct answer was checked, WHEN the user continues to the next qu
       table: 3,
     },
     firstTryCorrectAnswerCount: 1,
+    multiplicationErrors: [],
   });
 });
 
@@ -357,5 +376,9 @@ test.each([
     kind: "sessionComplete",
     firstTryCorrectAnswerCount: correctCount,
     hasEarnedReward,
+    multiplicationErrors: wrongMultipliers.map((multiplier) => ({
+      table: 3,
+      multiplier,
+    })),
   });
 });
