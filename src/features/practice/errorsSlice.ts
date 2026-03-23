@@ -11,16 +11,16 @@ export type ErrorsSlice = {
   clearMultiplicationErrors: () => void;
 };
 
-export const createErrorsSlice: StateCreator<ErrorsSlice> = () => ({
+export const createErrorsSlice: StateCreator<ErrorsSlice> = (set) => ({
   multiplicationErrors: [],
-  addMultiplicationError: () => {
-    // set((state) => ({
-    //   multiplicationErrors: [...state.multiplicationErrors, error],
-    // }));
+  addMultiplicationError: (error) => {
+    set((state) => ({
+      multiplicationErrors: [...state.multiplicationErrors, error],
+    }));
   },
   clearMultiplicationErrors: () => {
-    // set(() => ({
-    //   multiplicationErrors: [],
-    // }));
+    set(() => ({
+      multiplicationErrors: [],
+    }));
   },
 });

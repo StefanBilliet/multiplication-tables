@@ -1,3 +1,4 @@
+import { useStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
 import {
@@ -75,6 +76,9 @@ const createAppStore = () => {
 let appStore = createAppStore();
 
 export const getAppStore = () => appStore;
+
+export const useAppStore = <T>(selector: (state: AppState) => T) =>
+  useStore(appStore, selector);
 
 export const resetAppStore = () => {
   appStore = createAppStore();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
-import { getAppStore } from "../../../shared/store/appStore";
+import { useAppStore } from "../../../shared/store/appStore";
 import PracticeFlow, {
   type PracticeFlow as PracticeSession,
 } from "../models/practiceFlow";
@@ -19,6 +19,9 @@ const usePracticeSession = (
     PracticeFlow.start(selectedTable),
   );
   const { addReward } = useLifetimeRewardTotal();
+  const addMultiplicationError = useAppStore(
+    (state) => state.addMultiplicationError,
+  );
   const shouldAddReward =
     PracticeFlow.isComplete(session) && PracticeFlow.hasEarnedReward(session);
 
@@ -30,11 +33,11 @@ const usePracticeSession = (
 
   useEffect(() => {
     if (PracticeFlow.isComplete(session)) {
-      getAppStore().setState({
-        multiplicationErrors: session.multiplicationErrors,
+      session.multiplicationErrors.forEach((error) => {
+        addMultiplicationError(error);
       });
     }
-  }, [session]);
+  }, [addMultiplicationError, session]);
 
   const selectAnswer = (answer: number) => {
     setSession((currentSession) =>
