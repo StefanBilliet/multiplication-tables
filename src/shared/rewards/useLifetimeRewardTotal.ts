@@ -1,13 +1,13 @@
 import { useStore } from "zustand";
-import { getLifetimeRewardStore } from "./lifetimeRewardStore";
+import { getAppStore } from "../store/appStore";
 
 const useLifetimeRewardTotal = () => {
-  const lifetimeRewardStore = getLifetimeRewardStore();
+  const appStore = getAppStore();
   const lifetimeRewardTotal = useStore(
-    lifetimeRewardStore,
+    appStore,
     (state) => state.lifetimeRewardTotal,
   );
-  const addReward = useStore(lifetimeRewardStore, (state) => state.addReward);
+  const addReward = useStore(appStore, (state) => state.addReward);
 
   return {
     addReward,

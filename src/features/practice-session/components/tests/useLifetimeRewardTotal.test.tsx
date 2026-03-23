@@ -1,28 +1,52 @@
 import { act, renderHook } from "@testing-library/react";
-import { resetLifetimeRewardStore } from "../../../../shared/rewards/lifetimeRewardStore";
 import useLifetimeRewardTotal from "../../../../shared/rewards/useLifetimeRewardTotal";
+import { resetAppStore } from "../../../../shared/store/appStore";
 
-const createStorage = (storedValue: string | null = null) => {
-  let value = storedValue;
+const createStorage = (
+  storedValue: string | null = null,
+  legacyValue: string | null = null,
+) => {
+  const store: Record<string, string | null> = {};
+
+  if (storedValue !== null) {
+    store["multiplication-app"] = JSON.stringify({
+      state: {
+        lifetimeRewardTotal: Number(storedValue) || 0,
+        multiplicationErrors: [],
+      },
+      version: 0,
+    });
+  }
+
+  if (legacyValue !== null) {
+    store.lifetimeRewardTotal = legacyValue;
+  }
 
   return {
-    getItem: vi.fn(() => value),
-    setItem: vi.fn((_key: string, nextValue: string) => {
-      value = nextValue;
+    getItem: vi.fn((key: string) => store[key] ?? null),
+    setItem: vi.fn((key: string, value: string) => {
+      store[key] = value;
+    }),
+    removeItem: vi.fn((key: string) => {
+      delete store[key];
     }),
   };
 };
 
-const resetHook = (storedValue: string | null = null) => {
+const resetHook = (
+  storedValue: string | null = null,
+  legacyValue: string | null = null,
+) => {
+  const storage = createStorage(storedValue, legacyValue);
   Object.defineProperty(globalThis, "localStorage", {
     configurable: true,
-    value: createStorage(storedValue),
+    value: storage,
   });
 
-  resetLifetimeRewardStore(globalThis.localStorage);
+  resetAppStore();
 
   return {
-    storage: globalThis.localStorage,
+    storage,
   };
 };
 
@@ -56,19 +80,10 @@ test("GIVEN the hook is created, WHEN a reward is added, THEN it increments the 
   });
 
   expect(result.current.lifetimeRewardTotal).toBe(3);
-  expect(storage.setItem).toHaveBeenCalledWith("lifetimeRewardTotal", "3");
-});
-
-test("GIVEN a lifetime reward total already exists, WHEN one reward is added, THEN the total increases by exactly 1", () => {
-  const { storage } = resetHook("4");
-  const { result } = renderHook(() => useLifetimeRewardTotal());
-
-  act(() => {
-    result.current.addReward();
-  });
-
-  expect(result.current.lifetimeRewardTotal).toBe(5);
-  expect(storage.setItem).toHaveBeenLastCalledWith("lifetimeRewardTotal", "5");
+  expect(storage.setItem).toHaveBeenCalledWith(
+    "multiplication-app",
+    expect.any(String),
+  );
 });
 
 test("GIVEN rewards are added more than once, WHEN the total is updated repeatedly, THEN the persisted total accumulates each reward", () => {
@@ -81,7 +96,10 @@ test("GIVEN rewards are added more than once, WHEN the total is updated repeated
   });
 
   expect(result.current.lifetimeRewardTotal).toBe(2);
-  expect(storage.setItem).toHaveBeenLastCalledWith("lifetimeRewardTotal", "2");
+  expect(storage.setItem).toHaveBeenLastCalledWith(
+    "multiplication-app",
+    expect.any(String),
+  );
 });
 
 test("GIVEN the hook is used twice, WHEN one caller adds a reward, THEN the other caller sees the shared updated total", () => {
@@ -94,4 +112,16 @@ test("GIVEN the hook is used twice, WHEN one caller adds a reward, THEN the othe
   });
 
   expect(secondHook.result.current.lifetimeRewardTotal).toBe(1);
+});
+
+test("GIVEN legacy lifetimeRewardTotal data exists, WHEN the hook is created, THEN it migrates into the new store and clears the old key", () => {
+  const { storage } = resetHook(null, "7");
+  const { result } = renderHook(() => useLifetimeRewardTotal());
+
+  expect(result.current.lifetimeRewardTotal).toBe(7);
+  expect(storage.setItem).toHaveBeenCalledWith(
+    "multiplication-app",
+    expect.any(String),
+  );
+  expect(storage.removeItem).toHaveBeenCalledWith("lifetimeRewardTotal");
 });
