@@ -40,6 +40,7 @@ This project uses strict, conversation-driven TDD for behavior changes. The goal
 - Keep components focused on their own responsibility.
 - Prefer deriving UI state from domain state instead of passing many presentation props.
 - Keep presentational components as dumb as practical.
+- Use [AGENTS-styling](AGENTS-styling.md) when styling components.
 
 ## Routing
 

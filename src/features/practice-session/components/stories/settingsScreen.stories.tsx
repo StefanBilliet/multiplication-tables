@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import LanguageSwitcher from "../../../../shared/i18n/languageSwitcher";
+import SettingsScreen from "../../../settings/components/settingsScreen.tsx";
 
 const meta = {
   title: "Practice/SettingsScreen",
@@ -106,17 +107,7 @@ const practiceProfileCard = (
 );
 
 export const DesktopOverview: Story = {
-  render: () => (
-    <Center mih="100dvh" p={{ base: "md", sm: "xl" }}>
-      <Card variant="shell" style={{ width: "min(100%, 70rem)" }}>
-        <Stack gap="xl">
-          {header}
-
-          {practiceProfileCard}
-        </Stack>
-      </Card>
-    </Center>
-  ),
+  render: () => <SettingsScreen />,
 };
 
 export const MobileOverview: Story = {

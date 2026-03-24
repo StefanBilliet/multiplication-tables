@@ -9,6 +9,10 @@ vi.mock("../features/practice-session/components/practiceScreen", () => ({
   default: () => <div>Practice screen stub</div>,
 }));
 
+vi.mock("../features/settings/components/settingsScreen", () => ({
+  default: () => <div>Settings screen stub</div>,
+}));
+
 vi.mock("../shared/rewards/useLifetimeRewardTotal", () => ({
   default: () => useLifetimeRewardTotalMock(),
 }));
@@ -43,6 +47,15 @@ test("GIVEN the home route is shown, WHEN an available table is selected, THEN t
   );
 
   expect(screen.getByText("Practice screen stub")).toBeVisible();
+});
+
+test("GIVEN the home route is shown, WHEN I open settings, THEN the settings screen is shown", async () => {
+  const sut = <App />;
+  const { user } = renderWithRouter(sut);
+
+  await user.click(screen.getByRole("button", { name: /settings/i }));
+
+  expect(screen.getByText("Settings screen stub")).toBeVisible();
 });
 
 test("GIVEN the home route is shown, WHEN the app is rendered, THEN the table selection screen is shown", () => {

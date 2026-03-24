@@ -9,6 +9,9 @@
     "switchToDutch": "Nederlands",
     "switchToEnglish": "English"
   },
+  "settingsButton": {
+    "label": "Settings"
+  },
   "tableCard": {
     "available": "Available",
     "locked": "Locked",

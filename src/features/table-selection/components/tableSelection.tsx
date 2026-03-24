@@ -12,6 +12,7 @@ import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LanguageSwitcher from "../../../shared/i18n/languageSwitcher";
+import SettingsButton from "../../../shared/navigation/settingsButton";
 import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
 import MultiplicationTableCard from "./multiplicationTableCard";
 import classes from "./tableSelection.module.css";
@@ -39,7 +40,10 @@ const TableSelection: FC = () => {
             <Text>{t("tableSelection.description")}</Text>
           </Stack>
 
-          <LanguageSwitcher />
+          <Group gap="xs">
+            <LanguageSwitcher />
+            <SettingsButton />
+          </Group>
         </Group>
 
         <SimpleGrid component="section" cols={{ base: 1, sm: 2, md: 3 }}>
