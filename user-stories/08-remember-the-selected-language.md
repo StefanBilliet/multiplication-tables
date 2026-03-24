@@ -25,3 +25,7 @@ so that I do not need to switch languages again every time I reopen the app.
 - Given the user changes the language multiple times,
   when the app is reopened,
   then the most recently selected language is used.
+
+### Status: Complete
+
+This user story is implemented and verified.
