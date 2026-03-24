@@ -1,7 +1,5 @@
 import {
-  ActionIcon,
   Badge,
-  Button,
   Card,
   Center,
   Group,
@@ -11,8 +9,8 @@ import {
   Title,
 } from "@mantine/core";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { IconSettings } from "@tabler/icons-react";
 import { MemoryRouter } from "react-router-dom";
+import LanguageSwitcher from "../../../shared/i18n/languageSwitcher";
 import MultiplicationTableCard from "./multiplicationTableCard";
 import TableSelection from "./tableSelection";
 import classes from "./tableSelection.module.css";
@@ -35,7 +33,7 @@ type Story = StoryObj<typeof meta>;
 
 export const StartScreen: Story = {};
 
-export const WithSettingsButtonSuggestion: Story = {
+export const WithLanguageSwitcherHeader: Story = {
   render: () => (
     <Center className={classes.page}>
       <Card variant="shell" className={classes.pageCard}>
@@ -50,30 +48,7 @@ export const WithSettingsButtonSuggestion: Story = {
             </Text>
           </Stack>
 
-          <Group gap="xs" wrap="nowrap" align="center">
-            <Card withBorder radius="xl" px="xs" py={4} shadow="sm">
-              <Group gap={4} wrap="nowrap">
-                <Button variant="filled" radius="xl" size="sm">
-                  NL
-                </Button>
-                <Button variant="subtle" radius="xl" size="sm">
-                  EN
-                </Button>
-              </Group>
-            </Card>
-
-            <ActionIcon
-              variant="light"
-              radius="xl"
-              size="xl"
-              aria-label="Open practice settings"
-            >
-              <IconSettings
-                style={{ width: "70%", height: "70%" }}
-                stroke={1.5}
-              />
-            </ActionIcon>
-          </Group>
+          <LanguageSwitcher />
         </Group>
 
         <SimpleGrid component="section" cols={{ base: 1, sm: 2, md: 3 }}>

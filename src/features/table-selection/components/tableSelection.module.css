@@ -19,6 +19,7 @@
 
 .pageCard > header > *:first-child {
   gap: var(--mantine-spacing-xs);
+  flex: 1 1 22rem;
   max-width: 35rem;
 }
 

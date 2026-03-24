@@ -1,7 +1,5 @@
 import {
-  ActionIcon,
   Badge,
-  Button,
   Card,
   Center,
   Group,
@@ -11,7 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { IconChevronLeft, IconSettings } from "@tabler/icons-react";
+import LanguageSwitcher from "../../../../shared/i18n/languageSwitcher";
 
 const meta = {
   title: "Practice/SettingsScreen",
@@ -33,34 +31,9 @@ const header = (
       <Text c="dimmed">
         Choose how each table session should ask its questions.
       </Text>
-
-      <Group gap={6} c="dimmed" wrap="nowrap">
-        <IconSettings size={16} stroke={1.6} />
-        <Text size="sm">This choice applies to every table.</Text>
-      </Group>
     </Stack>
 
-    <Group gap="xs" wrap="nowrap" align="center">
-      <Card withBorder radius="xl" px="xs" py={4} shadow="sm">
-        <Group gap={4} wrap="nowrap">
-          <Button variant="filled" radius="xl" size="xs">
-            NL
-          </Button>
-          <Button variant="subtle" radius="xl" size="xs">
-            EN
-          </Button>
-        </Group>
-      </Card>
-
-      <ActionIcon
-        variant="light"
-        radius="xl"
-        size="xl"
-        aria-label="Back to table selection"
-      >
-        <IconChevronLeft style={{ width: "70%", height: "70%" }} stroke={1.5} />
-      </ActionIcon>
-    </Group>
+    <LanguageSwitcher />
   </Group>
 );
 
