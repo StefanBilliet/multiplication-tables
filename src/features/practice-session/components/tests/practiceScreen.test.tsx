@@ -214,4 +214,5 @@ test("GIVEN an active practice session in English, WHEN I switch the app languag
   expect(screen.getByRole("button", { name: "Controleer" })).toBeVisible();
   expect(page.question("2 x 3 = ?")).toBeVisible();
   expect(page.answerField()).toHaveValue("9");
+  expect(localStorage.getItem("selectedLanguage")).toBe("nl");
 });

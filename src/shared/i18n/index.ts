@@ -19,7 +19,9 @@ i18n
     fallbackLng: "nl",
     supportedLngs: ["nl", "en"],
     detection: {
-      order: ["navigator"],
+      lookupLocalStorage: "selectedLanguage",
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
     },
     interpolation: {
       escapeValue: false,

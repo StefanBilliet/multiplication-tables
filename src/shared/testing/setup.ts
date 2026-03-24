@@ -1,5 +1,8 @@
 import "@testing-library/jest-dom/vitest";
-import "../i18n";
+
+localStorage.clear();
+
+await import("../i18n");
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,

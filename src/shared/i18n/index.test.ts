@@ -3,6 +3,7 @@ import { beforeEach, expect, test, vi } from "vitest";
 const initMock = vi.fn();
 const languageDetectorPlugin = { type: "languageDetectorPlugin" };
 const initReactI18nextPlugin = { type: "initReactI18nextPlugin" };
+const persistedLanguageStorageKey = "selectedLanguage";
 const i18nChain = {
   use: vi.fn(),
   init: initMock,
@@ -29,11 +30,30 @@ beforeEach(() => {
   useMock.mockClear();
   i18nChain.use.mockImplementation(() => i18nChain);
   i18nChain.use.mockClear();
+  localStorage.clear();
 
   Object.defineProperty(window.navigator, "language", {
     configurable: true,
     value: "nl-BE",
   });
+});
+
+test("GIVEN a saved language preference exists WHEN i18n is initialized THEN the saved language is used before browser detection", async () => {
+  localStorage.setItem(persistedLanguageStorageKey, "en");
+
+  await import("./index");
+
+  expect(initMock).toHaveBeenCalledWith(
+    expect.objectContaining({
+      fallbackLng: "nl",
+      supportedLngs: ["nl", "en"],
+      detection: expect.objectContaining({
+        lookupLocalStorage: persistedLanguageStorageKey,
+        order: ["localStorage", "navigator"],
+        caches: ["localStorage"],
+      }),
+    }),
+  );
 });
 
 test("GIVEN the browser language starts with nl WHEN i18n is initialized THEN Dutch is used as the startup language", async () => {
@@ -44,7 +64,9 @@ test("GIVEN the browser language starts with nl WHEN i18n is initialized THEN Du
       fallbackLng: "nl",
       supportedLngs: ["nl", "en"],
       detection: expect.objectContaining({
-        order: ["navigator"],
+        lookupLocalStorage: persistedLanguageStorageKey,
+        caches: ["localStorage"],
+        order: ["localStorage", "navigator"],
       }),
     }),
   );
@@ -62,6 +84,11 @@ test("GIVEN the browser language starts with en WHEN i18n is initialized THEN En
     expect.objectContaining({
       fallbackLng: "nl",
       supportedLngs: ["nl", "en"],
+      detection: expect.objectContaining({
+        lookupLocalStorage: persistedLanguageStorageKey,
+        caches: ["localStorage"],
+        order: ["localStorage", "navigator"],
+      }),
     }),
   );
 });
@@ -78,6 +105,11 @@ test("GIVEN the browser language is unsupported WHEN i18n is initialized THEN Du
     expect.objectContaining({
       fallbackLng: "nl",
       supportedLngs: ["nl", "en"],
+      detection: expect.objectContaining({
+        lookupLocalStorage: persistedLanguageStorageKey,
+        caches: ["localStorage"],
+        order: ["localStorage", "navigator"],
+      }),
     }),
   );
 });
