@@ -1,4 +1,5 @@
 ## User Story 09 - Persist wrong answers per child and per table locally
+Status: closed
 
 ### Background
 
