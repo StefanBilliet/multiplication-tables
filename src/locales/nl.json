@@ -12,6 +12,22 @@
   "settingsButton": {
     "label": "Instellingen"
   },
+  "settingsScreen": {
+    "badge": "Gedeelde oefeninstellingen",
+    "title": "Profiel oefenen",
+    "description": "Kies hoe elke tafelsessie de vragen stelt.",
+    "sectionLabel": "Profiel oefenen",
+    "questionOrderTitle": "Volgorde van vragen",
+    "questionOrderDescription": "Kies of vragen de tafelvolgorde volgen of in willekeurige volgorde verschijnen.",
+    "inOrderTitle": "In volgorde",
+    "selectedBadge": "Geselecteerd",
+    "inOrderDescription": "Vragen blijven van start tot finish in de tafelsequentie.",
+    "structuredLabel": "Gestructureerd",
+    "randomizedTitle": "Willekeurig",
+    "randomizedDescription": "Vragen worden binnen de tafel door elkaar gehaald voor extra afwisseling.",
+    "variedLabel": "Gevarieerd",
+    "backButtonLabel": "Terug"
+  },
   "tableCard": {
     "available": "Beschikbaar",
     "locked": "Vergrendeld",

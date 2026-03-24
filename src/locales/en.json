@@ -12,6 +12,22 @@
   "settingsButton": {
     "label": "Settings"
   },
+  "settingsScreen": {
+    "badge": "Shared practice settings",
+    "title": "Practice profile",
+    "description": "Choose how each table session should ask its questions.",
+    "sectionLabel": "Practice profile",
+    "questionOrderTitle": "Question order",
+    "questionOrderDescription": "Set whether questions follow the multiplication table or appear in a shuffled order.",
+    "inOrderTitle": "In order",
+    "selectedBadge": "Selected",
+    "inOrderDescription": "Questions stay in the table sequence from start to finish.",
+    "structuredLabel": "Structured",
+    "randomizedTitle": "Randomized",
+    "randomizedDescription": "Questions are shuffled within the table for extra variety.",
+    "variedLabel": "Varied",
+    "backButtonLabel": "Back"
+  },
   "tableCard": {
     "available": "Available",
     "locked": "Locked",

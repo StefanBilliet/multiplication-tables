@@ -11,10 +11,13 @@ import {
 } from "@mantine/core";
 import { IconChevronLeft } from "@tabler/icons-react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../../../shared/i18n/languageSwitcher.tsx";
 import classes from "./settingsScreen.module.css";
 
 const SettingsScreen: FC = () => {
+  const { t } = useTranslation();
+
   return (
     <Center className={classes.page}>
       <Card variant="shell" className={classes.pageCard}>
@@ -22,14 +25,12 @@ const SettingsScreen: FC = () => {
           <Group component="header">
             <Stack>
               <Badge variant="light" color="teal">
-                Shared practice settings
+                {t("settingsScreen.badge")}
               </Badge>
 
-              <Title order={1}>Practice profile</Title>
+              <Title order={1}>{t("settingsScreen.title")}</Title>
 
-              <Text c="dimmed">
-                Choose how each table session should ask its questions.
-              </Text>
+              <Text c="dimmed">{t("settingsScreen.description")}</Text>
             </Stack>
 
             <Group>
@@ -37,7 +38,7 @@ const SettingsScreen: FC = () => {
               <ActionIcon
                 className={classes.backButton}
                 radius="xl"
-                aria-label="Back"
+                aria-label={t("settingsScreen.backButtonLabel")}
                 size="lg"
               >
                 <IconChevronLeft stroke={1.5} />
@@ -45,18 +46,19 @@ const SettingsScreen: FC = () => {
             </Group>
           </Group>
 
-          <Card withBorder radius="xl">
+          <Card component="main" withBorder radius="xl">
             <Stack>
               <Stack>
                 <Text size="sm" fw={700} c="dimmed" tt="uppercase">
-                  Practice profile
+                  {t("settingsScreen.sectionLabel")}
                 </Text>
-                <Title order={2}>Question order</Title>
+                <Title order={2}>
+                  {t("settingsScreen.questionOrderTitle")}
+                </Title>
               </Stack>
 
               <Text c="dimmed">
-                Set whether questions follow the multiplication table or appear
-                in a shuffled order.
+                {t("settingsScreen.questionOrderDescription")}
               </Text>
 
               <SimpleGrid component="section">
@@ -64,19 +66,18 @@ const SettingsScreen: FC = () => {
                   <Stack>
                     <Stack>
                       <Group>
-                        <Text fw={700}>In order</Text>
+                        <Text fw={700}>{t("settingsScreen.inOrderTitle")}</Text>
                         <Badge size="sm" variant="filled" color="teal">
-                          Selected
+                          {t("settingsScreen.selectedBadge")}
                         </Badge>
                       </Group>
                       <Text size="sm" c="dimmed">
-                        Questions stay in the table sequence from start to
-                        finish.
+                        {t("settingsScreen.inOrderDescription")}
                       </Text>
                     </Stack>
 
                     <Text size="sm" fw={600} c="teal">
-                      Structured
+                      {t("settingsScreen.structuredLabel")}
                     </Text>
                   </Stack>
                 </Card>
@@ -84,15 +85,16 @@ const SettingsScreen: FC = () => {
                 <Card withBorder radius="lg">
                   <Stack>
                     <Stack>
-                      <Text fw={700}>Randomized</Text>
+                      <Text fw={700}>
+                        {t("settingsScreen.randomizedTitle")}
+                      </Text>
                       <Text size="sm" c="dimmed">
-                        Questions are shuffled within the table for extra
-                        variety.
+                        {t("settingsScreen.randomizedDescription")}
                       </Text>
                     </Stack>
 
                     <Text size="sm" fw={600} c="dimmed">
-                      Varied
+                      {t("settingsScreen.variedLabel")}
                     </Text>
                   </Stack>
                 </Card>
