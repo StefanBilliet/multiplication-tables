@@ -7,13 +7,22 @@ import {
 } from "../../features/practice/errorsSlice";
 import { createRewardsSlice, type RewardsSlice } from "../rewards/rewardsSlice";
 
-type AppState = RewardsSlice & ErrorsSlice;
+export type QuestionOrderMode = "structured" | "varied";
+
+type AppState = RewardsSlice &
+  ErrorsSlice & {
+    questionOrderMode: QuestionOrderMode;
+    setQuestionOrderMode: (mode: QuestionOrderMode) => void;
+  };
 
 type AppStore = AppState;
 
 type AppStorePersist = Omit<
   AppStore,
-  "addReward" | "addMultiplicationError" | "clearMultiplicationErrors"
+  | "addReward"
+  | "addMultiplicationError"
+  | "clearMultiplicationErrors"
+  | "setQuestionOrderMode"
 >;
 
 const LEGACY_STORAGE_KEY = "lifetimeRewardTotal";
@@ -60,6 +69,10 @@ const createAppStore = () => {
       (...args) => ({
         ...createRewardsSlice(...args),
         ...createErrorsSlice(...args),
+        questionOrderMode: "structured",
+        setQuestionOrderMode: (mode) => {
+          args[0](() => ({ questionOrderMode: mode }));
+        },
       }),
       {
         name: "multiplication-app",
@@ -67,6 +80,7 @@ const createAppStore = () => {
         partialize: (state): AppStorePersist => ({
           lifetimeRewardTotal: state.lifetimeRewardTotal,
           multiplicationErrors: state.multiplicationErrors,
+          questionOrderMode: state.questionOrderMode,
         }),
       },
     ),

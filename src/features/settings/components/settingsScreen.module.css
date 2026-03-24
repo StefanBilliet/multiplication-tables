@@ -51,18 +51,19 @@
   flex-wrap: nowrap;
 }
 
-.pageCard > * > *:not(header) > * > section {
+.optionsGrid {
   display: grid;
   gap: var(--mantine-spacing-sm);
   grid-template-columns: 1fr;
 }
 
-.pageCard > * > *:not(header) > * > section > * {
+.optionCard {
+  cursor: pointer;
   min-height: 148px;
   padding: var(--mantine-spacing-md);
 }
 
-.pageCard > * > *:not(header) > * > section > *:first-child {
+.optionCardSelected {
   background: linear-gradient(
     180deg,
     rgba(17, 170, 154, 0.08),
@@ -72,7 +73,20 @@
   box-shadow: 0 0 0 1px rgba(17, 170, 154, 0.08);
 }
 
-.pageCard > * > *:not(header) > * > section > * > * {
+.optionInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.optionCardContent {
   display: flex;
   flex-direction: column;
   gap: var(--mantine-spacing-md);
@@ -80,7 +94,7 @@
   justify-content: space-between;
 }
 
-.pageCard > * > *:not(header) > * > section > * > * > *:first-child {
+.optionHeader {
   gap: var(--mantine-spacing-xs);
 }
 
@@ -89,7 +103,7 @@
     padding: var(--mantine-spacing-xl);
   }
 
-  .pageCard > * > *:not(header) > * > section {
+  .optionsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
