@@ -8,7 +8,7 @@ const REWARD_ELIGIBILITY_THRESHOLD = 7;
 export const sessionCompletion = {
   continueSession(flow: PracticeFlow): PracticeFlow {
     if (flow.kind === "sessionComplete") return flow;
-    if (flow.currentQuestion.multiplier >= 10) {
+    if (flow.currentQuestionIndex >= flow.questionSequence.length - 1) {
       return {
         kind: "sessionComplete",
         firstTryCorrectAnswerCount: flow.firstTryCorrectAnswerCount,

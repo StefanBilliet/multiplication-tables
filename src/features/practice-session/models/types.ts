@@ -18,7 +18,9 @@ export type SessionComplete = {
 
 export type CurrentQuestionState = {
   kind: "currentQuestion";
+  currentQuestionIndex: number;
   currentQuestion: CurrentQuestion;
   firstTryCorrectAnswerCount: number;
   multiplicationErrors: { table: number; multiplier: number }[];
+  questionSequence: number[];
 };

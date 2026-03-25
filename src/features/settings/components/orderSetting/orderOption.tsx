@@ -1,7 +1,7 @@
 import { Badge, Card, Group, Stack, Text } from "@mantine/core";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuestionOrderMode } from "../../../../shared/store/appStore.ts";
+import type { QuestionOrderMode } from "../../../../shared/models/questionOrderMode.ts";
 import classes from "../settingsScreen.module.css";
 
 type OrderOptionProps = {

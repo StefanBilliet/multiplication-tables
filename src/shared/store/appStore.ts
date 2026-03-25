@@ -12,9 +12,8 @@ import {
   createErrorsSlice,
   type ErrorsSlice,
 } from "../../features/practice/errorsSlice";
+import type { QuestionOrderMode } from "../models/questionOrderMode";
 import { createRewardsSlice, type RewardsSlice } from "../rewards/rewardsSlice";
-
-export type QuestionOrderMode = "structured" | "varied";
 
 export type AppState = RewardsSlice &
   ErrorsSlice & {

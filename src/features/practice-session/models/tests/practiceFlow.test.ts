@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import PracticeFlow from "../practiceFlow.ts";
 import type { CurrentQuestionState } from "../types.ts";
 
@@ -27,6 +28,7 @@ test("GIVEN a table is started, WHEN the first practice flow state is created, T
 
   expect(sut).toEqual({
     kind: "currentQuestion",
+    currentQuestionIndex: 0,
     currentQuestion: {
       answerOptions: [6, 9, 15, 21, 30, 24, 18, 3, 12, 27],
       canCheckAnswer: false,
@@ -39,6 +41,7 @@ test("GIVEN a table is started, WHEN the first practice flow state is created, T
     },
     firstTryCorrectAnswerCount: 0,
     multiplicationErrors: [],
+    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   });
 });
 
@@ -55,6 +58,7 @@ test("GIVEN a current question is shown, WHEN a correct answer is selected and c
 
   expect(nextFlow).toEqual({
     kind: "currentQuestion",
+    currentQuestionIndex: 0,
     currentQuestion: {
       answerOptions: [6, 9, 15, 21, 30, 24, 18, 3, 12, 27],
       canCheckAnswer: false,
@@ -67,6 +71,7 @@ test("GIVEN a current question is shown, WHEN a correct answer is selected and c
     },
     firstTryCorrectAnswerCount: 1,
     multiplicationErrors: [],
+    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   });
 });
 
@@ -83,6 +88,7 @@ test("GIVEN a current question is shown, WHEN an incorrect answer is selected an
 
   expect(nextFlow).toEqual({
     kind: "currentQuestion",
+    currentQuestionIndex: 0,
     currentQuestion: {
       answerOptions: [6, 9, 15, 21, 30, 24, 18, 3, 12, 27],
       canCheckAnswer: false,
@@ -95,6 +101,7 @@ test("GIVEN a current question is shown, WHEN an incorrect answer is selected an
     },
     firstTryCorrectAnswerCount: 0,
     multiplicationErrors: [{ table: 3, multiplier: 1 }],
+    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   });
 });
 
@@ -126,6 +133,7 @@ test("GIVEN a correct answer was checked, WHEN the user continues to the next qu
 
   expect(flowWithNextQuestion).toEqual({
     kind: "currentQuestion",
+    currentQuestionIndex: 1,
     currentQuestion: {
       answerOptions: expect.any(Array),
       canCheckAnswer: false,
@@ -138,6 +146,7 @@ test("GIVEN a correct answer was checked, WHEN the user continues to the next qu
     },
     firstTryCorrectAnswerCount: 1,
     multiplicationErrors: [],
+    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   });
 });
 
@@ -184,6 +193,20 @@ test("GIVEN a session in progress, WHEN hasEarnedReward is called, THEN it retur
   const result = PracticeFlow.hasEarnedReward(sut);
 
   expect(result).toBe(false);
+});
+
+test("GIVEN varied mode is started twice with different random seeds, WHEN the sessions are created, THEN the question sequences differ", () => {
+  const randomSpy = vi
+    .spyOn(Math, "random")
+    .mockReturnValueOnce(0.01)
+    .mockReturnValueOnce(0.99);
+
+  const first = PracticeFlow.start(3, "varied") as CurrentQuestionState;
+  const second = PracticeFlow.start(3, "varied") as CurrentQuestionState;
+
+  randomSpy.mockRestore();
+
+  expect(first.questionSequence).not.toEqual(second.questionSequence);
 });
 
 test("GIVEN a completed session with 7+ correct answers, WHEN hasEarnedReward is called, THEN it returns true", () => {

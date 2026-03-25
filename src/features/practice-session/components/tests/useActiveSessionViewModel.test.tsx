@@ -5,6 +5,7 @@ import useActiveSessionViewModel from "../useActiveSessionViewModel";
 test("GIVEN a current question session, WHEN the hook is created, THEN it returns the active session view model", () => {
   const session: PracticeFlow = {
     kind: "currentQuestion",
+    currentQuestionIndex: 2,
     currentQuestion: {
       answerOptions: [12, 18, 15],
       canCheckAnswer: true,
@@ -17,6 +18,7 @@ test("GIVEN a current question session, WHEN the hook is created, THEN it return
     },
     firstTryCorrectAnswerCount: 2,
     multiplicationErrors: [],
+    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   };
 
   const { result } = renderHook(() => useActiveSessionViewModel(session));

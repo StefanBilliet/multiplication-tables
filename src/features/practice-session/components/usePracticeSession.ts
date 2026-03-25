@@ -15,8 +15,9 @@ type UsePracticeSessionResult = {
 const usePracticeSession = (
   selectedTable: number,
 ): UsePracticeSessionResult => {
+  const questionOrderMode = useAppStore((state) => state.questionOrderMode);
   const [session, setSession] = useState(() =>
-    PracticeFlow.start(selectedTable),
+    PracticeFlow.start(selectedTable, questionOrderMode),
   );
   const { addReward } = useLifetimeRewardTotal();
   const addMultiplicationError = useAppStore(

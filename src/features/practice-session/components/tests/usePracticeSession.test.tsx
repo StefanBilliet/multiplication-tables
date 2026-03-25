@@ -3,6 +3,7 @@ import type { PropsWithChildren } from "react";
 import { vi } from "vitest";
 import { AppProviders } from "../../../../app/providers/appProviders";
 import { createAppStore } from "../../../../shared/store/appStore";
+import PracticeFlow from "../../models/practiceFlow";
 import usePracticeSession from "../usePracticeSession";
 
 const addReward = vi.fn();
@@ -66,4 +67,17 @@ test("GIVEN a wrong answer during a practice session, WHEN the session completes
   expect(store.getState().multiplicationErrors).toEqual([
     { table: 3, multiplier: 1 },
   ]);
+});
+
+test("GIVEN question order is varied, WHEN the practice session starts, THEN it passes the order mode into the session model", () => {
+  const session = PracticeFlow.start(3);
+  const startSpy = vi.spyOn(PracticeFlow, "start").mockReturnValue(session);
+  const { TestProviders, store } = createPracticeSessionTestProviders();
+  store.setState({ questionOrderMode: "varied" });
+
+  renderHook(() => usePracticeSession(3), {
+    wrapper: TestProviders,
+  });
+
+  expect(startSpy).toHaveBeenCalledWith(3, "varied");
 });
