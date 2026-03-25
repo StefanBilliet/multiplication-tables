@@ -46,7 +46,7 @@ test("GIVEN a perfect practice session, WHEN the tenth correct answer is continu
   expect(addReward).toHaveBeenCalledTimes(1);
 });
 
-test("GIVEN a wrong answer during a practice session, WHEN the session completes, THEN the error is transferred to the app store", () => {
+test("GIVEN a wrong answer during a practice session, WHEN the session completes, THEN the app store records the completed session", () => {
   const { TestProviders, store } = createPracticeSessionTestProviders();
   const { result } = renderHook(() => usePracticeSession(3), {
     wrapper: TestProviders,
@@ -64,8 +64,13 @@ test("GIVEN a wrong answer during a practice session, WHEN the session completes
     }
   });
 
-  expect(store.getState().multiplicationErrors).toEqual([
-    { table: 3, multiplier: 1 },
+  expect(store.getState().sessionCompletedEvents).toEqual([
+    {
+      table: 3,
+      firstTryCorrectAnswerCount: 9,
+      hasEarnedReward: true,
+      multiplicationErrors: [{ table: 3, multiplier: 1 }],
+    },
   ]);
 });
 

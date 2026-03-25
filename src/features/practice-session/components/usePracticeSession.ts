@@ -20,8 +20,8 @@ const usePracticeSession = (
     PracticeFlow.start(selectedTable, questionOrderMode),
   );
   const { addReward } = useLifetimeRewardTotal();
-  const addMultiplicationError = useAppStore(
-    (state) => state.addMultiplicationError,
+  const recordSessionCompleted = useAppStore(
+    (state) => state.recordSessionCompleted,
   );
   const shouldAddReward =
     PracticeFlow.isComplete(session) && PracticeFlow.hasEarnedReward(session);
@@ -33,12 +33,15 @@ const usePracticeSession = (
   }, [addReward, shouldAddReward]);
 
   useEffect(() => {
-    if (PracticeFlow.isComplete(session)) {
-      session.multiplicationErrors.forEach((error) => {
-        addMultiplicationError(error);
+    if (session.kind === "sessionComplete") {
+      recordSessionCompleted({
+        table: selectedTable,
+        firstTryCorrectAnswerCount: session.firstTryCorrectAnswerCount,
+        hasEarnedReward: PracticeFlow.hasEarnedReward(session),
+        multiplicationErrors: session.multiplicationErrors,
       });
     }
-  }, [addMultiplicationError, session]);
+  }, [recordSessionCompleted, selectedTable, session]);
 
   const selectAnswer = (answer: number) => {
     setSession((currentSession) =>
