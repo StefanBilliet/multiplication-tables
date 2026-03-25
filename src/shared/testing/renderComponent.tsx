@@ -1,14 +1,22 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
+import type { StoreApi } from "zustand/vanilla";
 import { AppProviders } from "../../app/providers/appProviders";
+import type { AppState } from "../store/appStore";
+import { createAppStore } from "../store/appStore";
 
-function renderComponent(sut: ReactNode) {
+type RenderComponentOptions = {
+  store?: StoreApi<AppState>;
+};
+
+function renderComponent(sut: ReactNode, options: RenderComponentOptions = {}) {
   const user = userEvent.setup();
+  const store = options.store ?? createAppStore({ persist: false });
 
   return {
     user,
-    ...render(<AppProviders>{sut}</AppProviders>),
+    ...render(<AppProviders store={store}>{sut}</AppProviders>),
   };
 }
 

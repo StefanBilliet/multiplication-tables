@@ -1,6 +1,13 @@
+import {
+  createContext,
+  createElement,
+  type FC,
+  type PropsWithChildren,
+  useContext,
+} from "react";
 import { useStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { createStore } from "zustand/vanilla";
+import { createStore, type StoreApi } from "zustand/vanilla";
 import {
   createErrorsSlice,
   type ErrorsSlice,
@@ -9,16 +16,20 @@ import { createRewardsSlice, type RewardsSlice } from "../rewards/rewardsSlice";
 
 export type QuestionOrderMode = "structured" | "varied";
 
-type AppState = RewardsSlice &
+export type AppState = RewardsSlice &
   ErrorsSlice & {
     questionOrderMode: QuestionOrderMode;
     setQuestionOrderMode: (mode: QuestionOrderMode) => void;
   };
 
-type AppStore = AppState;
+type AppStore = StoreApi<AppState>;
+
+type CreateAppStoreOptions = {
+  persist?: boolean;
+};
 
 type AppStorePersist = Omit<
-  AppStore,
+  AppState,
   | "addReward"
   | "addMultiplicationError"
   | "clearMultiplicationErrors"
@@ -61,7 +72,23 @@ const createPersistStorage = () => {
   };
 };
 
-const createAppStore = () => {
+export const createAppStore = ({
+  persist: shouldPersist = true,
+}: CreateAppStoreOptions = {}) => {
+  const createBaseStore = () =>
+    createStore<AppState>()((...args) => ({
+      ...createRewardsSlice(...args),
+      ...createErrorsSlice(...args),
+      questionOrderMode: "structured",
+      setQuestionOrderMode: (mode) => {
+        args[0](() => ({ questionOrderMode: mode }));
+      },
+    }));
+
+  if (!shouldPersist) {
+    return createBaseStore();
+  }
+
   migrateLegacyStorage();
 
   return createStore<AppState>()(
@@ -89,10 +116,23 @@ const createAppStore = () => {
 
 let appStore = createAppStore();
 
+const AppStoreContext = createContext<AppStore | null>(null);
+
+export const AppStoreProvider: FC<PropsWithChildren<{ store?: AppStore }>> = ({
+  children,
+  store,
+}) => {
+  return createElement(
+    AppStoreContext.Provider,
+    { value: store ?? appStore },
+    children,
+  );
+};
+
 export const getAppStore = () => appStore;
 
 export const useAppStore = <T>(selector: (state: AppState) => T) =>
-  useStore(appStore, selector);
+  useStore(useContext(AppStoreContext) ?? appStore, selector);
 
 export const resetAppStore = () => {
   appStore = createAppStore();

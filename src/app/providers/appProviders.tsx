@@ -1,5 +1,6 @@
 import { Card, createTheme, MantineProvider } from "@mantine/core";
 import type { FC, PropsWithChildren } from "react";
+import { AppStoreProvider } from "../../shared/store/appStore";
 
 const theme = createTheme({
   primaryColor: "teal",
@@ -28,6 +29,12 @@ const theme = createTheme({
   },
 });
 
-export const AppProviders: FC<PropsWithChildren> = ({ children }) => {
-  return <MantineProvider theme={theme}>{children}</MantineProvider>;
+export const AppProviders: FC<
+  PropsWithChildren<{ store?: Parameters<typeof AppStoreProvider>[0]["store"] }>
+> = ({ children, store }) => {
+  return (
+    <MantineProvider theme={theme}>
+      <AppStoreProvider store={store}>{children}</AppStoreProvider>
+    </MantineProvider>
+  );
 };
