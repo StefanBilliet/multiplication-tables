@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 const renderPracticeScreenStory = (questionOrderMode: QuestionOrderMode) => {
   const store = createAppStore({ persist: false });
 
-  store.setState({ questionOrderMode });
+  store.setState({ questionOrderMode, isHesitationRuleEnabled: true });
 
   return (
     <AppProviders store={store}>

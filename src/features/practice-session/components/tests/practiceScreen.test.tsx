@@ -1,6 +1,8 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { act } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { beforeEach, vi } from "vitest";
+import { DEFAULT_TIMER_GRACE_PERIOD_MS } from "../../../../shared/hooks/useTimerElapsed";
 import i18n from "../../../../shared/i18n";
 import { createAppStore } from "../../../../shared/store/appStore";
 import renderComponent from "../../../../shared/testing/renderComponent";
@@ -53,6 +55,57 @@ test("GIVEN the hesitation rule is enabled in the store, WHEN the practice scree
   );
 
   expect(screen.getByLabelText("Hesitation timer")).toBeVisible();
+});
+
+test("GIVEN the hesitation rule is enabled and the session has advanced, WHEN the timer elapses and the grace period passes, THEN the practice screen returns to the first question", async () => {
+  vi.useFakeTimers();
+  const store = createAppStore({ persist: false });
+  store.setState({ isHesitationRuleEnabled: true });
+
+  renderComponent(
+    <MemoryRouter initialEntries={["/tables/3/practice"]}>
+      <Routes>
+        <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
+      </Routes>
+    </MemoryRouter>,
+    { store },
+  );
+
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name: "3" }));
+  });
+
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name: /check answer/i }));
+  });
+
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name: /continue/i }));
+  });
+
+  expect(screen.getByText("2 x 3 = ?")).toBeVisible();
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(5000);
+  });
+
+  expect(screen.getByText("2 x 3 = ?")).toBeVisible();
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(DEFAULT_TIMER_GRACE_PERIOD_MS);
+  });
+
+  expect(screen.getByText("1 x 3 = ?")).toBeVisible();
+
+  expect(screen.getByText("0s")).toBeVisible();
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(1000);
+  });
+
+  expect(screen.getByText("1s")).toBeVisible();
+
+  vi.useRealTimers();
 });
 
 test("GIVEN a question is shown, WHEN I select several answers before submitting, THEN the currently selected answer wins", async () => {

@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
+import { useState } from "react";
 import { useAppStore } from "../../../shared/store/appStore";
 import PracticeFlow, {
   type PracticeFlow as PracticeSession,
 } from "../models/practiceFlow";
+import usePracticeSessionCompletionEffects from "./usePracticeSessionCompletionEffects";
 
 type UsePracticeSessionResult = {
   session: PracticeSession;
+  hesitationTimerResetSignal: string;
   selectAnswer: (answer: number) => void;
   checkAnswer: () => void;
   continueSession: () => void;
@@ -20,29 +21,14 @@ const usePracticeSession = (
   const [session, setSession] = useState(() =>
     PracticeFlow.start(selectedTable, questionOrderMode),
   );
-  const { addReward } = useLifetimeRewardTotal();
-  const recordSessionCompleted = useAppStore(
-    (state) => state.recordSessionCompleted,
-  );
-  const shouldAddReward =
-    PracticeFlow.isComplete(session) && PracticeFlow.hasEarnedReward(session);
+  const [hesitationTimerResetKey, setHesitationTimerResetKey] = useState(0);
+  usePracticeSessionCompletionEffects({ selectedTable, session });
 
-  useEffect(() => {
-    if (shouldAddReward) {
-      addReward();
-    }
-  }, [addReward, shouldAddReward]);
-
-  useEffect(() => {
-    if (session.kind === "sessionComplete") {
-      recordSessionCompleted({
-        table: selectedTable,
-        firstTryCorrectAnswerCount: session.firstTryCorrectAnswerCount,
-        hasEarnedReward: PracticeFlow.hasEarnedReward(session),
-        multiplicationErrors: session.multiplicationErrors,
-      });
-    }
-  }, [recordSessionCompleted, selectedTable, session]);
+  const triggerHesitationTimerReset = () => {
+    setHesitationTimerResetKey(
+      (currentHesitationTimerResetKey) => currentHesitationTimerResetKey + 1,
+    );
+  };
 
   const selectAnswer = (answer: number) => {
     setSession((currentSession) =>
@@ -61,6 +47,7 @@ const usePracticeSession = (
   };
 
   const resetSession = () => {
+    triggerHesitationTimerReset();
     setSession((currentSession) => PracticeFlow.reset(currentSession));
   };
 
@@ -70,6 +57,7 @@ const usePracticeSession = (
     checkAnswer,
     continueSession,
     resetSession,
+    hesitationTimerResetSignal: String(hesitationTimerResetKey),
   };
 };
 

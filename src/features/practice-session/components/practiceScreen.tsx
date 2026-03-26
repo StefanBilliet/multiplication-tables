@@ -19,6 +19,7 @@ const PracticeScreen: FC = () => {
   );
   const {
     session,
+    hesitationTimerResetSignal,
     selectAnswer: handleSelectAnswer,
     checkAnswer: handleCheckAnswer,
     continueSession: handleContinue,
@@ -42,6 +43,7 @@ const PracticeScreen: FC = () => {
         ) : (
           <ActiveSessionMode
             isHesitationRuleEnabled={isHesitationRuleEnabled}
+            hesitationTimerResetSignal={hesitationTimerResetSignal}
             session={session}
             selectedTable={selectedTable}
             onCheckAnswer={handleCheckAnswer}
