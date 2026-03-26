@@ -17,3 +17,20 @@ test("GIVEN the settings screen is open, WHEN the back button is clicked, THEN t
 
   expect(screen.getByText("Home screen")).toBeVisible();
 });
+
+test("GIVEN the hesitation rule is disabled by default, WHEN the user clicks to enable it, THEN the store state updates", async () => {
+  const { user } = renderComponent(
+    <MemoryRouter initialEntries={["/settings"]}>
+      <Routes>
+        <Route path="/settings" element={<SettingsScreen />} />
+      </Routes>
+    </MemoryRouter>,
+  );
+  const hesitationOption = screen.getByRole("checkbox", {
+    name: /Timer on questions/i,
+  });
+
+  await user.click(hesitationOption);
+
+  expect(hesitationOption).toBeChecked();
+});

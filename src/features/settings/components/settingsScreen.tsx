@@ -25,6 +25,12 @@ const SettingsScreen: FC = () => {
   const setQuestionOrderMode = useAppStore(
     (state) => state.setQuestionOrderMode,
   );
+  const isHesitationRuleEnabled = useAppStore(
+    (state) => state.isHesitationRuleEnabled,
+  );
+  const setHesitationRuleEnabled = useAppStore(
+    (state) => state.setHesitationRuleEnabled,
+  );
 
   return (
     <Center className={classes.page}>
@@ -62,7 +68,10 @@ const SettingsScreen: FC = () => {
                 onChange={setQuestionOrderMode}
               />
 
-              <HesitationRuleOption />
+              <HesitationRuleOption
+                isEnabled={isHesitationRuleEnabled}
+                onToggle={setHesitationRuleEnabled}
+              />
             </Stack>
           </Card>
         </Stack>
