@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import SettingsScreen from "../../../settings/components/settingsScreen.tsx";
+import SettingsScreen from "../settingsScreen.tsx";
 
 const meta = {
-  title: "Practice/SettingsScreen",
+  title: "Settings/SettingsScreen",
 } satisfies Meta;
 
 export default meta;

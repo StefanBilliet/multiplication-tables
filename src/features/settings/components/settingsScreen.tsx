@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import LanguageSwitcher from "../../../shared/i18n/languageSwitcher.tsx";
 import { useAppStore } from "../../../shared/store/appStore.ts";
+import HesitationRuleOption from "./hesitationRuleOption.tsx";
 import { OrderSetting } from "./orderSetting/orderSetting.tsx";
 import classes from "./settingsScreen.module.css";
 
@@ -55,10 +56,14 @@ const SettingsScreen: FC = () => {
           </Group>
 
           <Card component="main" withBorder radius="xl">
-            <OrderSetting
-              currentMode={questionOrderMode}
-              onChange={setQuestionOrderMode}
-            />
+            <Stack>
+              <OrderSetting
+                currentMode={questionOrderMode}
+                onChange={setQuestionOrderMode}
+              />
+
+              <HesitationRuleOption />
+            </Stack>
           </Card>
         </Stack>
       </Card>

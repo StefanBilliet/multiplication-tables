@@ -10,6 +10,8 @@ import CurrentQuestionPrompt from "./currentQuestionPrompt";
 import useActiveSessionViewModel from "./useActiveSessionViewModel";
 
 type ActiveSessionModeProps = {
+  isHesitationRuleEnabled?: boolean;
+  onHesitationElapsed?: () => void;
   session: PracticeFlowType;
   selectedTable: number;
   onCheckAnswer: () => void;
@@ -22,6 +24,8 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
   selectedTable,
   onCheckAnswer,
   onContinue,
+  onHesitationElapsed = () => undefined,
+  isHesitationRuleEnabled = false,
   onSelectAnswer,
 }) => {
   const viewModel = useActiveSessionViewModel(session);
@@ -29,6 +33,8 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
   return (
     <Stack className={classes.content}>
       <CurrentQuestionPrompt
+        isHesitationRuleEnabled={isHesitationRuleEnabled}
+        onHesitationElapsed={onHesitationElapsed}
         multiplier={viewModel.multiplier}
         table={selectedTable}
       />

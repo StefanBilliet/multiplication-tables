@@ -10,7 +10,7 @@ import {
   Title,
 } from "@mantine/core";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { FC } from "react";
+import HesitationTimerCounter from "../hesitationTimerCounter";
 
 const meta = {
   title: "Practice/HesitationRule",
@@ -19,49 +19,6 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-
-const CounterBadge: FC = () => {
-  const secondsElapsed = 3;
-  const radius = 22;
-  const circumference = 2 * Math.PI * radius;
-  const progress = Math.min(secondsElapsed / 5, 1);
-  const dashOffset = circumference * (1 - progress);
-
-  return (
-    <svg width="72" height="72" viewBox="0 0 72 72" aria-hidden="true">
-      <circle
-        cx="36"
-        cy="36"
-        r={radius}
-        fill="none"
-        stroke="var(--mantine-color-gray-3)"
-        strokeWidth="6"
-      />
-      <circle
-        cx="36"
-        cy="36"
-        r={radius}
-        fill="none"
-        stroke="var(--mantine-color-teal-6)"
-        strokeDasharray={circumference}
-        strokeDashoffset={dashOffset}
-        strokeLinecap="round"
-        strokeWidth="6"
-        transform="rotate(-90 36 36)"
-      />
-      <text
-        x="36"
-        y="41"
-        textAnchor="middle"
-        fontSize="18"
-        fontWeight="700"
-        fill="currentColor"
-      >
-        {secondsElapsed}s
-      </text>
-    </svg>
-  );
-};
 
 const renderHesitationRuleFrame = () => (
   <Center mih="100vh" p={{ base: "md", sm: "xl" }}>
@@ -78,7 +35,11 @@ const renderHesitationRuleFrame = () => (
         </Stack>
 
         <Group gap="lg" align="center">
-          <CounterBadge />
+          <HesitationTimerCounter
+            enabled
+            onElapsed={() => undefined}
+            timeoutSeconds={5}
+          />
 
           <Stack gap={4}>
             <Text fw={600}>Elapsed time</Text>
@@ -142,7 +103,11 @@ export const PlacedInPracticeScreen: Story = {
                   </Title>
                 </Stack>
 
-                <CounterBadge />
+                <HesitationTimerCounter
+                  enabled
+                  onElapsed={() => undefined}
+                  timeoutSeconds={5}
+                />
               </Group>
             </Paper>
 

@@ -15,6 +15,8 @@ const PracticeFlow = {
 
   nextQuestion: questionAttempt.nextQuestion,
 
+  reset: questionAttempt.reset,
+
   continueSession: sessionCompletion.continueSession,
 
   isComplete: sessionCompletion.isComplete,

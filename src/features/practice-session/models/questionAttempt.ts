@@ -112,4 +112,22 @@ export const questionAttempt = {
       },
     };
   },
+
+  reset(flow: PracticeFlow): PracticeFlow {
+    if (!isCurrentQuestion(flow)) return flow;
+
+    return {
+      kind: "currentQuestion",
+      currentQuestionIndex: 0,
+      currentQuestion: {
+        ...createCurrentQuestion(
+          flow.currentQuestion.table,
+          createQuestionCursor(flow.questionSequence, 0),
+        ),
+      },
+      firstTryCorrectAnswerCount: 0,
+      multiplicationErrors: [],
+      questionSequence: flow.questionSequence,
+    };
+  },
 };

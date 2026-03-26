@@ -86,3 +86,37 @@ test("GIVEN question order is varied, WHEN the practice session starts, THEN it 
 
   expect(startSpy).toHaveBeenCalledWith(3, "varied");
 });
+
+test("GIVEN a practice session is in progress, WHEN the session is reset, THEN it returns to question 1", () => {
+  const { TestProviders } = createPracticeSessionTestProviders();
+  const { result } = renderHook(() => usePracticeSession(3), {
+    wrapper: TestProviders,
+  });
+
+  act(() => {
+    result.current.selectAnswer(3);
+    result.current.checkAnswer();
+    result.current.continueSession();
+    result.current.resetSession();
+  });
+
+  expect(result.current.session.kind).toBe("currentQuestion");
+
+  if (result.current.session.kind === "currentQuestion") {
+    expect(result.current.session.currentQuestion.multiplier).toBe(1);
+  }
+});
+
+test("GIVEN a practice session is reset, WHEN the reset action is used, THEN it delegates to PracticeFlow.reset", () => {
+  const resetSpy = vi.spyOn(PracticeFlow, "reset");
+  const { TestProviders } = createPracticeSessionTestProviders();
+  const { result } = renderHook(() => usePracticeSession(3), {
+    wrapper: TestProviders,
+  });
+
+  act(() => {
+    result.current.resetSession();
+  });
+
+  expect(resetSpy).toHaveBeenCalled();
+});

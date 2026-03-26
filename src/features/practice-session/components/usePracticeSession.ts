@@ -10,6 +10,7 @@ type UsePracticeSessionResult = {
   selectAnswer: (answer: number) => void;
   checkAnswer: () => void;
   continueSession: () => void;
+  resetSession: () => void;
 };
 
 const usePracticeSession = (
@@ -59,11 +60,16 @@ const usePracticeSession = (
     );
   };
 
+  const resetSession = () => {
+    setSession((currentSession) => PracticeFlow.reset(currentSession));
+  };
+
   return {
     session,
     selectAnswer,
     checkAnswer,
     continueSession,
+    resetSession,
   };
 };
 

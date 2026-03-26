@@ -6,6 +6,10 @@ import {
   migrateLegacyStorage,
 } from "./appStorePersistence";
 import {
+  createHesitationRuleSlice,
+  type HesitationRuleSlice,
+} from "./hesitationRuleSlice";
+import {
   createQuestionOrderModeSlice,
   type QuestionOrderModeSlice,
 } from "./questionOrderModeSlice";
@@ -16,6 +20,7 @@ import {
 
 export type AppState = RewardsSlice &
   SessionHistorySlice &
+  HesitationRuleSlice &
   QuestionOrderModeSlice;
 
 type CreateAppStoreOptions = {
@@ -24,7 +29,10 @@ type CreateAppStoreOptions = {
 
 type AppStorePersist = Omit<
   AppState,
-  "addReward" | "recordSessionCompleted" | "setQuestionOrderMode"
+  | "addReward"
+  | "recordSessionCompleted"
+  | "setHesitationRuleEnabled"
+  | "setQuestionOrderMode"
 >;
 
 type AppStore = StoreApi<AppState>;
@@ -36,6 +44,7 @@ export const createAppStore = ({
     createStore<AppState>()((...args) => ({
       ...createRewardsSlice(...args),
       ...createSessionHistorySlice(...args),
+      ...createHesitationRuleSlice(...args),
       ...createQuestionOrderModeSlice(...args),
     }));
 
@@ -50,6 +59,7 @@ export const createAppStore = ({
       (...args) => ({
         ...createRewardsSlice(...args),
         ...createSessionHistorySlice(...args),
+        ...createHesitationRuleSlice(...args),
         ...createQuestionOrderModeSlice(...args),
       }),
       {
@@ -59,6 +69,7 @@ export const createAppStore = ({
           lifetimeRewardTotal: state.lifetimeRewardTotal,
           recentWeaknesses: state.recentWeaknesses,
           sessionCompletedEvents: state.sessionCompletedEvents,
+          isHesitationRuleEnabled: state.isHesitationRuleEnabled,
           questionOrderMode: state.questionOrderMode,
         }),
       },

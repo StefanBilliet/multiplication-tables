@@ -1,7 +1,9 @@
 import { screen } from "@testing-library/react";
 import { act } from "react";
-import { Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import i18n from "../../../../shared/i18n";
+import { createAppStore } from "../../../../shared/store/appStore";
+import renderComponent from "../../../../shared/testing/renderComponent";
 import renderWithRouter from "../../../../shared/testing/renderWithRouter.tsx";
 import PracticeScreen from "../practiceScreen.tsx";
 import { practiceScreenPage } from "./practiceScreenPage.tsx";
@@ -35,6 +37,22 @@ test("GIVEN a question is shown and no answer is selected, WHEN the practice scr
   expect(page.answerField()).toHaveAttribute("readonly");
   expect(screen.getByPlaceholderText("Choose a number")).toBeVisible();
   expect(page.checkAnswerButton()).toBeDisabled();
+});
+
+test("GIVEN the hesitation rule is enabled in the store, WHEN the practice screen is rendered, THEN the timer is visible", () => {
+  const store = createAppStore({ persist: false });
+  store.setState({ isHesitationRuleEnabled: true });
+
+  renderComponent(
+    <MemoryRouter initialEntries={["/tables/3/practice"]}>
+      <Routes>
+        <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
+      </Routes>
+    </MemoryRouter>,
+    { store },
+  );
+
+  expect(screen.getByLabelText("Hesitation timer")).toBeVisible();
 });
 
 test("GIVEN a question is shown, WHEN I select several answers before submitting, THEN the currently selected answer wins", async () => {
