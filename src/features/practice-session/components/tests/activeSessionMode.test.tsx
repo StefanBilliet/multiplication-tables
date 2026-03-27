@@ -1,19 +1,14 @@
+import { screen } from "@testing-library/react";
 import renderComponent from "../../../../shared/testing/renderComponent";
 import type { PracticeFlow } from "../../models/practiceFlow";
 import ActiveSessionMode from "../activeSessionMode";
 import BackToTablesButton from "../backToTablesButton";
-import CurrentQuestionPrompt from "../currentQuestionPrompt";
-
-vi.mock("../currentQuestionPrompt", () => ({
-  default: vi.fn(() => <div data-testid="current-question-prompt" />),
-}));
 
 vi.mock("../backToTablesButton", () => ({
   default: vi.fn(() => <div data-testid="back-to-tables-button" />),
 }));
 
-test("GIVEN the active session mode is rendered, WHEN a hesitation callback is provided, THEN it forwards the timer props to the current question prompt", () => {
-  const onHesitationElapsed = vi.fn();
+test("GIVEN the active session mode is rendered, WHEN a question is active, THEN it shows the answer actions", () => {
   const session: PracticeFlow = {
     kind: "currentQuestion",
     currentQuestionIndex: 0,
@@ -35,24 +30,14 @@ test("GIVEN the active session mode is rendered, WHEN a hesitation callback is p
   renderComponent(
     <ActiveSessionMode
       session={session}
-      selectedTable={3}
       onCheckAnswer={vi.fn()}
       onContinue={vi.fn()}
       onSelectAnswer={vi.fn()}
-      isHesitationRuleEnabled
-      onHesitationElapsed={onHesitationElapsed}
     />,
   );
 
-  expect(CurrentQuestionPrompt).toHaveBeenCalledWith(
-    expect.objectContaining({
-      isHesitationRuleEnabled: true,
-      onHesitationElapsed,
-    }),
-    undefined,
-  );
-
   expect(BackToTablesButton).toHaveBeenCalled();
+  expect(screen.getByRole("button", { name: /check answer/i })).toBeDisabled();
 });
 
 test("GIVEN the current question has correct feedback, WHEN the active session mode is rendered, THEN it disables the hesitation timer", () => {
@@ -77,19 +62,13 @@ test("GIVEN the current question has correct feedback, WHEN the active session m
   renderComponent(
     <ActiveSessionMode
       session={session}
-      selectedTable={3}
       onCheckAnswer={vi.fn()}
       onContinue={vi.fn()}
       onSelectAnswer={vi.fn()}
-      isHesitationRuleEnabled
-      onHesitationElapsed={vi.fn()}
     />,
   );
 
-  expect(CurrentQuestionPrompt).toHaveBeenLastCalledWith(
-    expect.objectContaining({
-      isHesitationRuleEnabled: false,
-    }),
-    undefined,
-  );
+  expect(
+    screen.queryByRole("button", { name: /check answer/i }),
+  ).not.toBeInTheDocument();
 });

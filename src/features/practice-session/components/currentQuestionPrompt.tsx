@@ -8,7 +8,7 @@ type CurrentQuestionPromptProps = {
   isHesitationRuleEnabled?: boolean;
   hesitationTimeoutSeconds?: number;
   onHesitationElapsed: () => void;
-  resetSignal?: string;
+  resetSignal: string;
   multiplier: number;
   table: number;
 };
@@ -21,8 +21,6 @@ const CurrentQuestionPrompt: FC<CurrentQuestionPromptProps> = ({
   multiplier,
   table,
 }) => {
-  const hesitationTimerResetSignal = resetSignal ?? `${table}-${multiplier}`;
-
   const { t } = useTranslation();
 
   return (
@@ -41,7 +39,7 @@ const CurrentQuestionPrompt: FC<CurrentQuestionPromptProps> = ({
           <HesitationTimerCounter
             enabled
             onElapsed={onHesitationElapsed}
-            resetSignal={hesitationTimerResetSignal}
+            resetSignal={resetSignal}
             timeoutSeconds={hesitationTimeoutSeconds}
           />
         ) : null}

@@ -6,15 +6,10 @@ import AnswerPad from "./answerPad";
 import BackToTablesButton from "./backToTablesButton";
 import CheckAnswerButton from "./checkAnswerButton";
 import ContinueButton from "./continueButton";
-import CurrentQuestionPrompt from "./currentQuestionPrompt";
 import useActiveSessionViewModel from "./useActiveSessionViewModel";
 
 type ActiveSessionModeProps = {
-  isHesitationRuleEnabled?: boolean;
-  hesitationTimerResetSignal?: string;
-  onHesitationElapsed: () => void;
   session: PracticeFlowType;
-  selectedTable: number;
   onCheckAnswer: () => void;
   onContinue: () => void;
   onSelectAnswer: (answer: number) => void;
@@ -22,28 +17,14 @@ type ActiveSessionModeProps = {
 
 const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
   session,
-  selectedTable,
   onCheckAnswer,
   onContinue,
-  onHesitationElapsed,
-  isHesitationRuleEnabled = false,
-  hesitationTimerResetSignal,
   onSelectAnswer,
 }) => {
   const viewModel = useActiveSessionViewModel(session);
-  const isHesitationTimerEnabled =
-    isHesitationRuleEnabled && !viewModel.hasCorrectFeedback;
 
   return (
     <Stack className={classes.content}>
-      <CurrentQuestionPrompt
-        isHesitationRuleEnabled={isHesitationTimerEnabled}
-        resetSignal={hesitationTimerResetSignal}
-        onHesitationElapsed={onHesitationElapsed}
-        multiplier={viewModel.multiplier}
-        table={selectedTable}
-      />
-
       <AnswerPad
         answerOptions={viewModel.answerOptions}
         feedbackAnimation={viewModel.feedbackAnimation}

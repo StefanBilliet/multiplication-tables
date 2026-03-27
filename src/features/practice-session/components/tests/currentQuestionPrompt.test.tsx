@@ -22,6 +22,7 @@ test("GIVEN the hesitation rule is enabled, WHEN the prompt is shown, THEN the t
       table={3}
       isHesitationRuleEnabled
       onHesitationElapsed={onElapsed}
+      resetSignal="1-3"
     />,
   );
 
@@ -50,6 +51,7 @@ test("GIVEN the hesitation rule is enabled and the question changes, WHEN five s
         table={3}
         isHesitationRuleEnabled
         onHesitationElapsed={onElapsed}
+        resetSignal="1-3"
       />
     </AppProviders>,
   );
@@ -65,6 +67,7 @@ test("GIVEN the hesitation rule is enabled and the question changes, WHEN five s
         table={3}
         isHesitationRuleEnabled
         onHesitationElapsed={onElapsed}
+        resetSignal="2-3"
       />
     </AppProviders>,
   );

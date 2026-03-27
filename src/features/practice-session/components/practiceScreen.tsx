@@ -5,9 +5,11 @@ import { useParams } from "react-router-dom";
 import { useAppStore } from "../../../shared/store/appStore";
 import PracticeFlow from "../models/practiceFlow";
 import ActiveSessionMode from "./activeSessionMode";
+import CurrentQuestionPrompt from "./currentQuestionPrompt";
 import Header from "./header";
 import classes from "./practiceScreen.module.css";
 import SummaryMode from "./summaryMode";
+import useActiveSessionViewModel from "./useActiveSessionViewModel";
 import usePracticeSession from "./usePracticeSession";
 
 const PracticeScreen: FC = () => {
@@ -25,6 +27,9 @@ const PracticeScreen: FC = () => {
     continueSession: handleContinue,
     resetSession: handleReset,
   } = usePracticeSession(selectedTable);
+  const activeSessionViewModel = useActiveSessionViewModel(session);
+  const isHesitationTimerEnabled =
+    isHesitationRuleEnabled && !activeSessionViewModel.hasCorrectFeedback;
 
   return (
     <Center className={classes.page}>
@@ -41,16 +46,22 @@ const PracticeScreen: FC = () => {
         {PracticeFlow.isComplete(session) ? (
           <SummaryMode session={session} />
         ) : (
-          <ActiveSessionMode
-            isHesitationRuleEnabled={isHesitationRuleEnabled}
-            hesitationTimerResetSignal={hesitationTimerResetSignal}
-            session={session}
-            selectedTable={selectedTable}
-            onCheckAnswer={handleCheckAnswer}
-            onContinue={handleContinue}
-            onHesitationElapsed={handleReset}
-            onSelectAnswer={handleSelectAnswer}
-          />
+          <>
+            <CurrentQuestionPrompt
+              isHesitationRuleEnabled={isHesitationTimerEnabled}
+              multiplier={activeSessionViewModel.multiplier}
+              onHesitationElapsed={handleReset}
+              resetSignal={hesitationTimerResetSignal}
+              table={selectedTable}
+            />
+
+            <ActiveSessionMode
+              session={session}
+              onCheckAnswer={handleCheckAnswer}
+              onContinue={handleContinue}
+              onSelectAnswer={handleSelectAnswer}
+            />
+          </>
         )}
       </Card>
     </Center>
