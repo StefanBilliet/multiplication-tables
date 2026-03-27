@@ -1,10 +1,17 @@
+import { Temporal } from '@js-temporal/polyfill';
 import type { StateCreator } from 'zustand';
 
 export type SessionCompletedEvent = {
+  id: string;
   table: number;
   firstTryCorrectAnswerCount: number;
   hasEarnedReward: boolean;
+  timestamp: Temporal.Instant;
   multiplicationErrors: { table: number; multiplier: number }[];
+};
+
+export type SerializedSessionCompletedEvent = Omit<SessionCompletedEvent, 'timestamp'> & {
+  timestamp: string;
 };
 
 export type RecentWeakness = {
@@ -18,6 +25,11 @@ export type SessionHistorySlice = {
   recentWeaknesses: RecentWeakness[];
   recordSessionCompleted: (event: SessionCompletedEvent) => void;
 };
+
+export const hydrateSessionCompletedEvent = (event: SerializedSessionCompletedEvent): SessionCompletedEvent => ({
+  ...event,
+  timestamp: Temporal.Instant.from(event.timestamp),
+});
 
 const projectRecentWeaknesses = (events: SessionCompletedEvent[]): RecentWeakness[] => {
   const counts = new Map<string, RecentWeakness>();

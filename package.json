@@ -17,6 +17,7 @@
     "isEverythingOk": "npm run check && npm run format && npm run build && npm run test && npm run build-storybook"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "^0.5.1",
     "@mantine/core": "^8.3.18",
     "@mantine/hooks": "^8.3.18",
     "@tabler/icons-react": "^3.41.0",

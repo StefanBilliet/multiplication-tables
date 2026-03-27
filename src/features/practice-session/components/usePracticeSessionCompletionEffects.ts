@@ -1,3 +1,4 @@
+import { Temporal } from '@js-temporal/polyfill';
 import { useEffect } from 'react';
 import useLifetimeRewardTotal from '../../../shared/rewards/useLifetimeRewardTotal';
 import { useAppStore } from '../../../shared/store/appStore';
@@ -22,9 +23,11 @@ const usePracticeSessionCompletionEffects = ({ selectedTable, session }: UsePrac
   useEffect(() => {
     if (session.kind === 'sessionComplete') {
       recordSessionCompleted({
+        id: crypto.randomUUID(),
         table: selectedTable,
         firstTryCorrectAnswerCount: session.firstTryCorrectAnswerCount,
         hasEarnedReward: PracticeFlow.hasEarnedReward(session),
+        timestamp: Temporal.Now.instant(),
         multiplicationErrors: session.multiplicationErrors,
       });
     }

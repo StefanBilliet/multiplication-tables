@@ -1,3 +1,5 @@
+import { Temporal } from '@js-temporal/polyfill';
+import { sessionCompletedEventFactory } from '../testing/factories/sessionCompletedEventFactory';
 import { createAppStore } from './appStore';
 
 test('GIVEN the app store is created, WHEN inspecting its state, THEN legacy multiplication error state is no longer present', () => {
@@ -15,9 +17,11 @@ test('GIVEN a completed practice session with repeated mistakes, WHEN it is reco
 
   for (const sessionNumber of sessionNumbers) {
     store.getState().recordSessionCompleted({
+      id: `session-${sessionNumber}`,
       table: 3,
       firstTryCorrectAnswerCount: sessionNumber,
       hasEarnedReward: sessionNumber === 2,
+      timestamp: Temporal.Instant.from('2026-03-27T12:00:00Z'),
       multiplicationErrors:
         sessionNumber === 2
           ? [
@@ -42,4 +46,23 @@ test('GIVEN a completed practice session with repeated mistakes, WHEN it is reco
     { table: 3, multiplier: 1, mistakeCount: 2 },
     { table: 3, multiplier: 2, mistakeCount: 1 },
   ]);
+});
+test('GIVEN persisted session history contains a timestamp string, WHEN the store is rehydrated, THEN the timestamp is exposed as a Temporal.Instant', () => {
+  localStorage.setItem(
+    'multiplication-app',
+    JSON.stringify({
+      state: {
+        lifetimeRewardTotal: 0,
+        recentWeaknesses: [],
+        sessionCompletedEvents: [sessionCompletedEventFactory.build()],
+        isHesitationRuleEnabled: false,
+        questionOrderMode: 'default',
+      },
+      version: 0,
+    }),
+  );
+  const store = createAppStore();
+
+  const timestamp = store.getState().sessionCompletedEvents[0].timestamp as unknown;
+  expect(timestamp).toBeInstanceOf(Temporal.Instant);
 });

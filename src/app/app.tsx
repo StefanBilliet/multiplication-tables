@@ -10,7 +10,7 @@ const App: FC = () => {
     <Routes>
       <Route path="/" element={<TableSelection />} />
       <Route path="/settings" element={<SettingsScreen />} />
-      <Route path="/practice-history" element={<PracticeHistoryScreen sessions={[]} />} />
+      <Route path="/practice-history" element={<PracticeHistoryScreen />} />
       <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
     </Routes>
   );

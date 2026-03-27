@@ -4,20 +4,16 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../../shared/i18n/languageSwitcher.tsx';
 import BackButton from '../../../shared/navigation/backButton.tsx';
+import { useAppStore } from '../../../shared/store/appStore';
 import classes from './practiceHistoryScreen.module.css';
+import SessionTimestamp from './sessionTimestamp.tsx';
 
-type PracticeHistoryScreenProps = {
-  sessions: Array<{
-    table: number;
-    firstTryCorrectAnswerCount: number;
-    timestamp: string;
-    hasEarnedReward: boolean;
-  }>;
-};
-
-const PracticeHistoryScreen: FC<PracticeHistoryScreenProps> = ({ sessions }) => {
+const PracticeHistoryScreen: FC = () => {
   const { t } = useTranslation();
-  const sortedSessions = sessions.toSorted((left, right) => right.timestamp.localeCompare(left.timestamp));
+  const sessions = useAppStore((state) => state.sessionCompletedEvents);
+  const sortedSessions = sessions.toSorted((left, right) =>
+    right.timestamp.toString().localeCompare(left.timestamp.toString()),
+  );
 
   return (
     <Center className={classes.page}>
@@ -54,15 +50,13 @@ const PracticeHistoryScreen: FC<PracticeHistoryScreenProps> = ({ sessions }) => 
                 </Alert>
               ) : (
                 sortedSessions.map((session) => (
-                  <Card key={session.timestamp} withBorder radius="lg" className={classes.sessionCard}>
+                  <Card key={session.id} withBorder radius="lg" className={classes.sessionCard}>
                     <Stack>
-                      <Text size="sm" c="dimmed">
-                        {session.timestamp}
-                      </Text>
+                      <SessionTimestamp timestamp={session.timestamp} />
                       <Text size="xl" fw={700} c="gray.8">
                         {t('practiceHistory.tableLabel', { table: session.table })}
                       </Text>
-                      <Text size="sm" c={session.hasEarnedReward ? 'green.6' : 'dimmed'}>
+                      <Text size="sm" c={session.hasEarnedReward ? 'teal.6' : 'dimmed'}>
                         {t('practiceHistory.scoreLabel', {
                           score: session.firstTryCorrectAnswerCount,
                         })}

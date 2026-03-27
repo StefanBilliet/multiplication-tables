@@ -64,9 +64,11 @@ test('GIVEN a wrong answer during a practice session, WHEN the session completes
 
   expect(store.getState().sessionCompletedEvents).toEqual([
     {
+      id: expect.any(String),
       table: 3,
       firstTryCorrectAnswerCount: 9,
       hasEarnedReward: true,
+      timestamp: expect.any(Object),
       multiplicationErrors: [{ table: 3, multiplier: 1 }],
     },
   ]);

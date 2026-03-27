@@ -4,7 +4,12 @@ import { createRewardsSlice, type RewardsSlice } from '../rewards/rewardsSlice';
 import { createPersistStorage, migrateLegacyStorage } from './appStorePersistence';
 import { createHesitationRuleSlice, type HesitationRuleSlice } from './hesitationRuleSlice';
 import { createQuestionOrderModeSlice, type QuestionOrderModeSlice } from './questionOrderModeSlice';
-import { createSessionHistorySlice, type SessionHistorySlice } from './sessionHistorySlice';
+import {
+  createSessionHistorySlice,
+  hydrateSessionCompletedEvent,
+  type SerializedSessionCompletedEvent,
+  type SessionHistorySlice,
+} from './sessionHistorySlice';
 
 export type AppState = RewardsSlice & SessionHistorySlice & HesitationRuleSlice & QuestionOrderModeSlice;
 
@@ -52,6 +57,23 @@ export const createAppStore = ({ persist: shouldPersist = true }: CreateAppStore
           isHesitationRuleEnabled: state.isHesitationRuleEnabled,
           questionOrderMode: state.questionOrderMode,
         }),
+        merge: (persistedState, currentState) => {
+          const state = persistedState as Partial<AppStorePersist> | undefined;
+
+          if (!state) {
+            return currentState;
+          }
+
+          const sessionCompletedEvents = state.sessionCompletedEvents ?? [];
+
+          return {
+            ...currentState,
+            ...state,
+            sessionCompletedEvents: sessionCompletedEvents.map((event) =>
+              hydrateSessionCompletedEvent(event as unknown as SerializedSessionCompletedEvent),
+            ),
+          };
+        },
       },
     ),
   );
