@@ -1,5 +1,6 @@
 import { Badge, Group, Stack, Text, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
+import { semanticColors } from '../../theme/semanticColors';
 
 type ScreenHeaderProps = {
   badge: string;
@@ -11,7 +12,7 @@ type ScreenHeaderProps = {
 const ScreenHeader = ({ badge, title, description, children }: ScreenHeaderProps) => (
   <Group component="header">
     <Stack>
-      <Badge variant="light" color="teal">
+      <Badge variant="light" color={semanticColors.primary}>
         {badge}
       </Badge>
 

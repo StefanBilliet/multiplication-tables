@@ -1,6 +1,7 @@
 import { Button, Card, Group } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { semanticColors } from '../../theme/semanticColors';
 
 const LanguageSwitcher: FC = () => {
   const { i18n, t } = useTranslation();
@@ -9,7 +10,7 @@ const LanguageSwitcher: FC = () => {
     <Card withBorder radius="xl" px="xs" py={4} shadow="sm">
       <Group gap={4} wrap="nowrap">
         <Button
-          color="teal"
+          color={semanticColors.primary}
           radius="xl"
           size="sm"
           variant={i18n.resolvedLanguage === 'nl' ? 'filled' : 'subtle'}
@@ -19,7 +20,7 @@ const LanguageSwitcher: FC = () => {
           NL
         </Button>
         <Button
-          color="teal"
+          color={semanticColors.primary}
           radius="xl"
           size="sm"
           variant={i18n.resolvedLanguage === 'en' ? 'filled' : 'subtle'}

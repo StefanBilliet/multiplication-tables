@@ -6,6 +6,7 @@ import ScreenHeader from '../../../shared/components/screenHeader.tsx';
 import LanguageSwitcher from '../../../shared/i18n/languageSwitcher.tsx';
 import BackButton from '../../../shared/navigation/backButton.tsx';
 import { useAppStore } from '../../../shared/store/appStore';
+import { semanticColors } from '../../../theme/semanticColors';
 import classes from './practiceHistoryScreen.module.css';
 import SessionTimestamp from './sessionTimestamp.tsx';
 
@@ -34,7 +35,7 @@ const PracticeHistoryScreen: FC = () => {
               {sessions.length === 0 ? (
                 <Alert
                   variant="light"
-                  color="blue"
+                  color={semanticColors.info}
                   radius="xl"
                   title={t('practiceHistory.emptyTitle')}
                   icon={<IconInfoCircle />}
@@ -49,7 +50,7 @@ const PracticeHistoryScreen: FC = () => {
                       <Text size="xl" fw={700} c="gray.8">
                         {t('practiceHistory.tableLabel', { table: session.table })}
                       </Text>
-                      <Text size="sm" c={session.hasEarnedReward ? 'teal.6' : 'dimmed'}>
+                      <Text size="sm" c={session.hasEarnedReward ? semanticColors.success : 'dimmed'}>
                         {t('practiceHistory.scoreLabel', {
                           score: session.firstTryCorrectAnswerCount,
                         })}

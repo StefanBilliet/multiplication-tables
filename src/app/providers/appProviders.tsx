@@ -1,9 +1,10 @@
 import { Card, createTheme, MantineProvider } from '@mantine/core';
 import type { FC, PropsWithChildren } from 'react';
 import { AppStoreProvider } from '../../shared/store/appStore';
+import { semanticColors } from '../../theme/semanticColors';
 
 const theme = createTheme({
-  primaryColor: 'teal',
+  primaryColor: semanticColors.primary,
   fontFamily: 'Inter, system-ui, sans-serif',
   headings: {
     fontFamily: 'Inter, system-ui, sans-serif',
@@ -19,8 +20,8 @@ const theme = createTheme({
         root:
           props.variant === 'shell'
             ? {
-                border: '1px solid rgba(23, 49, 55, 0.08)',
-                background: 'rgba(255, 255, 255, 0.82)',
+                border: '1px solid var(--app-color-neutral-border)',
+                background: 'var(--app-color-neutral-surface)',
                 backdropFilter: 'blur(16px)',
               }
             : {},

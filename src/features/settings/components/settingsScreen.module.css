@@ -64,9 +64,9 @@
 }
 
 .optionCardSelected {
-  background: linear-gradient(180deg, rgba(17, 170, 154, 0.08), rgba(17, 170, 154, 0.02));
-  border-color: var(--mantine-color-teal-5);
-  box-shadow: 0 0 0 1px rgba(17, 170, 154, 0.08);
+  background: linear-gradient(180deg, var(--app-color-primary-tint), var(--app-color-primary-soft));
+  border-color: var(--app-color-primary-border);
+  box-shadow: 0 0 0 1px var(--app-color-primary-shadow);
 }
 
 .optionInput {

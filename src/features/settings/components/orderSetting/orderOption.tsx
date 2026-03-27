@@ -2,6 +2,7 @@ import { Badge, Card, Group, Stack, Text } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { QuestionOrderMode } from '../../../../shared/models/questionOrderMode.ts';
+import { semanticColors } from '../../../../theme/semanticColors';
 import classes from '../settingsScreen.module.css';
 
 type OrderOptionProps = {
@@ -39,7 +40,7 @@ const OrderOption: FC<OrderOptionProps> = ({ isSelected, title, description, mod
               {title}
             </Text>
             {isSelected ? (
-              <Badge size="sm" variant="filled" color="teal">
+              <Badge size="sm" variant="filled" color={semanticColors.primary}>
                 {t('settingsScreen.selectedBadge')}
               </Badge>
             ) : null}
@@ -49,7 +50,7 @@ const OrderOption: FC<OrderOptionProps> = ({ isSelected, title, description, mod
           </Text>
         </Stack>
 
-        <Text size="sm" fw={600} c={isSelected ? 'teal' : 'dimmed'}>
+        <Text size="sm" fw={600} c={isSelected ? semanticColors.primary : 'dimmed'}>
           {modeLabel}
         </Text>
       </Stack>

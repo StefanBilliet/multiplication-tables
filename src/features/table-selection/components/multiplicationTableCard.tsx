@@ -1,6 +1,7 @@
 import { Badge, Button, Card, Stack, Text, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { semanticColors, semanticColorVars } from '../../../theme/semanticColors';
 
 type MultiplicationTableCardProps = {
   table: {
@@ -17,12 +18,12 @@ type MultiplicationTableCardProps = {
 const MultiplicationTableCard: FC<MultiplicationTableCardProps> = ({ table, onSelect }) => {
   const { t } = useTranslation();
   const statusLabel = table.unlockState.unlocked ? t('tableCard.available') : t('tableCard.locked');
-  const statusColor = table.unlockState.unlocked ? 'teal' : 'gray';
+  const statusColor = table.unlockState.unlocked ? semanticColors.success : semanticColors.neutral;
   const description = table.unlockState.unlocked ? t('tableCard.readyToPractice') : t('tableCard.unlockNext');
-  const cardBackground = table.unlockState.unlocked ? 'teal.0' : 'gray.0';
+  const cardBackground = table.unlockState.unlocked ? semanticColorVars.successSoft : semanticColorVars.neutralSoft;
   const actionLabel = table.unlockState.unlocked ? t('tableCard.startPractice') : t('tableCard.lockedForNow');
   const actionVariant = table.unlockState.unlocked ? 'filled' : 'default';
-  const actionColor = table.unlockState.unlocked ? 'teal' : undefined;
+  const actionColor = table.unlockState.unlocked ? semanticColors.primary : undefined;
   const actionDisabled = !table.unlockState.unlocked;
 
   return (

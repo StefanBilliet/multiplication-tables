@@ -1,6 +1,7 @@
 import { Group, Paper, Stack, Text, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { semanticColors, semanticColorVars } from '../../../theme/semanticColors';
 import classes from './currentQuestionPrompt.module.css';
 import HesitationTimerCounter from './hesitationTimerCounter';
 
@@ -24,10 +25,10 @@ const CurrentQuestionPrompt: FC<CurrentQuestionPromptProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Paper radius="xl" bg="teal.0" withBorder className={classes.panel}>
+    <Paper radius="xl" bg={semanticColorVars.primarySoft} withBorder className={classes.panel}>
       <Group align="flex-start" justify="space-between" wrap="nowrap">
         <Stack gap={0}>
-          <Text size="sm" tt="uppercase" fw={700} c="teal.8">
+          <Text size="sm" tt="uppercase" fw={700} c={semanticColors.primary}>
             {t('practiceSession.questionPrompt.title')}
           </Text>
           <Title order={2} size="h1">

@@ -1,6 +1,7 @@
 import { Paper, Stack, Text, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { semanticColors, semanticColorVars } from '../../../theme/semanticColors';
 import classes from './sessionSummary.module.css';
 
 type SessionSummaryProps = {
@@ -12,13 +13,13 @@ const SessionSummary: FC<SessionSummaryProps> = ({ correctAnswerCount, totalQues
   const { t } = useTranslation();
 
   return (
-    <Paper radius="xl" bg="teal.0" withBorder className={classes.panel}>
+    <Paper radius="xl" bg={semanticColorVars.successSoft} withBorder className={classes.panel}>
       <Stack>
-        <Text size="sm" tt="uppercase" fw={700} c="teal.8">
+        <Text size="sm" tt="uppercase" fw={700} c={semanticColors.success}>
           {t('practiceSession.sessionSummary.title')}
         </Text>
         <Title order={2}>{t('practiceSession.sessionSummary.completedTitle')}</Title>
-        <Text size="xl" fw={700} c="teal.8">
+        <Text size="xl" fw={700} c={semanticColors.success}>
           {t('practiceSession.sessionSummary.correctAnswers', {
             correctAnswerCount,
           })}

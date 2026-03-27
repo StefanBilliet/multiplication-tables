@@ -1,6 +1,7 @@
 import { Badge, Group, Paper, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { semanticColors, semanticColorVars } from '../../../theme/semanticColors';
 import Celebration from './celebration';
 import classes from './rewardEarnedSummary.module.css';
 import SessionSummary from './sessionSummary';
@@ -17,10 +18,10 @@ const RewardEarnedSummary: FC<RewardEarnedSummaryProps> = ({ correctAnswerCount,
     <>
       <Celebration />
       <Stack className={classes.content}>
-        <Paper radius="xl" bg="yellow.1" withBorder className={classes.rewardPanel}>
+        <Paper radius="xl" bg={semanticColorVars.rewardSoft} withBorder className={classes.rewardPanel}>
           <Group component="section">
             <Group wrap="nowrap">
-              <ThemeIcon size="xl" radius="xl" color="yellow">
+              <ThemeIcon size="xl" radius="xl" color={semanticColors.reward}>
                 <Text fw={700}>+1</Text>
               </ThemeIcon>
               <Stack>
@@ -28,7 +29,7 @@ const RewardEarnedSummary: FC<RewardEarnedSummaryProps> = ({ correctAnswerCount,
                 <Text c="dimmed">{t('practiceSession.rewardEarned.description')}</Text>
               </Stack>
             </Group>
-            <Badge variant="filled" color="teal" size="lg" radius="xl">
+            <Badge variant="filled" color={semanticColors.primary} size="lg" radius="xl">
               {t('practiceSession.rewardEarned.totalRewards', {
                 lifetimeRewardTotal,
               })}

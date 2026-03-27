@@ -1,0 +1,32 @@
+export const semanticColors = {
+  primary: 'teal',
+  success: 'teal',
+  reward: 'yellow',
+  danger: 'red',
+  info: 'blue',
+  neutral: 'gray',
+} as const;
+
+export const semanticColorVars = {
+  primary: 'var(--app-color-primary)',
+  primarySoft: 'var(--app-color-primary-soft)',
+  primaryStrong: 'var(--app-color-primary-strong)',
+  primaryBorder: 'var(--app-color-primary-border)',
+  success: 'var(--app-color-success)',
+  successSoft: 'var(--app-color-success-soft)',
+  successStrong: 'var(--app-color-success-strong)',
+  successBorder: 'var(--app-color-success-border)',
+  reward: 'var(--app-color-reward)',
+  rewardSoft: 'var(--app-color-reward-soft)',
+  rewardStrong: 'var(--app-color-reward-strong)',
+  danger: 'var(--app-color-danger)',
+  dangerSoft: 'var(--app-color-danger-soft)',
+  dangerStrong: 'var(--app-color-danger-strong)',
+  info: 'var(--app-color-info)',
+  infoSoft: 'var(--app-color-info-soft)',
+  infoStrong: 'var(--app-color-info-strong)',
+  neutral: 'var(--app-color-neutral)',
+  neutralSoft: 'var(--app-color-neutral-soft)',
+  neutralStrong: 'var(--app-color-neutral-strong)',
+  neutralDimmed: 'var(--app-color-neutral-dimmed)',
+} as const;

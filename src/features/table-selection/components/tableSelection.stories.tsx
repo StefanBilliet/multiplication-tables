@@ -2,6 +2,7 @@ import { Badge, Card, Center, Group, SimpleGrid, Stack, Text, Title } from '@man
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { MemoryRouter } from 'react-router-dom';
 import LanguageSwitcher from '../../../shared/i18n/languageSwitcher';
+import { semanticColors } from '../../../theme/semanticColors';
 import MultiplicationTableCard from './multiplicationTableCard';
 import TableSelection from './tableSelection';
 import classes from './tableSelection.module.css';
@@ -30,7 +31,7 @@ export const WithLanguageSwitcherHeader: Story = {
       <Card variant="shell" className={classes.pageCard}>
         <Group component="header" align="flex-start" justify="space-between">
           <Stack gap="xs">
-            <Badge variant="light" color="teal">
+            <Badge variant="light" color={semanticColors.primary}>
               Start practicing
             </Badge>
             <Title order={1}>Choose a table</Title>

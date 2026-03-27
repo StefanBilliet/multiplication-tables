@@ -7,6 +7,7 @@ import ScreenHeader from '../../../shared/components/screenHeader.tsx';
 import LanguageSwitcher from '../../../shared/i18n/languageSwitcher.tsx';
 import BackButton from '../../../shared/navigation/backButton.tsx';
 import { useAppStore } from '../../../shared/store/appStore.ts';
+import { semanticColors } from '../../../theme/semanticColors';
 import HesitationRuleOption from './hesitationRuleOption.tsx';
 import { OrderSetting } from './orderSetting/orderSetting.tsx';
 import classes from './settingsScreen.module.css';
@@ -42,7 +43,7 @@ const SettingsScreen: FC = () => {
                 fullWidth
                 justify="space-between"
                 variant="subtle"
-                color="teal"
+                color={semanticColors.primary}
                 radius="lg"
                 rightSection={<IconChevronRight />}
                 onClick={() => navigate('/practice-history')}

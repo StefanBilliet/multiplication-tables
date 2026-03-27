@@ -1,6 +1,7 @@
 import { Badge, Card, Group, Stack, Text, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { semanticColors } from '../../../theme/semanticColors';
 import classes from './settingsScreen.module.css';
 
 type HesitationRuleOptionProps = {
@@ -34,7 +35,7 @@ const HesitationRuleOption: FC<HesitationRuleOptionProps> = ({ isEnabled, onTogg
           <Group className={classes.optionHeader}>
             <Title order={3}>{t('settingsScreen.hesitationRuleTitle')}</Title>
             {isEnabled ? (
-              <Badge size="sm" variant="filled" color="teal">
+              <Badge size="sm" variant="filled" color={semanticColors.primary}>
                 {t('settingsScreen.selectedBadge')}
               </Badge>
             ) : null}

@@ -1,0 +1,39 @@
+:root {
+  --app-color-primary: var(--mantine-color-teal-6);
+  --app-color-primary-soft: var(--mantine-color-teal-0);
+  --app-color-primary-strong: var(--mantine-color-teal-8);
+  --app-color-primary-border: var(--mantine-color-teal-5);
+  --app-color-primary-tint: var(--mantine-color-teal-1);
+  --app-color-primary-shadow: rgba(18, 184, 134, 0.14);
+  --app-color-primary-shadow-strong: rgba(18, 184, 134, 0.2);
+
+  --app-color-success: var(--mantine-color-teal-6);
+  --app-color-success-soft: var(--mantine-color-teal-0);
+  --app-color-success-strong: var(--mantine-color-teal-8);
+  --app-color-success-border: var(--mantine-color-teal-4);
+  --app-color-success-tint: var(--mantine-color-teal-2);
+  --app-color-success-shadow: rgba(18, 184, 134, 0.14);
+  --app-color-success-shadow-strong: rgba(18, 184, 134, 0.2);
+
+  --app-color-reward: var(--mantine-color-yellow-6);
+  --app-color-reward-soft: var(--mantine-color-yellow-1);
+  --app-color-reward-strong: var(--mantine-color-yellow-8);
+  --app-color-reward-border: var(--mantine-color-yellow-3);
+
+  --app-color-danger: var(--mantine-color-red-6);
+  --app-color-danger-soft: var(--mantine-color-red-0);
+  --app-color-danger-strong: var(--mantine-color-red-8);
+  --app-color-danger-tint: var(--mantine-color-red-1);
+  --app-color-danger-shadow: rgba(250, 82, 82, 0.14);
+
+  --app-color-info: var(--mantine-color-blue-6);
+  --app-color-info-soft: var(--mantine-color-blue-0);
+  --app-color-info-strong: var(--mantine-color-blue-8);
+
+  --app-color-neutral: var(--mantine-color-gray-6);
+  --app-color-neutral-soft: var(--mantine-color-gray-0);
+  --app-color-neutral-surface: rgba(255, 255, 255, 0.82);
+  --app-color-neutral-border: var(--mantine-color-gray-3);
+  --app-color-neutral-strong: var(--mantine-color-dark-8);
+  --app-color-neutral-dimmed: var(--mantine-color-dimmed);
+}

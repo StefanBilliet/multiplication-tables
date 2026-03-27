@@ -1,5 +1,6 @@
 import { Button, Card, Center, Group, Paper, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { semanticColors } from '../../../../theme/semanticColors';
 import HesitationTimerCounter from '../hesitationTimerCounter';
 
 const meta = {
@@ -15,7 +16,7 @@ const renderHesitationRuleFrame = () => (
     <Card w="100%" maw={720} variant="shell">
       <Stack gap="lg">
         <Stack gap="xs">
-          <Text fw={700} tt="uppercase" c="teal.8" size="sm">
+          <Text fw={700} tt="uppercase" c={semanticColors.primary} size="sm">
             Hesitation rule enabled
           </Text>
           <Title order={1}>1 x 3 = ?</Title>
@@ -74,10 +75,10 @@ export const PlacedInPracticeScreen: Story = {
           </Group>
 
           <Stack gap="lg">
-            <Paper radius="xl" bg="teal.0" withBorder p="xl">
+            <Paper radius="xl" bg="var(--app-color-primary-soft)" withBorder p="xl">
               <Group align="flex-start" justify="space-between" wrap="nowrap">
                 <Stack gap="sm" flex={1}>
-                  <Text size="sm" tt="uppercase" fw={700} c="teal.8">
+                  <Text size="sm" tt="uppercase" fw={700} c={semanticColors.primary}>
                     Huidige vraag
                   </Text>
                   <Title order={2} size="h1">

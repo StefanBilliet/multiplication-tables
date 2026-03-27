@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import LanguageSwitcher from '../../../shared/i18n/languageSwitcher';
 import SettingsButton from '../../../shared/navigation/settingsButton';
 import useLifetimeRewardTotal from '../../../shared/rewards/useLifetimeRewardTotal';
+import { semanticColors } from '../../../theme/semanticColors';
 import MultiplicationTableCard from './multiplicationTableCard';
 import classes from './tableSelection.module.css';
 import { useMultiplicationTables } from './useMultiplicationTables.tsx';
@@ -24,7 +25,7 @@ const TableSelection: FC = () => {
       <Card variant="shell" className={classes.pageCard}>
         <Group component="header">
           <Stack>
-            <Badge variant="light" color="teal">
+            <Badge variant="light" color={semanticColors.primary}>
               {t('tableSelection.startScreenBadge')}
             </Badge>
             <Title order={1}>{t('tableSelection.title')}</Title>

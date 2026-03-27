@@ -61,7 +61,7 @@ describe('PracticeHistoryScreen', () => {
     expect(tableLabels[1]).toHaveTextContent('3 times table');
   });
 
-  test('GIVEN rewarded and non-rewarded sessions WHEN the screen renders THEN only the rewarded score text is teal.6', () => {
+  test('GIVEN rewarded and non-rewarded sessions WHEN the screen renders THEN only the rewarded score text is success-colored', () => {
     const store = createAppStore({ persist: false });
     store.setState({
       sessionCompletedEvents: [
@@ -85,7 +85,7 @@ describe('PracticeHistoryScreen', () => {
       { store },
     );
 
-    expect(getByText('8 correct answers')).toHaveStyle({ color: 'var(--mantine-color-teal-6)' });
+    expect(getByText('8 correct answers')).toHaveStyle({ color: 'var(--mantine-color-teal-text)' });
     expect(getByText('6 correct answers')).toHaveStyle({ color: 'var(--mantine-color-dimmed)' });
   });
 });
