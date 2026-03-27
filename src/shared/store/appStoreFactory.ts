@@ -58,7 +58,9 @@ export const createAppStore = ({ persist: shouldPersist = true }: CreateAppStore
           questionOrderMode: state.questionOrderMode,
         }),
         merge: (persistedState, currentState) => {
-          const state = persistedState as Partial<AppStorePersist> | undefined;
+          const state =
+            (persistedState as { state?: Partial<AppStorePersist> } | undefined)?.state ??
+            (persistedState as Partial<AppStorePersist> | undefined);
 
           if (!state) {
             return currentState;

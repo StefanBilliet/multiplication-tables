@@ -66,3 +66,37 @@ test('GIVEN persisted session history contains a timestamp string, WHEN the stor
   const timestamp = store.getState().sessionCompletedEvents[0].timestamp as unknown;
   expect(timestamp).toBeInstanceOf(Temporal.Instant);
 });
+
+test('GIVEN persisted session history is still in the legacy format, WHEN the store is rehydrated, THEN reward totals and completed sessions are restored', () => {
+  localStorage.setItem(
+    'multiplication-app',
+    JSON.stringify({
+      state: {
+        lifetimeRewardTotal: 7,
+        recentWeaknesses: [],
+        sessionCompletedEvents: [
+          {
+            table: 3,
+            firstTryCorrectAnswerCount: 10,
+            hasEarnedReward: true,
+            multiplicationErrors: [],
+          },
+          {
+            table: 1,
+            firstTryCorrectAnswerCount: 10,
+            hasEarnedReward: true,
+            multiplicationErrors: [],
+          },
+        ],
+        isHesitationRuleEnabled: false,
+        questionOrderMode: 'varied',
+      },
+      version: 0,
+    }),
+  );
+
+  const store = createAppStore();
+
+  expect(store.getState().lifetimeRewardTotal).toBe(7);
+  expect(store.getState().sessionCompletedEvents).toHaveLength(2);
+});

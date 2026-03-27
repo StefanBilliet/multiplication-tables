@@ -28,7 +28,7 @@ export type SessionHistorySlice = {
 
 export const hydrateSessionCompletedEvent = (event: SerializedSessionCompletedEvent): SessionCompletedEvent => ({
   ...event,
-  timestamp: Temporal.Instant.from(event.timestamp),
+  timestamp: event.timestamp ? Temporal.Instant.from(event.timestamp) : Temporal.Now.instant(),
 });
 
 const projectRecentWeaknesses = (events: SessionCompletedEvent[]): RecentWeakness[] => {
