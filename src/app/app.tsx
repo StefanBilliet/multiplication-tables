@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import PracticeHistoryScreen from '../features/practice-history/components/practiceHistoryScreen';
 import PracticeScreen from '../features/practice-session/components/practiceScreen';
 import SettingsScreen from '../features/settings/components/settingsScreen';
 import TableSelection from '../features/table-selection/components/tableSelection';
@@ -9,6 +10,7 @@ const App: FC = () => {
     <Routes>
       <Route path="/" element={<TableSelection />} />
       <Route path="/settings" element={<SettingsScreen />} />
+      <Route path="/practice-history" element={<PracticeHistoryScreen sessions={[]} />} />
       <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
     </Routes>
   );

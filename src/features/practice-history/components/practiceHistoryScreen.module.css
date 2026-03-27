@@ -1,0 +1,61 @@
+.page {
+  min-height: 100dvh;
+  padding: var(--mantine-spacing-md);
+}
+
+.pageCard {
+  width: min(100%, 70rem);
+}
+
+.pageCard > * {
+  gap: var(--mantine-spacing-xl);
+}
+
+.pageCard > * > header {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mantine-spacing-md);
+  justify-content: space-between;
+}
+
+.pageCard > * > header > *:first-child {
+  flex: 1 1 22rem;
+  gap: var(--mantine-spacing-xs);
+  max-width: 35rem;
+}
+
+.pageCard > * > header > *:last-child {
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+}
+
+.pageCard > * > *:not(header) {
+  padding: var(--mantine-spacing-lg);
+}
+
+.pageCard > * > *:not(header) > * {
+  gap: var(--mantine-spacing-md);
+}
+
+.pageCard > * > *:not(header) > * > *:first-child {
+  gap: var(--mantine-spacing-xs);
+}
+
+.pageCard > * > *:not(header) > * > *:first-child > *:first-child {
+  flex-wrap: nowrap;
+}
+
+.sessionCard {
+  padding: var(--mantine-spacing-lg);
+}
+
+.sessionCard > * {
+  gap: var(--mantine-spacing-xs);
+}
+
+@media (min-width: 48em) {
+  .page {
+    padding: var(--mantine-spacing-xl);
+  }
+}
