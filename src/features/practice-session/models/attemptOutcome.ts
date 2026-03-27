@@ -4,6 +4,10 @@ type PracticeFlow = CurrentQuestionState | SessionComplete;
 
 export const attemptOutcome = {
   correct(flow: CurrentQuestionState): PracticeFlow {
+    const firstTryCorrectAnswerCount = flow.currentQuestion.hasRetriedCurrentQuestion
+      ? flow.firstTryCorrectAnswerCount
+      : flow.firstTryCorrectAnswerCount + 1;
+
     return {
       ...flow,
       currentQuestion: {
@@ -12,9 +16,7 @@ export const attemptOutcome = {
         canContinue: true,
         feedbackState: 'correct',
       },
-      firstTryCorrectAnswerCount: !flow.currentQuestion.hasRetriedCurrentQuestion
-        ? flow.firstTryCorrectAnswerCount + 1
-        : flow.firstTryCorrectAnswerCount,
+      firstTryCorrectAnswerCount,
     };
   },
 

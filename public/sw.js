@@ -3,7 +3,7 @@ const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg', 
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
-  self.skipWaiting();
+  globalThis.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -12,7 +12,7 @@ self.addEventListener('activate', (event) => {
       .keys()
       .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))),
   );
-  self.clients.claim();
+  globalThis.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
@@ -32,12 +32,11 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+        if (networkResponse?.status === 200 && networkResponse.type === 'basic') {
+          const responseClone = networkResponse.clone();
+          void caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
         }
 
-        const responseClone = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
         return networkResponse;
       });
     }),

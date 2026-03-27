@@ -24,12 +24,28 @@ PARAMETERS_FILE="$INFRA_DIR/parameters.json"
 
 # --- Helpers ---
 
-info()  { echo -e "\n\033[1;34m[INFO]\033[0m  $*" ; }
-warn()  { echo -e "\n\033[1;33m[WARN]\033[0m  $*" ; }
-error() { echo -e "\n\033[1;31m[ERROR]\033[0m $*" >&2 ; exit 1 ; }
+info() {
+  echo -e "\n\033[1;34m[INFO]\033[0m  $*"
+  return 0
+}
+
+warn() {
+  echo -e "\n\033[1;33m[WARN]\033[0m  $*"
+  return 0
+}
+
+error() {
+  echo -e "\n\033[1;31m[ERROR]\033[0m $*" >&2
+  exit 1
+  return 1
+}
 
 require() {
-  command -v "$1" >/dev/null 2>&1 || error "Required: $1 not found. $2"
+  local command_name="$1"
+  local install_hint="${2:-}"
+
+  command -v "$command_name" >/dev/null 2>&1 || error "Required: $command_name not found. $install_hint"
+  return 0
 }
 
 # --- Prerequisites ---
@@ -187,6 +203,8 @@ info "Deployment token retrieved."
 
 # --- Summary ---
 
+readonly SECRET_FORMAT="  %-35s %s\n"
+
 echo
 echo "============================================================"
 echo "  Setup complete!"
@@ -195,10 +213,10 @@ echo
 echo "Add these as GitHub Secrets in your repository"
 echo "  Settings → Secrets and variables → Actions → New repository secret"
 echo
-printf "  %-35s %s\n" "AZURE_CLIENT_ID" "$client_id"
-printf "  %-35s %s\n" "AZURE_TENANT_ID" "$tenant_id"
-printf "  %-35s %s\n" "AZURE_SUBSCRIPTION_ID" "$subscription_id"
-printf "  %-35s %s\n" "AZURE_STATIC_WEB_APPS_TOKEN" "$swa_token"
+printf "$SECRET_FORMAT" "AZURE_CLIENT_ID" "$client_id"
+printf "$SECRET_FORMAT" "AZURE_TENANT_ID" "$tenant_id"
+printf "$SECRET_FORMAT" "AZURE_SUBSCRIPTION_ID" "$subscription_id"
+printf "$SECRET_FORMAT" "AZURE_STATIC_WEB_APPS_TOKEN" "$swa_token"
 echo
 echo "Or run this one-liner to set them all at once:"
 echo

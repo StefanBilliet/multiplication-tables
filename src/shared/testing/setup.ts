@@ -8,7 +8,7 @@ resetAppStore();
 await import('../i18n');
 await i18n.changeLanguage('en');
 
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(globalThis, 'matchMedia', {
   writable: true,
   value: (query: string) => ({
     matches: false,

@@ -9,8 +9,16 @@ type AnswerFieldProps = {
   selectedAnswer: number | null;
 };
 
+function getFeedbackIcon(feedbackState: 'correct' | 'incorrect' | null) {
+  if (feedbackState === 'correct') {
+    return '✓';
+  }
+
+  return feedbackState === 'incorrect' ? '!' : '';
+}
+
 const AnswerField: FC<AnswerFieldProps> = ({ feedbackAnimation, feedbackState, selectedAnswer }) => {
-  const feedbackIcon = feedbackState === 'correct' ? '✓' : feedbackState === 'incorrect' ? '!' : '';
+  const feedbackIcon = getFeedbackIcon(feedbackState);
   const textColorClassName = selectedAnswer === null && feedbackState === null ? classes.empty : classes.filled;
   const sectionFeedbackState = feedbackState ?? 'idle';
   const { t } = useTranslation();

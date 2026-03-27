@@ -22,7 +22,7 @@ export const migrateLegacyStorage = () => {
   if (!legacyData) return;
 
   const parsed = Number(legacyData);
-  const value = !Number.isNaN(parsed) ? parsed : 0;
+  const value = Number.isNaN(parsed) ? 0 : parsed;
   localStorage.setItem(
     NEW_STORAGE_KEY,
     JSON.stringify({
