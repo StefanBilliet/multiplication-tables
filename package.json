@@ -19,8 +19,8 @@
   "dependencies": {
     "@mantine/core": "^8.3.18",
     "@mantine/hooks": "^8.3.18",
-    "@tabler/icons-react": "^3.40.0",
-    "i18next": "^25.10.9",
+    "@tabler/icons-react": "^3.41.0",
+    "i18next": "^25.10.10",
     "i18next-browser-languagedetector": "^8.2.1",
     "react": "^19.2.4",
     "react-confetti": "^6.4.0",
@@ -39,12 +39,12 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "@vitest/coverage-v8": "^4.1.1",
+    "@vitest/coverage-v8": "^4.1.2",
     "fishery": "^2.4.0",
     "jsdom": "^29.0.1",
     "storybook": "^10.3.3",
     "typescript": "~6.0.2",
-    "vite": "^8.0.2",
+    "vite": "^8.0.3",
     "vitest": "^4.1.1"
   }
 }
