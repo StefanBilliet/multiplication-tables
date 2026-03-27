@@ -1,7 +1,8 @@
-import { Alert, Badge, Card, Center, Group, Stack, Text, Title } from '@mantine/core';
+import { Alert, Card, Center, Stack, Text } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import ScreenHeader from '../../../shared/components/screenHeader.tsx';
 import LanguageSwitcher from '../../../shared/i18n/languageSwitcher.tsx';
 import BackButton from '../../../shared/navigation/backButton.tsx';
 import { useAppStore } from '../../../shared/store/appStore';
@@ -19,22 +20,14 @@ const PracticeHistoryScreen: FC = () => {
     <Center className={classes.page}>
       <Card variant="shell" className={classes.pageCard}>
         <Stack>
-          <Group component="header">
-            <Stack>
-              <Badge variant="light" color="teal">
-                {t('practiceHistory.badge')}
-              </Badge>
-
-              <Title order={1}>{t('practiceHistory.title')}</Title>
-
-              <Text c="dimmed">{t('practiceHistory.description')}</Text>
-            </Stack>
-
-            <Group>
-              <LanguageSwitcher />
-              <BackButton />
-            </Group>
-          </Group>
+          <ScreenHeader
+            badge={t('practiceHistory.badge')}
+            title={t('practiceHistory.title')}
+            description={t('practiceHistory.description')}
+          >
+            <LanguageSwitcher />
+            <BackButton />
+          </ScreenHeader>
 
           <Card component="main" withBorder radius="xl">
             <Stack>
