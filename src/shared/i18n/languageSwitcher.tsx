@@ -1,6 +1,6 @@
-import { Button, Card, Group } from "@mantine/core";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
+import { Button, Card, Group } from '@mantine/core';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const LanguageSwitcher: FC = () => {
   const { i18n, t } = useTranslation();
@@ -12,9 +12,9 @@ const LanguageSwitcher: FC = () => {
           color="teal"
           radius="xl"
           size="sm"
-          variant={i18n.resolvedLanguage === "nl" ? "filled" : "subtle"}
-          aria-label={t("languageSwitcher.switchToDutch")}
-          onClick={() => i18n.changeLanguage("nl")}
+          variant={i18n.resolvedLanguage === 'nl' ? 'filled' : 'subtle'}
+          aria-label={t('languageSwitcher.switchToDutch')}
+          onClick={() => i18n.changeLanguage('nl')}
         >
           NL
         </Button>
@@ -22,9 +22,9 @@ const LanguageSwitcher: FC = () => {
           color="teal"
           radius="xl"
           size="sm"
-          variant={i18n.resolvedLanguage === "en" ? "filled" : "subtle"}
-          aria-label={t("languageSwitcher.switchToEnglish")}
-          onClick={() => i18n.changeLanguage("en")}
+          variant={i18n.resolvedLanguage === 'en' ? 'filled' : 'subtle'}
+          aria-label={t('languageSwitcher.switchToEnglish')}
+          onClick={() => i18n.changeLanguage('en')}
         >
           EN
         </Button>

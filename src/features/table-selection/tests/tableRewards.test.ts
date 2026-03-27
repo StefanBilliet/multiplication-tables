@@ -1,7 +1,7 @@
-import { describe, expect, test } from "vitest";
-import { getRewardsNeededForTable } from "../tableRewards";
+import { describe, expect, test } from 'vitest';
+import { getRewardsNeededForTable } from '../tableRewards';
 
-describe("tableRewards", () => {
+describe('tableRewards', () => {
   test.each([
     { tableId: 1, expected: 0 },
     { tableId: 2, expected: 2 },
@@ -13,7 +13,7 @@ describe("tableRewards", () => {
     { tableId: 8, expected: 29 },
     { tableId: 9, expected: 37 },
     { tableId: 10, expected: 46 },
-  ])("GIVEN zero current rewards and table $tableId WHEN rewards needed is calculated THEN it returns $expected", ({
+  ])('GIVEN zero current rewards and table $tableId WHEN rewards needed is calculated THEN it returns $expected', ({
     tableId,
     expected,
   }) => {
@@ -31,7 +31,7 @@ describe("tableRewards", () => {
     { currentRewards: 7, tableId: 4, expected: 0 },
     { currentRewards: 46, tableId: 10, expected: 0 },
     { currentRewards: 100, tableId: 10, expected: 0 },
-  ])("GIVEN $currentRewards current rewards and table $tableId WHEN rewards needed is calculated THEN it returns $expected", ({
+  ])('GIVEN $currentRewards current rewards and table $tableId WHEN rewards needed is calculated THEN it returns $expected', ({
     currentRewards,
     tableId,
     expected,

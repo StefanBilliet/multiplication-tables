@@ -2,7 +2,7 @@ type CurrentQuestion = {
   answerOptions: number[];
   canCheckAnswer: boolean;
   canContinue: boolean;
-  feedbackState: "correct" | "incorrect" | null;
+  feedbackState: 'correct' | 'incorrect' | null;
   hasRetriedCurrentQuestion: boolean;
   multiplier: number;
   selectedAnswer: number | null;
@@ -10,14 +10,14 @@ type CurrentQuestion = {
 };
 
 export type SessionComplete = {
-  kind: "sessionComplete";
+  kind: 'sessionComplete';
   firstTryCorrectAnswerCount: number;
   hasEarnedReward: boolean;
   multiplicationErrors: { table: number; multiplier: number }[];
 };
 
 export type CurrentQuestionState = {
-  kind: "currentQuestion";
+  kind: 'currentQuestion';
   currentQuestionIndex: number;
   currentQuestion: CurrentQuestion;
   firstTryCorrectAnswerCount: number;

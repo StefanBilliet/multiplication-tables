@@ -1,9 +1,8 @@
-import type { CurrentQuestionState, SessionComplete } from "./types.ts";
+import type { CurrentQuestionState, SessionComplete } from './types.ts';
 
 type PracticeFlow = CurrentQuestionState | SessionComplete;
 
-const isCurrentQuestion = (flow: PracticeFlow): flow is CurrentQuestionState =>
-  flow.kind === "currentQuestion";
+const isCurrentQuestion = (flow: PracticeFlow): flow is CurrentQuestionState => flow.kind === 'currentQuestion';
 
 export const questionAttemptView = {
   getAnswerOptions(flow: PracticeFlow): number[] {
@@ -11,10 +10,7 @@ export const questionAttemptView = {
   },
 
   hasCorrectFeedback(flow: PracticeFlow): boolean {
-    return (
-      isCurrentQuestion(flow) &&
-      flow.currentQuestion.feedbackState === "correct"
-    );
+    return isCurrentQuestion(flow) && flow.currentQuestion.feedbackState === 'correct';
   },
 
   selectedAnswer(flow: PracticeFlow): number | null {
@@ -25,14 +21,14 @@ export const questionAttemptView = {
     return isCurrentQuestion(flow) && flow.currentQuestion.canCheckAnswer;
   },
 
-  feedbackAnimation(flow: PracticeFlow): "pop" | "wobble" | null {
+  feedbackAnimation(flow: PracticeFlow): 'pop' | 'wobble' | null {
     if (!isCurrentQuestion(flow)) return null;
     if (flow.currentQuestion.feedbackState === null) return null;
 
-    return flow.currentQuestion.feedbackState === "correct" ? "pop" : "wobble";
+    return flow.currentQuestion.feedbackState === 'correct' ? 'pop' : 'wobble';
   },
 
-  feedbackState(flow: PracticeFlow): "correct" | "incorrect" | null {
+  feedbackState(flow: PracticeFlow): 'correct' | 'incorrect' | null {
     return isCurrentQuestion(flow) ? flow.currentQuestion.feedbackState : null;
   },
 };

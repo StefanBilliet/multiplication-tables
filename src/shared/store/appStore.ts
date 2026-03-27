@@ -1,13 +1,13 @@
-import { createAppStore } from "./appStoreFactory";
-import { setAppStore } from "./appStoreProvider";
+import { createAppStore } from './appStoreFactory';
+import { setAppStore } from './appStoreProvider';
 
-export type { AppState, AppStore } from "./appStoreFactory";
-export { createAppStore } from "./appStoreFactory";
+export type { AppState, AppStore } from './appStoreFactory';
+export { createAppStore } from './appStoreFactory';
 export {
   AppStoreProvider,
   getAppStore,
   resetAppStore,
   useAppStore,
-} from "./appStoreProvider";
+} from './appStoreProvider';
 
 setAppStore(createAppStore());

@@ -1,10 +1,10 @@
-import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import type { ReactNode } from "react";
-import type { StoreApi } from "zustand/vanilla";
-import { AppProviders } from "../../app/providers/appProviders";
-import type { AppState } from "../store/appStore";
-import { createAppStore } from "../store/appStore";
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import type { ReactNode } from 'react';
+import type { StoreApi } from 'zustand/vanilla';
+import { AppProviders } from '../../app/providers/appProviders';
+import type { AppState } from '../store/appStore';
+import { createAppStore } from '../store/appStore';
 
 type RenderComponentOptions = {
   store?: StoreApi<AppState>;

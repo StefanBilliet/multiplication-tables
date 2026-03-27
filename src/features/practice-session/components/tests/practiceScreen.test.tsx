@@ -1,24 +1,24 @@
-import { fireEvent, screen } from "@testing-library/react";
-import { act } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { beforeEach, vi } from "vitest";
-import { DEFAULT_TIMER_GRACE_PERIOD_MS } from "../../../../shared/hooks/useTimerElapsed";
-import i18n from "../../../../shared/i18n";
-import { createAppStore } from "../../../../shared/store/appStore";
-import renderComponent from "../../../../shared/testing/renderComponent";
-import renderWithRouter from "../../../../shared/testing/renderWithRouter.tsx";
-import PracticeScreen from "../practiceScreen.tsx";
-import { practiceScreenPage } from "./practiceScreenPage.tsx";
-import { renderPracticeScreen } from "./renderPracticeScreen.tsx";
+import { fireEvent, screen } from '@testing-library/react';
+import { act } from 'react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { beforeEach, vi } from 'vitest';
+import { DEFAULT_TIMER_GRACE_PERIOD_MS } from '../../../../shared/hooks/useTimerElapsed';
+import i18n from '../../../../shared/i18n';
+import { createAppStore } from '../../../../shared/store/appStore';
+import renderComponent from '../../../../shared/testing/renderComponent';
+import renderWithRouter from '../../../../shared/testing/renderWithRouter.tsx';
+import PracticeScreen from '../practiceScreen.tsx';
+import { practiceScreenPage } from './practiceScreenPage.tsx';
+import { renderPracticeScreen } from './renderPracticeScreen.tsx';
 
 beforeEach(() => {
   localStorage.clear();
 });
 
 test.each([
-  { table: 1, question: "1 x 1 = ?" },
-  { table: 3, question: "1 x 3 = ?" },
-])("GIVEN table $table is selected, WHEN the practice screen is shown, THEN the initial practice state for that table is displayed", ({
+  { table: 1, question: '1 x 1 = ?' },
+  { table: 3, question: '1 x 3 = ?' },
+])('GIVEN table $table is selected, WHEN the practice screen is shown, THEN the initial practice state for that table is displayed', ({
   table,
   question,
 }) => {
@@ -33,20 +33,20 @@ test.each([
   }
 });
 
-test("GIVEN a question is shown and no answer is selected, WHEN the practice screen is rendered, THEN the Check answer action is disabled", () => {
+test('GIVEN a question is shown and no answer is selected, WHEN the practice screen is rendered, THEN the Check answer action is disabled', () => {
   const page = renderPracticeScreen();
 
-  expect(page.answerField()).toHaveAttribute("readonly");
-  expect(screen.getByPlaceholderText("Choose a number")).toBeVisible();
+  expect(page.answerField()).toHaveAttribute('readonly');
+  expect(screen.getByPlaceholderText('Choose a number')).toBeVisible();
   expect(page.checkAnswerButton()).toBeDisabled();
 });
 
-test("GIVEN the hesitation rule is enabled in the store, WHEN the practice screen is rendered, THEN the timer is visible", () => {
+test('GIVEN the hesitation rule is enabled in the store, WHEN the practice screen is rendered, THEN the timer is visible', () => {
   const store = createAppStore({ persist: false });
   store.setState({ isHesitationRuleEnabled: true });
 
   renderComponent(
-    <MemoryRouter initialEntries={["/tables/3/practice"]}>
+    <MemoryRouter initialEntries={['/tables/3/practice']}>
       <Routes>
         <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
       </Routes>
@@ -54,16 +54,16 @@ test("GIVEN the hesitation rule is enabled in the store, WHEN the practice scree
     { store },
   );
 
-  expect(screen.getByLabelText("Hesitation timer")).toBeVisible();
+  expect(screen.getByLabelText('Hesitation timer')).toBeVisible();
 });
 
-test("GIVEN the hesitation rule is enabled and the session has advanced, WHEN the timer elapses and the grace period passes, THEN the practice screen returns to the first question", async () => {
+test('GIVEN the hesitation rule is enabled and the session has advanced, WHEN the timer elapses and the grace period passes, THEN the practice screen returns to the first question', async () => {
   vi.useFakeTimers();
   const store = createAppStore({ persist: false });
   store.setState({ isHesitationRuleEnabled: true });
 
   renderComponent(
-    <MemoryRouter initialEntries={["/tables/3/practice"]}>
+    <MemoryRouter initialEntries={['/tables/3/practice']}>
       <Routes>
         <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
       </Routes>
@@ -72,49 +72,49 @@ test("GIVEN the hesitation rule is enabled and the session has advanced, WHEN th
   );
 
   act(() => {
-    fireEvent.click(screen.getByRole("button", { name: "3" }));
+    fireEvent.click(screen.getByRole('button', { name: '3' }));
   });
 
   act(() => {
-    fireEvent.click(screen.getByRole("button", { name: /check answer/i }));
+    fireEvent.click(screen.getByRole('button', { name: /check answer/i }));
   });
 
   act(() => {
-    fireEvent.click(screen.getByRole("button", { name: /continue/i }));
+    fireEvent.click(screen.getByRole('button', { name: /continue/i }));
   });
 
-  expect(screen.getByText("2 x 3 = ?")).toBeVisible();
+  expect(screen.getByText('2 x 3 = ?')).toBeVisible();
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(5000);
   });
 
-  expect(screen.getByText("2 x 3 = ?")).toBeVisible();
+  expect(screen.getByText('2 x 3 = ?')).toBeVisible();
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(DEFAULT_TIMER_GRACE_PERIOD_MS);
   });
 
-  expect(screen.getByText("1 x 3 = ?")).toBeVisible();
+  expect(screen.getByText('1 x 3 = ?')).toBeVisible();
 
-  expect(screen.getByText("0s")).toBeVisible();
+  expect(screen.getByText('0s')).toBeVisible();
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(1000);
   });
 
-  expect(screen.getByText("1s")).toBeVisible();
+  expect(screen.getByText('1s')).toBeVisible();
 
   vi.useRealTimers();
 });
 
-test("GIVEN the hesitation rule is enabled, WHEN the child keeps selecting answers, THEN the timer keeps advancing and still times out", async () => {
+test('GIVEN the hesitation rule is enabled, WHEN the child keeps selecting answers, THEN the timer keeps advancing and still times out', async () => {
   vi.useFakeTimers();
   const store = createAppStore({ persist: false });
   store.setState({ isHesitationRuleEnabled: true });
 
   renderComponent(
-    <MemoryRouter initialEntries={["/tables/3/practice"]}>
+    <MemoryRouter initialEntries={['/tables/3/practice']}>
       <Routes>
         <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
       </Routes>
@@ -123,62 +123,62 @@ test("GIVEN the hesitation rule is enabled, WHEN the child keeps selecting answe
   );
 
   act(() => {
-    fireEvent.click(screen.getByRole("button", { name: "6" }));
+    fireEvent.click(screen.getByRole('button', { name: '6' }));
   });
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(1000);
   });
 
-  expect(screen.getByText("1s")).toBeVisible();
+  expect(screen.getByText('1s')).toBeVisible();
 
   act(() => {
-    fireEvent.click(screen.getByRole("button", { name: "9" }));
+    fireEvent.click(screen.getByRole('button', { name: '9' }));
   });
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(1000);
   });
 
-  expect(screen.getByText("2s")).toBeVisible();
+  expect(screen.getByText('2s')).toBeVisible();
 
   act(() => {
-    fireEvent.click(screen.getByRole("button", { name: "6" }));
-    fireEvent.click(screen.getByRole("button", { name: "9" }));
-    fireEvent.click(screen.getByRole("button", { name: "3" }));
+    fireEvent.click(screen.getByRole('button', { name: '6' }));
+    fireEvent.click(screen.getByRole('button', { name: '9' }));
+    fireEvent.click(screen.getByRole('button', { name: '3' }));
   });
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(1000);
   });
 
-  expect(screen.getByText("3s")).toBeVisible();
+  expect(screen.getByText('3s')).toBeVisible();
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(3000);
   });
 
-  expect(screen.getByText("1 x 3 = ?")).toBeVisible();
+  expect(screen.getByText('1 x 3 = ?')).toBeVisible();
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(DEFAULT_TIMER_GRACE_PERIOD_MS);
   });
 
-  expect(screen.getByText("1 x 3 = ?")).toBeVisible();
+  expect(screen.getByText('1 x 3 = ?')).toBeVisible();
 
   vi.useRealTimers();
 });
 
-test("GIVEN a question is shown, WHEN I select several answers before submitting, THEN the currently selected answer wins", async () => {
+test('GIVEN a question is shown, WHEN I select several answers before submitting, THEN the currently selected answer wins', async () => {
   const page = renderPracticeScreen();
 
   await page.selectAnswer(6);
   await page.selectAnswer(9);
 
-  expect(page.answerField()).toHaveValue("9");
+  expect(page.answerField()).toHaveValue('9');
 });
 
-test("GIVEN I have selected an answer, WHEN the practice screen is rendered, THEN the Check answer action is enabled", async () => {
+test('GIVEN I have selected an answer, WHEN the practice screen is rendered, THEN the Check answer action is enabled', async () => {
   const page = renderPracticeScreen();
 
   await page.selectAnswer(9);
@@ -186,28 +186,26 @@ test("GIVEN I have selected an answer, WHEN the practice screen is rendered, THE
   expect(page.checkAnswerButton()).toBeEnabled();
 });
 
-test("GIVEN I have selected the correct answer, WHEN I press Check answer, THEN success feedback is displayed for the current question", async () => {
+test('GIVEN I have selected the correct answer, WHEN I press Check answer, THEN success feedback is displayed for the current question', async () => {
   const page = renderPracticeScreen();
 
   await page.answerQuestion(3);
 
-  expect(page.answerField()).toHaveAttribute("data-feedback-state", "correct");
-  expect(page.answerField()).toHaveAttribute("data-feedback-animation", "pop");
-  expect(screen.queryByText("Correct!")).not.toBeInTheDocument();
+  expect(page.answerField()).toHaveAttribute('data-feedback-state', 'correct');
+  expect(page.answerField()).toHaveAttribute('data-feedback-animation', 'pop');
+  expect(screen.queryByText('Correct!')).not.toBeInTheDocument();
 });
 
-test("GIVEN I have selected the correct answer, WHEN I press Check answer, THEN Continue replaces the Check answer action", async () => {
+test('GIVEN I have selected the correct answer, WHEN I press Check answer, THEN Continue replaces the Check answer action', async () => {
   const page = renderPracticeScreen();
 
   await page.answerQuestion(3);
 
-  expect(
-    screen.queryByRole("button", { name: /check answer/i }),
-  ).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /check answer/i })).not.toBeInTheDocument();
   expect(page.continueButton()).toBeVisible();
 });
 
-test("GIVEN the question was answered correctly, WHEN the practice screen is shown, THEN the answer buttons are disabled", async () => {
+test('GIVEN the question was answered correctly, WHEN the practice screen is shown, THEN the answer buttons are disabled', async () => {
   const page = renderPracticeScreen();
 
   await page.answerQuestion(3);
@@ -216,42 +214,36 @@ test("GIVEN the question was answered correctly, WHEN the practice screen is sho
   expect(page.answerOption(6)).toBeDisabled();
 });
 
-test("GIVEN I have selected an incorrect answer, WHEN I press Check answer, THEN incorrect feedback is displayed and the same question remains active", async () => {
+test('GIVEN I have selected an incorrect answer, WHEN I press Check answer, THEN incorrect feedback is displayed and the same question remains active', async () => {
   const page = renderPracticeScreen();
 
   await page.answerQuestion(6);
 
-  expect(page.answerField()).toHaveAttribute(
-    "data-feedback-state",
-    "incorrect",
-  );
-  expect(page.answerField()).toHaveAttribute(
-    "data-feedback-animation",
-    "wobble",
-  );
-  expect(screen.queryByText("Try again.")).not.toBeInTheDocument();
-  expect(page.question("1 x 3 = ?")).toBeVisible();
+  expect(page.answerField()).toHaveAttribute('data-feedback-state', 'incorrect');
+  expect(page.answerField()).toHaveAttribute('data-feedback-animation', 'wobble');
+  expect(screen.queryByText('Try again.')).not.toBeInTheDocument();
+  expect(page.question('1 x 3 = ?')).toBeVisible();
 });
 
-test("GIVEN I have selected an incorrect answer, WHEN I press Check answer, THEN the selected answer resets so I can try again", async () => {
+test('GIVEN I have selected an incorrect answer, WHEN I press Check answer, THEN the selected answer resets so I can try again', async () => {
   const page = renderPracticeScreen();
 
   await page.answerQuestion(6);
 
-  expect(page.answerField()).toHaveValue("");
+  expect(page.answerField()).toHaveValue('');
   expect(page.checkAnswerButton()).toBeDisabled();
 });
 
-test("GIVEN correct feedback is visible, WHEN I choose to continue, THEN the app shows the next question for the selected table", async () => {
+test('GIVEN correct feedback is visible, WHEN I choose to continue, THEN the app shows the next question for the selected table', async () => {
   const page = renderPracticeScreen();
 
   await page.answerQuestion(3);
   await page.continuePractice();
 
-  expect(page.question("2 x 3 = ?")).toBeVisible();
+  expect(page.question('2 x 3 = ?')).toBeVisible();
 });
 
-test("GIVEN I have answered the tenth question correctly, WHEN I choose to continue, THEN the practice session is completed instead of showing an eleventh question", async () => {
+test('GIVEN I have answered the tenth question correctly, WHEN I choose to continue, THEN the practice session is completed instead of showing an eleventh question', async () => {
   const page = renderPracticeScreen();
 
   for (let multiplier = 1; multiplier < 10; multiplier += 1) {
@@ -263,20 +255,20 @@ test("GIVEN I have answered the tenth question correctly, WHEN I choose to conti
   await page.continuePractice();
 
   expect(page.completionMessage()).toBeVisible();
-  expect(screen.queryByText("11 x 3 = ?")).not.toBeInTheDocument();
+  expect(screen.queryByText('11 x 3 = ?')).not.toBeInTheDocument();
 });
 
-test("GIVEN the next question is shown, WHEN I submit the correct answer for that question, THEN the app evaluates the currently visible answer against the current question", async () => {
+test('GIVEN the next question is shown, WHEN I submit the correct answer for that question, THEN the app evaluates the currently visible answer against the current question', async () => {
   const page = renderPracticeScreen();
 
   await page.answerQuestion(3);
   await page.continuePractice();
   await page.answerQuestion(6);
 
-  expect(page.answerField()).toHaveAttribute("data-feedback-state", "correct");
+  expect(page.answerField()).toHaveAttribute('data-feedback-state', 'correct');
 });
 
-test("GIVEN the practice screen is shown, WHEN back to tables is selected, THEN the table selection screen is shown", async () => {
+test('GIVEN the practice screen is shown, WHEN back to tables is selected, THEN the table selection screen is shown', async () => {
   const sut = (
     <Routes>
       <Route path="/" element={<div>Choose a table to practice</div>} />
@@ -284,16 +276,16 @@ test("GIVEN the practice screen is shown, WHEN back to tables is selected, THEN 
     </Routes>
   );
   const { user } = renderWithRouter(sut, {
-    initialEntries: ["/tables/3/practice"],
+    initialEntries: ['/tables/3/practice'],
   });
   const page = practiceScreenPage(user);
 
   await page.backToTables();
 
-  expect(screen.getByText("Choose a table to practice")).toBeVisible();
+  expect(screen.getByText('Choose a table to practice')).toBeVisible();
 });
 
-test("GIVEN I return to the start screen, WHEN I select the same available table again, THEN the practice session starts for that table again", async () => {
+test('GIVEN I return to the start screen, WHEN I select the same available table again, THEN the practice session starts for that table again', async () => {
   const sut = (
     <Routes>
       <Route path="/" element={<button type="button">Start practice</button>} />
@@ -301,33 +293,29 @@ test("GIVEN I return to the start screen, WHEN I select the same available table
     </Routes>
   );
   const { user } = renderWithRouter(sut, {
-    initialEntries: ["/tables/3/practice"],
+    initialEntries: ['/tables/3/practice'],
   });
   const page = practiceScreenPage(user);
 
   await page.backToTables();
-  await user.click(screen.getByRole("button", { name: /start practice/i }));
+  await user.click(screen.getByRole('button', { name: /start practice/i }));
 
-  expect(screen.getByRole("button", { name: /start practice/i })).toBeVisible();
+  expect(screen.getByRole('button', { name: /start practice/i })).toBeVisible();
 });
 
-test("GIVEN Dutch is the active language, WHEN the practice screen is shown before the session is complete, THEN the header shows the Dutch default description", async () => {
+test('GIVEN Dutch is the active language, WHEN the practice screen is shown before the session is complete, THEN the header shows the Dutch default description', async () => {
   await act(async () => {
-    await i18n.changeLanguage("nl");
+    await i18n.changeLanguage('nl');
   });
 
   renderPracticeScreen();
 
-  expect(
-    screen.getByText(
-      "Los elke vraag een voor een op. Ga door tot alle 10 klaar zijn.",
-    ),
-  ).toBeVisible();
+  expect(screen.getByText('Los elke vraag een voor een op. Ga door tot alle 10 klaar zijn.')).toBeVisible();
 });
 
-test("GIVEN an active practice session in English, WHEN I switch the app language to Dutch, THEN the visible practice text updates without losing the current question", async () => {
+test('GIVEN an active practice session in English, WHEN I switch the app language to Dutch, THEN the visible practice text updates without losing the current question', async () => {
   await act(async () => {
-    await i18n.changeLanguage("en");
+    await i18n.changeLanguage('en');
   });
 
   const page = renderPracticeScreen();
@@ -336,15 +324,13 @@ test("GIVEN an active practice session in English, WHEN I switch the app languag
   await page.continuePractice();
   await page.selectAnswer(9);
   await act(async () => {
-    const button = await screen.findByRole("button", { name: "Nederlands" });
+    const button = await screen.findByRole('button', { name: 'Nederlands' });
     await button.click();
   });
 
-  expect(
-    screen.getByRole("heading", { name: "Oefen de tafel van 3" }),
-  ).toBeVisible();
-  expect(screen.getByRole("button", { name: "Controleer" })).toBeVisible();
-  expect(page.question("2 x 3 = ?")).toBeVisible();
-  expect(page.answerField()).toHaveValue("9");
-  expect(localStorage.getItem("selectedLanguage")).toBe("nl");
+  expect(screen.getByRole('heading', { name: 'Oefen de tafel van 3' })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Controleer' })).toBeVisible();
+  expect(page.question('2 x 3 = ?')).toBeVisible();
+  expect(page.answerField()).toHaveValue('9');
+  expect(localStorage.getItem('selectedLanguage')).toBe('nl');
 });

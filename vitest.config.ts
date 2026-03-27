@@ -1,16 +1,13 @@
-import { resolve } from "node:path";
-import { defineConfig } from "vitest/config";
+import { resolve } from 'node:path';
+import { defineConfig } from 'vitest/config';
 
-const localStorageFilePath = resolve(
-  import.meta.dirname,
-  ".vitest-localstorage",
-);
+const localStorageFilePath = resolve(import.meta.dirname, '.vitest-localstorage');
 
 export default defineConfig({
   test: {
-    environment: "jsdom",
+    environment: 'jsdom',
     globals: true,
-    setupFiles: "./src/shared/testing/setup.ts",
+    setupFiles: './src/shared/testing/setup.ts',
     css: true,
     execArgv: [`--localstorage-file=${localStorageFilePath}`],
   },

@@ -1,8 +1,8 @@
-import { Badge, Card, Group, Stack, Text } from "@mantine/core";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import type { QuestionOrderMode } from "../../../../shared/models/questionOrderMode.ts";
-import classes from "../settingsScreen.module.css";
+import { Badge, Card, Group, Stack, Text } from '@mantine/core';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { QuestionOrderMode } from '../../../../shared/models/questionOrderMode.ts';
+import classes from '../settingsScreen.module.css';
 
 type OrderOptionProps = {
   isSelected: boolean;
@@ -13,14 +13,7 @@ type OrderOptionProps = {
   onSelect: (mode: QuestionOrderMode) => void;
 };
 
-const OrderOption: FC<OrderOptionProps> = ({
-  isSelected,
-  title,
-  description,
-  mode,
-  modeLabel,
-  onSelect,
-}) => {
+const OrderOption: FC<OrderOptionProps> = ({ isSelected, title, description, mode, modeLabel, onSelect }) => {
   const { t } = useTranslation();
 
   return (
@@ -28,7 +21,7 @@ const OrderOption: FC<OrderOptionProps> = ({
       component="label"
       withBorder
       radius="lg"
-      className={`${classes.optionCard} ${isSelected ? classes.optionCardSelected : ""}`}
+      className={`${classes.optionCard} ${isSelected ? classes.optionCardSelected : ''}`}
     >
       <input
         className={classes.optionInput}
@@ -47,7 +40,7 @@ const OrderOption: FC<OrderOptionProps> = ({
             </Text>
             {isSelected ? (
               <Badge size="sm" variant="filled" color="teal">
-                {t("settingsScreen.selectedBadge")}
+                {t('settingsScreen.selectedBadge')}
               </Badge>
             ) : null}
           </Group>
@@ -56,7 +49,7 @@ const OrderOption: FC<OrderOptionProps> = ({
           </Text>
         </Stack>
 
-        <Text size="sm" fw={600} c={isSelected ? "teal" : "dimmed"}>
+        <Text size="sm" fw={600} c={isSelected ? 'teal' : 'dimmed'}>
           {modeLabel}
         </Text>
       </Stack>

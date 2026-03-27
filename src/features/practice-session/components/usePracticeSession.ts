@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { useAppStore } from "../../../shared/store/appStore";
-import PracticeFlow, {
-  type PracticeFlow as PracticeSession,
-} from "../models/practiceFlow";
-import usePracticeSessionCompletionEffects from "./usePracticeSessionCompletionEffects";
+import { useState } from 'react';
+import { useAppStore } from '../../../shared/store/appStore';
+import PracticeFlow, { type PracticeFlow as PracticeSession } from '../models/practiceFlow';
+import usePracticeSessionCompletionEffects from './usePracticeSessionCompletionEffects';
 
 type UsePracticeSessionResult = {
   session: PracticeSession;
@@ -14,26 +12,18 @@ type UsePracticeSessionResult = {
   resetSession: () => void;
 };
 
-const usePracticeSession = (
-  selectedTable: number,
-): UsePracticeSessionResult => {
+const usePracticeSession = (selectedTable: number): UsePracticeSessionResult => {
   const questionOrderMode = useAppStore((state) => state.questionOrderMode);
-  const [session, setSession] = useState(() =>
-    PracticeFlow.start(selectedTable, questionOrderMode),
-  );
+  const [session, setSession] = useState(() => PracticeFlow.start(selectedTable, questionOrderMode));
   const [hesitationTimerResetKey, setHesitationTimerResetKey] = useState(0);
   usePracticeSessionCompletionEffects({ selectedTable, session });
 
   const triggerHesitationTimerReset = () => {
-    setHesitationTimerResetKey(
-      (currentHesitationTimerResetKey) => currentHesitationTimerResetKey + 1,
-    );
+    setHesitationTimerResetKey((currentHesitationTimerResetKey) => currentHesitationTimerResetKey + 1);
   };
 
   const selectAnswer = (answer: number) => {
-    setSession((currentSession) =>
-      PracticeFlow.selectAnswer(currentSession, answer),
-    );
+    setSession((currentSession) => PracticeFlow.selectAnswer(currentSession, answer));
   };
 
   const checkAnswer = () => {
@@ -41,9 +31,7 @@ const usePracticeSession = (
   };
 
   const continueSession = () => {
-    setSession((currentSession) =>
-      PracticeFlow.continueSession(currentSession),
-    );
+    setSession((currentSession) => PracticeFlow.continueSession(currentSession));
   };
 
   const resetSession = () => {

@@ -1,10 +1,9 @@
-const LEGACY_STORAGE_KEY = "lifetimeRewardTotal";
-const NEW_STORAGE_KEY = "multiplication-app";
+const LEGACY_STORAGE_KEY = 'lifetimeRewardTotal';
+const NEW_STORAGE_KEY = 'multiplication-app';
 
 export const createPersistStorage = () => {
   return {
-    getItem: (_name: string): string | null =>
-      localStorage.getItem(NEW_STORAGE_KEY),
+    getItem: (_name: string): string | null => localStorage.getItem(NEW_STORAGE_KEY),
     setItem: (_name: string, value: string) => {
       localStorage.setItem(NEW_STORAGE_KEY, value);
     },

@@ -1,8 +1,8 @@
-import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import { initReactI18next } from "react-i18next";
-import en from "../../locales/en.json";
-import nl from "../../locales/nl.json";
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
+import en from '../../locales/en.json';
+import nl from '../../locales/nl.json';
 
 i18n
   .use(LanguageDetector)
@@ -16,12 +16,12 @@ i18n
         translation: en,
       },
     },
-    fallbackLng: "nl",
-    supportedLngs: ["nl", "en"],
+    fallbackLng: 'nl',
+    supportedLngs: ['nl', 'en'],
     detection: {
-      lookupLocalStorage: "selectedLanguage",
-      order: ["localStorage", "navigator"],
-      caches: ["localStorage"],
+      lookupLocalStorage: 'selectedLanguage',
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
     },
     interpolation: {
       escapeValue: false,

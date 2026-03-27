@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { getRewardsNeededForTable } from "../tableRewards.ts";
+import { useTranslation } from 'react-i18next';
+import { getRewardsNeededForTable } from '../tableRewards.ts';
 
 export function useMultiplicationTables(lifetimeRewardTotal: number) {
   const { t } = useTranslation();
@@ -10,7 +10,7 @@ export function useMultiplicationTables(lifetimeRewardTotal: number) {
 
     return {
       id,
-      label: t("tableSelection.tableLabel", { table: id }),
+      label: t('tableSelection.tableLabel', { table: id }),
       unlockState: {
         rewardsNeeded,
         unlocked: rewardsNeeded === 0,

@@ -1,4 +1,4 @@
-import type { StateCreator } from "zustand";
+import type { StateCreator } from 'zustand';
 
 export type SessionCompletedEvent = {
   table: number;
@@ -19,9 +19,7 @@ export type SessionHistorySlice = {
   recordSessionCompleted: (event: SessionCompletedEvent) => void;
 };
 
-const projectRecentWeaknesses = (
-  events: SessionCompletedEvent[],
-): RecentWeakness[] => {
+const projectRecentWeaknesses = (events: SessionCompletedEvent[]): RecentWeakness[] => {
   const counts = new Map<string, RecentWeakness>();
   const multiplicationErrors = extractMultiplicationErrors(events);
 
@@ -59,21 +57,16 @@ const projectRecentWeaknesses = (
 
 const extractMultiplicationErrors = (
   events: SessionCompletedEvent[],
-): SessionCompletedEvent["multiplicationErrors"][number][] => {
+): SessionCompletedEvent['multiplicationErrors'][number][] => {
   return events.flatMap((event) => event.multiplicationErrors);
 };
 
-export const createSessionHistorySlice: StateCreator<SessionHistorySlice> = (
-  set,
-) => ({
+export const createSessionHistorySlice: StateCreator<SessionHistorySlice> = (set) => ({
   sessionCompletedEvents: [],
   recentWeaknesses: [],
   recordSessionCompleted: (event) => {
     set((state) => {
-      const sessionCompletedEvents = [
-        ...state.sessionCompletedEvents,
-        event,
-      ].slice(-50);
+      const sessionCompletedEvents = [...state.sessionCompletedEvents, event].slice(-50);
 
       return {
         recentWeaknesses: projectRecentWeaknesses(sessionCompletedEvents),

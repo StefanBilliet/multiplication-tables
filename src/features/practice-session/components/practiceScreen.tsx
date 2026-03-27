@@ -1,24 +1,22 @@
-import { Card, Center } from "@mantine/core";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
-import { useAppStore } from "../../../shared/store/appStore";
-import PracticeFlow from "../models/practiceFlow";
-import ActiveSessionMode from "./activeSessionMode";
-import CurrentQuestionPrompt from "./currentQuestionPrompt";
-import Header from "./header";
-import classes from "./practiceScreen.module.css";
-import SummaryMode from "./summaryMode";
-import useActiveSessionViewModel from "./useActiveSessionViewModel";
-import usePracticeSession from "./usePracticeSession";
+import { Card, Center } from '@mantine/core';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useAppStore } from '../../../shared/store/appStore';
+import PracticeFlow from '../models/practiceFlow';
+import ActiveSessionMode from './activeSessionMode';
+import CurrentQuestionPrompt from './currentQuestionPrompt';
+import Header from './header';
+import classes from './practiceScreen.module.css';
+import SummaryMode from './summaryMode';
+import useActiveSessionViewModel from './useActiveSessionViewModel';
+import usePracticeSession from './usePracticeSession';
 
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
   const { t } = useTranslation();
   const selectedTable = Number(tableId);
-  const isHesitationRuleEnabled = useAppStore(
-    (state) => state.isHesitationRuleEnabled,
-  );
+  const isHesitationRuleEnabled = useAppStore((state) => state.isHesitationRuleEnabled);
   const {
     session,
     hesitationTimerResetSignal,
@@ -28,18 +26,13 @@ const PracticeScreen: FC = () => {
     resetSession: handleReset,
   } = usePracticeSession(selectedTable);
   const activeSessionViewModel = useActiveSessionViewModel(session);
-  const isHesitationTimerEnabled =
-    isHesitationRuleEnabled && !activeSessionViewModel.hasCorrectFeedback;
+  const isHesitationTimerEnabled = isHesitationRuleEnabled && !activeSessionViewModel.hasCorrectFeedback;
 
   return (
     <Center className={classes.page}>
       <Card variant="shell" className={classes.pageCard}>
         <Header
-          description={
-            PracticeFlow.isComplete(session)
-              ? t("practiceSession.header.completedDescription")
-              : undefined
-          }
+          description={PracticeFlow.isComplete(session) ? t('practiceSession.header.completedDescription') : undefined}
           selectedTable={selectedTable}
         />
 

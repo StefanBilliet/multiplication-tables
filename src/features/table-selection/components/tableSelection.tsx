@@ -1,22 +1,13 @@
-import {
-  Badge,
-  Card,
-  Center,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import LanguageSwitcher from "../../../shared/i18n/languageSwitcher";
-import SettingsButton from "../../../shared/navigation/settingsButton";
-import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
-import MultiplicationTableCard from "./multiplicationTableCard";
-import classes from "./tableSelection.module.css";
-import { useMultiplicationTables } from "./useMultiplicationTables.tsx";
+import { Badge, Card, Center, Group, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import LanguageSwitcher from '../../../shared/i18n/languageSwitcher';
+import SettingsButton from '../../../shared/navigation/settingsButton';
+import useLifetimeRewardTotal from '../../../shared/rewards/useLifetimeRewardTotal';
+import MultiplicationTableCard from './multiplicationTableCard';
+import classes from './tableSelection.module.css';
+import { useMultiplicationTables } from './useMultiplicationTables.tsx';
 
 const TableSelection: FC = () => {
   const navigate = useNavigate();
@@ -34,10 +25,10 @@ const TableSelection: FC = () => {
         <Group component="header">
           <Stack>
             <Badge variant="light" color="teal">
-              {t("tableSelection.startScreenBadge")}
+              {t('tableSelection.startScreenBadge')}
             </Badge>
-            <Title order={1}>{t("tableSelection.title")}</Title>
-            <Text>{t("tableSelection.description")}</Text>
+            <Title order={1}>{t('tableSelection.title')}</Title>
+            <Text>{t('tableSelection.description')}</Text>
           </Stack>
 
           <Group gap="xs">
@@ -48,11 +39,7 @@ const TableSelection: FC = () => {
 
         <SimpleGrid component="section" cols={{ base: 1, sm: 2, md: 3 }}>
           {tables.map((table) => (
-            <MultiplicationTableCard
-              key={table.id}
-              table={table}
-              onSelect={handleTableSelected}
-            />
+            <MultiplicationTableCard key={table.id} table={table} onSelect={handleTableSelected} />
           ))}
         </SimpleGrid>
       </Card>

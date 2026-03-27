@@ -1,10 +1,7 @@
-import type { RefObject } from "react";
-import type { TimeoutId, TimerId } from "./useTimerElapsed.constants";
+import type { RefObject } from 'react';
+import type { TimeoutId, TimerId } from './useTimerElapsed.constants';
 
-const clearTimerRefs = (
-  intervalIdRef: RefObject<TimerId | null>,
-  timeoutIdRef: RefObject<TimeoutId | null>,
-) => {
+const clearTimerRefs = (intervalIdRef: RefObject<TimerId | null>, timeoutIdRef: RefObject<TimeoutId | null>) => {
   if (intervalIdRef.current !== null) {
     clearInterval(intervalIdRef.current);
     intervalIdRef.current = null;

@@ -1,25 +1,17 @@
-import { useEffect } from "react";
-import useLifetimeRewardTotal from "../../../shared/rewards/useLifetimeRewardTotal";
-import { useAppStore } from "../../../shared/store/appStore";
-import PracticeFlow, {
-  type PracticeFlow as PracticeSession,
-} from "../models/practiceFlow";
+import { useEffect } from 'react';
+import useLifetimeRewardTotal from '../../../shared/rewards/useLifetimeRewardTotal';
+import { useAppStore } from '../../../shared/store/appStore';
+import PracticeFlow, { type PracticeFlow as PracticeSession } from '../models/practiceFlow';
 
 type UsePracticeSessionCompletionEffectsProps = {
   selectedTable: number;
   session: PracticeSession;
 };
 
-const usePracticeSessionCompletionEffects = ({
-  selectedTable,
-  session,
-}: UsePracticeSessionCompletionEffectsProps) => {
+const usePracticeSessionCompletionEffects = ({ selectedTable, session }: UsePracticeSessionCompletionEffectsProps) => {
   const { addReward } = useLifetimeRewardTotal();
-  const recordSessionCompleted = useAppStore(
-    (state) => state.recordSessionCompleted,
-  );
-  const shouldAddReward =
-    PracticeFlow.isComplete(session) && PracticeFlow.hasEarnedReward(session);
+  const recordSessionCompleted = useAppStore((state) => state.recordSessionCompleted);
+  const shouldAddReward = PracticeFlow.isComplete(session) && PracticeFlow.hasEarnedReward(session);
 
   useEffect(() => {
     if (shouldAddReward) {
@@ -28,7 +20,7 @@ const usePracticeSessionCompletionEffects = ({
   }, [addReward, shouldAddReward]);
 
   useEffect(() => {
-    if (session.kind === "sessionComplete") {
+    if (session.kind === 'sessionComplete') {
       recordSessionCompleted({
         table: selectedTable,
         firstTryCorrectAnswerCount: session.firstTryCorrectAnswerCount,

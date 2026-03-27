@@ -11,10 +11,7 @@ const REWARD_THRESHOLDS: Record<number, number> = {
   10: 46,
 };
 
-export const getRewardsNeededForTable = (
-  currentRewards: number,
-  tableId: number,
-): number => {
+export const getRewardsNeededForTable = (currentRewards: number, tableId: number): number => {
   const threshold = REWARD_THRESHOLDS[tableId] ?? 0;
 
   return Math.max(0, threshold - currentRewards);

@@ -1,14 +1,14 @@
-import { act, renderHook } from "@testing-library/react";
-import type { PropsWithChildren } from "react";
-import { vi } from "vitest";
-import { AppProviders } from "../../../../app/providers/appProviders";
-import { createAppStore } from "../../../../shared/store/appStore";
-import PracticeFlow from "../../models/practiceFlow";
-import usePracticeSession from "../usePracticeSession";
+import { act, renderHook } from '@testing-library/react';
+import type { PropsWithChildren } from 'react';
+import { vi } from 'vitest';
+import { AppProviders } from '../../../../app/providers/appProviders';
+import { createAppStore } from '../../../../shared/store/appStore';
+import PracticeFlow from '../../models/practiceFlow';
+import usePracticeSession from '../usePracticeSession';
 
 const addReward = vi.fn();
 
-vi.mock("../../../../shared/rewards/useLifetimeRewardTotal", () => ({
+vi.mock('../../../../shared/rewards/useLifetimeRewardTotal', () => ({
   default: () => ({
     addReward,
     lifetimeRewardTotal: 0,
@@ -22,14 +22,12 @@ beforeEach(() => {
 const createPracticeSessionTestProviders = () => {
   const store = createAppStore({ persist: false });
 
-  const TestProviders = ({ children }: PropsWithChildren) => (
-    <AppProviders store={store}>{children}</AppProviders>
-  );
+  const TestProviders = ({ children }: PropsWithChildren) => <AppProviders store={store}>{children}</AppProviders>;
 
   return { TestProviders, store };
 };
 
-test("GIVEN a perfect practice session, WHEN the tenth correct answer is continued, THEN the hook adds exactly one reward", () => {
+test('GIVEN a perfect practice session, WHEN the tenth correct answer is continued, THEN the hook adds exactly one reward', () => {
   const { TestProviders } = createPracticeSessionTestProviders();
   const { result } = renderHook(() => usePracticeSession(3), {
     wrapper: TestProviders,
@@ -46,7 +44,7 @@ test("GIVEN a perfect practice session, WHEN the tenth correct answer is continu
   expect(addReward).toHaveBeenCalledTimes(1);
 });
 
-test("GIVEN a wrong answer during a practice session, WHEN the session completes, THEN the app store records the completed session", () => {
+test('GIVEN a wrong answer during a practice session, WHEN the session completes, THEN the app store records the completed session', () => {
   const { TestProviders, store } = createPracticeSessionTestProviders();
   const { result } = renderHook(() => usePracticeSession(3), {
     wrapper: TestProviders,
@@ -74,20 +72,20 @@ test("GIVEN a wrong answer during a practice session, WHEN the session completes
   ]);
 });
 
-test("GIVEN question order is varied, WHEN the practice session starts, THEN it passes the order mode into the session model", () => {
+test('GIVEN question order is varied, WHEN the practice session starts, THEN it passes the order mode into the session model', () => {
   const session = PracticeFlow.start(3);
-  const startSpy = vi.spyOn(PracticeFlow, "start").mockReturnValue(session);
+  const startSpy = vi.spyOn(PracticeFlow, 'start').mockReturnValue(session);
   const { TestProviders, store } = createPracticeSessionTestProviders();
-  store.setState({ questionOrderMode: "varied" });
+  store.setState({ questionOrderMode: 'varied' });
 
   renderHook(() => usePracticeSession(3), {
     wrapper: TestProviders,
   });
 
-  expect(startSpy).toHaveBeenCalledWith(3, "varied");
+  expect(startSpy).toHaveBeenCalledWith(3, 'varied');
 });
 
-test("GIVEN a practice session is in progress, WHEN the session is reset, THEN it returns to question 1", () => {
+test('GIVEN a practice session is in progress, WHEN the session is reset, THEN it returns to question 1', () => {
   const { TestProviders } = createPracticeSessionTestProviders();
   const { result } = renderHook(() => usePracticeSession(3), {
     wrapper: TestProviders,
@@ -100,15 +98,15 @@ test("GIVEN a practice session is in progress, WHEN the session is reset, THEN i
     result.current.resetSession();
   });
 
-  expect(result.current.session.kind).toBe("currentQuestion");
+  expect(result.current.session.kind).toBe('currentQuestion');
 
-  if (result.current.session.kind === "currentQuestion") {
+  if (result.current.session.kind === 'currentQuestion') {
     expect(result.current.session.currentQuestion.multiplier).toBe(1);
   }
 });
 
-test("GIVEN a practice session is reset, WHEN the reset action is used, THEN it delegates to PracticeFlow.reset", () => {
-  const resetSpy = vi.spyOn(PracticeFlow, "reset");
+test('GIVEN a practice session is reset, WHEN the reset action is used, THEN it delegates to PracticeFlow.reset', () => {
+  const resetSpy = vi.spyOn(PracticeFlow, 'reset');
   const { TestProviders } = createPracticeSessionTestProviders();
   const { result } = renderHook(() => usePracticeSession(3), {
     wrapper: TestProviders,

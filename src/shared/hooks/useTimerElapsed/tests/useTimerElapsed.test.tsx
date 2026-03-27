@@ -1,9 +1,6 @@
-import { act, renderHook } from "@testing-library/react";
-import { afterEach, beforeEach, expect, test, vi } from "vitest";
-import useTimerElapsed, {
-  DEFAULT_TIMER_GRACE_PERIOD_MS,
-  DEFAULT_TIMER_UPDATE_INTERVAL_MS,
-} from "../index.ts";
+import { act, renderHook } from '@testing-library/react';
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
+import useTimerElapsed, { DEFAULT_TIMER_GRACE_PERIOD_MS, DEFAULT_TIMER_UPDATE_INTERVAL_MS } from '../index.ts';
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -13,7 +10,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-test("GIVEN the timer is enabled, WHEN one second passes, THEN the elapsed seconds increase", () => {
+test('GIVEN the timer is enabled, WHEN one second passes, THEN the elapsed seconds increase', () => {
   const { result } = renderHook(() => useTimerElapsed(true));
 
   expect(result.current).toBe(0);
@@ -25,7 +22,7 @@ test("GIVEN the timer is enabled, WHEN one second passes, THEN the elapsed secon
   expect(result.current).toBe(1);
 });
 
-test("GIVEN the timer is disabled, WHEN time passes, THEN the elapsed seconds stay at zero", () => {
+test('GIVEN the timer is disabled, WHEN time passes, THEN the elapsed seconds stay at zero', () => {
   const { result } = renderHook(() => useTimerElapsed(false));
 
   act(() => {
@@ -35,7 +32,7 @@ test("GIVEN the timer is disabled, WHEN time passes, THEN the elapsed seconds st
   expect(result.current).toBe(0);
 });
 
-test("GIVEN a timeout callback is provided, WHEN five seconds and the grace period pass, THEN the callback is called once", () => {
+test('GIVEN a timeout callback is provided, WHEN five seconds and the grace period pass, THEN the callback is called once', () => {
   const onElapsed = vi.fn();
 
   renderHook(() => useTimerElapsed(true, onElapsed));
@@ -53,7 +50,7 @@ test("GIVEN a timeout callback is provided, WHEN five seconds and the grace peri
   expect(onElapsed).toHaveBeenCalledTimes(1);
 });
 
-test("GIVEN a custom timeout is provided, WHEN that many seconds and the grace period pass, THEN the callback is called", () => {
+test('GIVEN a custom timeout is provided, WHEN that many seconds and the grace period pass, THEN the callback is called', () => {
   const onElapsed = vi.fn();
 
   renderHook(() => useTimerElapsed(true, onElapsed, 2));
@@ -71,7 +68,7 @@ test("GIVEN a custom timeout is provided, WHEN that many seconds and the grace p
   expect(onElapsed).toHaveBeenCalledTimes(1);
 });
 
-test("GIVEN the timer reaches five seconds, WHEN the grace period is still running, THEN the displayed elapsed seconds stay at five", () => {
+test('GIVEN the timer reaches five seconds, WHEN the grace period is still running, THEN the displayed elapsed seconds stay at five', () => {
   const { result } = renderHook(() => useTimerElapsed(true));
 
   act(() => {
@@ -87,14 +84,11 @@ test("GIVEN the timer reaches five seconds, WHEN the grace period is still runni
   expect(result.current).toBe(5);
 });
 
-test("GIVEN the timer already timed out once, WHEN a new question starts, THEN it starts counting again", () => {
+test('GIVEN the timer already timed out once, WHEN a new question starts, THEN it starts counting again', () => {
   const onElapsed = vi.fn();
-  const { result, rerender } = renderHook(
-    ({ resetSignal }) => useTimerElapsed(true, onElapsed, 1, resetSignal),
-    {
-      initialProps: { resetSignal: "first-question" },
-    },
-  );
+  const { result, rerender } = renderHook(({ resetSignal }) => useTimerElapsed(true, onElapsed, 1, resetSignal), {
+    initialProps: { resetSignal: 'first-question' },
+  });
 
   act(() => {
     vi.advanceTimersByTime(DEFAULT_TIMER_UPDATE_INTERVAL_MS);
@@ -108,7 +102,7 @@ test("GIVEN the timer already timed out once, WHEN a new question starts, THEN i
 
   expect(onElapsed).toHaveBeenCalledTimes(1);
 
-  rerender({ resetSignal: "first-question-reset" });
+  rerender({ resetSignal: 'first-question-reset' });
 
   expect(result.current).toBe(0);
 
@@ -119,7 +113,7 @@ test("GIVEN the timer already timed out once, WHEN a new question starts, THEN i
   expect(result.current).toBe(1);
 });
 
-test("GIVEN the timer is running, WHEN the hook rerenders before the next tick, THEN the elapsed seconds still tick after one full second", () => {
+test('GIVEN the timer is running, WHEN the hook rerenders before the next tick, THEN the elapsed seconds still tick after one full second', () => {
   const { result, rerender } = renderHook(() => useTimerElapsed(true));
 
   act(() => {

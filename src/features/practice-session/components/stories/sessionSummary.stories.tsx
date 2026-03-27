@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { PracticeFlow } from "../../models/practiceFlow";
-import CompletedPracticeSessionSummary from "../completedPracticeSessionSummary";
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { PracticeFlow } from '../../models/practiceFlow';
+import CompletedPracticeSessionSummary from '../completedPracticeSessionSummary';
 
 const meta = {
-  title: "Practice/SessionSummary",
+  title: 'Practice/SessionSummary',
 } satisfies Meta;
 
 export default meta;
@@ -11,7 +11,7 @@ export default meta;
 export const RewardEarned: StoryObj = {
   render: () => {
     const session: PracticeFlow = {
-      kind: "sessionComplete",
+      kind: 'sessionComplete',
       firstTryCorrectAnswerCount: 8,
       hasEarnedReward: true,
       multiplicationErrors: [],
@@ -23,7 +23,7 @@ export const RewardEarned: StoryObj = {
 export const NoRewardEarned: StoryObj = {
   render: () => {
     const session: PracticeFlow = {
-      kind: "sessionComplete",
+      kind: 'sessionComplete',
       firstTryCorrectAnswerCount: 5,
       hasEarnedReward: false,
       multiplicationErrors: [],

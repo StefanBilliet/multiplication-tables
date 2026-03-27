@@ -1,9 +1,9 @@
-import { Box } from "@mantine/core";
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import MultiplicationTableCard from "./multiplicationTableCard";
+import { Box } from '@mantine/core';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import MultiplicationTableCard from './multiplicationTableCard';
 
 const meta = {
-  title: "Practice/MultiplicationTableCard",
+  title: 'Practice/MultiplicationTableCard',
   component: MultiplicationTableCard,
   args: {
     onSelect: () => {},
@@ -25,7 +25,7 @@ export const Available: Story = {
   args: {
     table: {
       id: 3,
-      label: "3 times table",
+      label: '3 times table',
       unlockState: { unlocked: true, rewardsNeeded: 0 },
     },
   },
@@ -35,7 +35,7 @@ export const Locked: Story = {
   args: {
     table: {
       id: 4,
-      label: "4 times table",
+      label: '4 times table',
       unlockState: { unlocked: false, rewardsNeeded: 3 },
     },
   },

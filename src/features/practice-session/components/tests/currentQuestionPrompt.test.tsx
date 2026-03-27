@@ -1,9 +1,9 @@
-import { act, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, vi } from "vitest";
-import { AppProviders } from "../../../../app/providers/appProviders";
-import { DEFAULT_TIMER_GRACE_PERIOD_MS } from "../../../../shared/hooks/useTimerElapsed";
-import renderComponent from "../../../../shared/testing/renderComponent";
-import CurrentQuestionPrompt from "../currentQuestionPrompt";
+import { act, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, vi } from 'vitest';
+import { AppProviders } from '../../../../app/providers/appProviders';
+import { DEFAULT_TIMER_GRACE_PERIOD_MS } from '../../../../shared/hooks/useTimerElapsed';
+import renderComponent from '../../../../shared/testing/renderComponent';
+import CurrentQuestionPrompt from '../currentQuestionPrompt';
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -13,7 +13,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-test("GIVEN the hesitation rule is enabled, WHEN the prompt is shown, THEN the timer is visible and the timeout callback fires after five seconds and the grace period", async () => {
+test('GIVEN the hesitation rule is enabled, WHEN the prompt is shown, THEN the timer is visible and the timeout callback fires after five seconds and the grace period', async () => {
   const onElapsed = vi.fn();
 
   renderComponent(
@@ -26,8 +26,8 @@ test("GIVEN the hesitation rule is enabled, WHEN the prompt is shown, THEN the t
     />,
   );
 
-  expect(screen.getByLabelText("Hesitation timer")).toBeVisible();
-  expect(screen.getByText("0s")).toBeVisible();
+  expect(screen.getByLabelText('Hesitation timer')).toBeVisible();
+  expect(screen.getByText('0s')).toBeVisible();
 
   await act(async () => {
     await vi.advanceTimersByTimeAsync(5000);
@@ -42,7 +42,7 @@ test("GIVEN the hesitation rule is enabled, WHEN the prompt is shown, THEN the t
   expect(onElapsed).toHaveBeenCalledTimes(1);
 });
 
-test("GIVEN the hesitation rule is enabled and the question changes, WHEN five seconds pass for the new question, THEN the timeout callback fires only after that new question reaches five seconds and the grace period", async () => {
+test('GIVEN the hesitation rule is enabled and the question changes, WHEN five seconds pass for the new question, THEN the timeout callback fires only after that new question reaches five seconds and the grace period', async () => {
   const onElapsed = vi.fn();
   const { rerender } = render(
     <AppProviders>

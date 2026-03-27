@@ -1,1 +1,1 @@
-export type QuestionOrderMode = "structured" | "varied";
+export type QuestionOrderMode = 'structured' | 'varied';

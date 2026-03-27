@@ -1,19 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import clearTimerRefs from "./clearTimerRefs";
-import startElapsedTimer from "./startElapsedTimer";
-import type { TimeoutId, TimerId } from "./useTimerElapsed.constants";
+import { useEffect, useRef, useState } from 'react';
+import clearTimerRefs from './clearTimerRefs';
+import startElapsedTimer from './startElapsedTimer';
+import type { TimeoutId, TimerId } from './useTimerElapsed.constants';
 
 export {
   DEFAULT_TIMER_GRACE_PERIOD_MS,
   DEFAULT_TIMER_UPDATE_INTERVAL_MS,
-} from "./useTimerElapsed.constants";
+} from './useTimerElapsed.constants';
 
-const useTimerElapsed = (
-  enabled: boolean,
-  onElapsed?: () => void,
-  timeoutSeconds = 5,
-  resetSignal?: string,
-) => {
+const useTimerElapsed = (enabled: boolean, onElapsed?: () => void, timeoutSeconds = 5, resetSignal?: string) => {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const previousResetSignalRef = useRef(resetSignal);
   const onElapsedRef = useRef(onElapsed);
@@ -25,8 +20,7 @@ const useTimerElapsed = (
   }, [onElapsed]);
 
   useEffect(() => {
-    const hasResetSignalChanged =
-      previousResetSignalRef.current !== resetSignal;
+    const hasResetSignalChanged = previousResetSignalRef.current !== resetSignal;
 
     previousResetSignalRef.current = resetSignal;
 
@@ -41,13 +35,7 @@ const useTimerElapsed = (
       setElapsedSeconds(0);
     }
 
-    startElapsedTimer(
-      intervalIdRef,
-      timeoutIdRef,
-      onElapsedRef,
-      setElapsedSeconds,
-      timeoutSeconds,
-    );
+    startElapsedTimer(intervalIdRef, timeoutIdRef, onElapsedRef, setElapsedSeconds, timeoutSeconds);
 
     return () => {
       clearTimerRefs(intervalIdRef, timeoutIdRef);

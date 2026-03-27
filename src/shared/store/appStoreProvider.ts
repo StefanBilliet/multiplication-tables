@@ -1,16 +1,6 @@
-import {
-  createContext,
-  createElement,
-  type FC,
-  type PropsWithChildren,
-  useContext,
-} from "react";
-import { useStore } from "zustand";
-import {
-  type AppState,
-  type AppStore,
-  createAppStore,
-} from "./appStoreFactory";
+import { createContext, createElement, type FC, type PropsWithChildren, useContext } from 'react';
+import { useStore } from 'zustand';
+import { type AppState, type AppStore, createAppStore } from './appStoreFactory';
 
 const appStoreContext = createContext<AppStore | null>(null);
 
@@ -20,15 +10,8 @@ export const setAppStore = (store: AppStore) => {
   appStore = store;
 };
 
-export const AppStoreProvider: FC<PropsWithChildren<{ store?: AppStore }>> = ({
-  children,
-  store,
-}) => {
-  return createElement(
-    appStoreContext.Provider,
-    { value: store ?? appStore },
-    children,
-  );
+export const AppStoreProvider: FC<PropsWithChildren<{ store?: AppStore }>> = ({ children, store }) => {
+  return createElement(appStoreContext.Provider, { value: store ?? appStore }, children);
 };
 
 const getAppStore = () => {

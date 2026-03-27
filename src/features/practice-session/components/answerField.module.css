@@ -10,22 +10,14 @@
 }
 
 .input[data-feedback-state="correct"] {
-  background: linear-gradient(
-    135deg,
-    rgba(217, 245, 240, 1) 0%,
-    rgba(188, 238, 229, 1) 100%
-  );
+  background: linear-gradient(135deg, rgba(217, 245, 240, 1) 0%, rgba(188, 238, 229, 1) 100%);
   border-color: var(--mantine-color-teal-4);
   box-shadow: 0 0 0 0.25rem rgba(18, 184, 134, 0.14);
   color: var(--mantine-color-teal-9);
 }
 
 .input[data-feedback-state="incorrect"] {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 233, 235, 1) 0%,
-    rgba(255, 214, 219, 1) 100%
-  );
+  background: linear-gradient(135deg, rgba(255, 233, 235, 1) 0%, rgba(255, 214, 219, 1) 100%);
   border-color: var(--mantine-color-red-4);
   box-shadow: 0 0 0 0.25rem rgba(250, 82, 82, 0.14);
   color: var(--mantine-color-red-9);

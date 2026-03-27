@@ -1,16 +1,16 @@
-import { renderHook } from "@testing-library/react";
-import type { PracticeFlow } from "../../models/practiceFlow";
-import useActiveSessionViewModel from "../useActiveSessionViewModel";
+import { renderHook } from '@testing-library/react';
+import type { PracticeFlow } from '../../models/practiceFlow';
+import useActiveSessionViewModel from '../useActiveSessionViewModel';
 
-test("GIVEN a current question session, WHEN the hook is created, THEN it returns the active session view model", () => {
+test('GIVEN a current question session, WHEN the hook is created, THEN it returns the active session view model', () => {
   const session: PracticeFlow = {
-    kind: "currentQuestion",
+    kind: 'currentQuestion',
     currentQuestionIndex: 2,
     currentQuestion: {
       answerOptions: [12, 18, 15],
       canCheckAnswer: true,
       canContinue: false,
-      feedbackState: "incorrect",
+      feedbackState: 'incorrect',
       hasRetriedCurrentQuestion: true,
       multiplier: 3,
       selectedAnswer: 15,
@@ -26,17 +26,17 @@ test("GIVEN a current question session, WHEN the hook is created, THEN it return
   expect(result.current).toEqual({
     answerOptions: [12, 18, 15],
     canCheck: true,
-    feedbackAnimation: "wobble",
-    feedbackState: "incorrect",
+    feedbackAnimation: 'wobble',
+    feedbackState: 'incorrect',
     hasCorrectFeedback: false,
     multiplier: 3,
     selectedAnswer: 15,
   });
 });
 
-test("GIVEN a completed session, WHEN the hook is created, THEN it returns fallback values for the active session view model", () => {
+test('GIVEN a completed session, WHEN the hook is created, THEN it returns fallback values for the active session view model', () => {
   const session: PracticeFlow = {
-    kind: "sessionComplete",
+    kind: 'sessionComplete',
     firstTryCorrectAnswerCount: 8,
     hasEarnedReward: true,
     multiplicationErrors: [],

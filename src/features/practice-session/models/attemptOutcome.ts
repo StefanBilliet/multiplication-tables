@@ -1,4 +1,4 @@
-import type { CurrentQuestionState, SessionComplete } from "./types.ts";
+import type { CurrentQuestionState, SessionComplete } from './types.ts';
 
 type PracticeFlow = CurrentQuestionState | SessionComplete;
 
@@ -10,10 +10,9 @@ export const attemptOutcome = {
         ...flow.currentQuestion,
         canCheckAnswer: false,
         canContinue: true,
-        feedbackState: "correct",
+        feedbackState: 'correct',
       },
-      firstTryCorrectAnswerCount: !flow.currentQuestion
-        .hasRetriedCurrentQuestion
+      firstTryCorrectAnswerCount: !flow.currentQuestion.hasRetriedCurrentQuestion
         ? flow.firstTryCorrectAnswerCount + 1
         : flow.firstTryCorrectAnswerCount,
     };
@@ -26,7 +25,7 @@ export const attemptOutcome = {
         ...flow.currentQuestion,
         canCheckAnswer: false,
         canContinue: false,
-        feedbackState: "incorrect",
+        feedbackState: 'incorrect',
         selectedAnswer: null,
         hasRetriedCurrentQuestion: true,
       },

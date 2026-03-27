@@ -1,12 +1,12 @@
-import { Group, Stack } from "@mantine/core";
-import type { FC } from "react";
-import type { PracticeFlow as PracticeFlowType } from "../models/practiceFlow";
-import classes from "./activeSessionMode.module.css";
-import AnswerPad from "./answerPad";
-import BackToTablesButton from "./backToTablesButton";
-import CheckAnswerButton from "./checkAnswerButton";
-import ContinueButton from "./continueButton";
-import useActiveSessionViewModel from "./useActiveSessionViewModel";
+import { Group, Stack } from '@mantine/core';
+import type { FC } from 'react';
+import type { PracticeFlow as PracticeFlowType } from '../models/practiceFlow';
+import classes from './activeSessionMode.module.css';
+import AnswerPad from './answerPad';
+import BackToTablesButton from './backToTablesButton';
+import CheckAnswerButton from './checkAnswerButton';
+import ContinueButton from './continueButton';
+import useActiveSessionViewModel from './useActiveSessionViewModel';
 
 type ActiveSessionModeProps = {
   session: PracticeFlowType;
@@ -15,12 +15,7 @@ type ActiveSessionModeProps = {
   onSelectAnswer: (answer: number) => void;
 };
 
-const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
-  session,
-  onCheckAnswer,
-  onContinue,
-  onSelectAnswer,
-}) => {
+const ActiveSessionMode: FC<ActiveSessionModeProps> = ({ session, onCheckAnswer, onContinue, onSelectAnswer }) => {
   const viewModel = useActiveSessionViewModel(session);
 
   return (
@@ -40,10 +35,7 @@ const ActiveSessionMode: FC<ActiveSessionModeProps> = ({
         {viewModel.hasCorrectFeedback ? (
           <ContinueButton onClick={onContinue} />
         ) : (
-          <CheckAnswerButton
-            disabled={!viewModel.canCheck}
-            onClick={onCheckAnswer}
-          />
+          <CheckAnswerButton disabled={!viewModel.canCheck} onClick={onCheckAnswer} />
         )}
       </Group>
     </Stack>

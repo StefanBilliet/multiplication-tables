@@ -1,11 +1,11 @@
-import { screen } from "@testing-library/react";
-import ReactConfetti from "react-confetti";
-import { vi } from "vitest";
-import renderComponent from "../../../../shared/testing/renderComponent";
-import type { PracticeFlow } from "../../models/practiceFlow";
-import CompletedPracticeSessionSummary from "../completedPracticeSessionSummary";
+import { screen } from '@testing-library/react';
+import ReactConfetti from 'react-confetti';
+import { vi } from 'vitest';
+import renderComponent from '../../../../shared/testing/renderComponent';
+import type { PracticeFlow } from '../../models/practiceFlow';
+import CompletedPracticeSessionSummary from '../completedPracticeSessionSummary';
 
-vi.mock("../../../../shared/rewards/useLifetimeRewardTotal", () => ({
+vi.mock('../../../../shared/rewards/useLifetimeRewardTotal', () => ({
   default: () => ({
     addReward: vi.fn(),
     lifetimeRewardTotal: 6,
@@ -16,9 +16,9 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-test("GIVEN a completed qualifying session, WHEN the completed summary is rendered, THEN it shows the earned reward summary", () => {
+test('GIVEN a completed qualifying session, WHEN the completed summary is rendered, THEN it shows the earned reward summary', () => {
   const session: PracticeFlow = {
-    kind: "sessionComplete",
+    kind: 'sessionComplete',
     firstTryCorrectAnswerCount: 7,
     hasEarnedReward: true,
     multiplicationErrors: [],
@@ -26,13 +26,13 @@ test("GIVEN a completed qualifying session, WHEN the completed summary is render
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);
 
-  expect(screen.getByText("You earned 1 reward")).toBeVisible();
-  expect(screen.getByText("6 total rewards")).toBeVisible();
+  expect(screen.getByText('You earned 1 reward')).toBeVisible();
+  expect(screen.getByText('6 total rewards')).toBeVisible();
 });
 
-test("GIVEN a completed non-qualifying session, WHEN the completed summary is rendered, THEN it shows the plain session summary", () => {
+test('GIVEN a completed non-qualifying session, WHEN the completed summary is rendered, THEN it shows the plain session summary', () => {
   const session: PracticeFlow = {
-    kind: "sessionComplete",
+    kind: 'sessionComplete',
     firstTryCorrectAnswerCount: 6,
     hasEarnedReward: false,
     multiplicationErrors: [],
@@ -40,13 +40,13 @@ test("GIVEN a completed non-qualifying session, WHEN the completed summary is re
 
   renderComponent(<CompletedPracticeSessionSummary session={session} />);
 
-  expect(screen.queryByText("You earned 1 reward")).not.toBeInTheDocument();
-  expect(screen.getByText("6 correct answers")).toBeVisible();
+  expect(screen.queryByText('You earned 1 reward')).not.toBeInTheDocument();
+  expect(screen.getByText('6 correct answers')).toBeVisible();
 });
 
-test("GIVEN a completed qualifying session, WHEN the completed summary is rendered, THEN confetti is triggered", () => {
+test('GIVEN a completed qualifying session, WHEN the completed summary is rendered, THEN confetti is triggered', () => {
   const session: PracticeFlow = {
-    kind: "sessionComplete",
+    kind: 'sessionComplete',
     firstTryCorrectAnswerCount: 7,
     hasEarnedReward: true,
     multiplicationErrors: [],
@@ -63,9 +63,9 @@ test("GIVEN a completed qualifying session, WHEN the completed summary is render
   );
 });
 
-test("GIVEN a completed non-qualifying session, WHEN the completed summary is rendered, THEN confetti is not triggered", () => {
+test('GIVEN a completed non-qualifying session, WHEN the completed summary is rendered, THEN confetti is not triggered', () => {
   const session: PracticeFlow = {
-    kind: "sessionComplete",
+    kind: 'sessionComplete',
     firstTryCorrectAnswerCount: 6,
     hasEarnedReward: false,
     multiplicationErrors: [],

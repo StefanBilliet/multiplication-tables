@@ -1,6 +1,6 @@
-import { questionAttempt } from "./questionAttempt.ts";
-import { sessionCompletion } from "./sessionCompletion.ts";
-import type { CurrentQuestionState, SessionComplete } from "./types.ts";
+import { questionAttempt } from './questionAttempt.ts';
+import { sessionCompletion } from './sessionCompletion.ts';
+import type { CurrentQuestionState, SessionComplete } from './types.ts';
 
 type PracticeFlow = CurrentQuestionState | SessionComplete;
 

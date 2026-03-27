@@ -1,8 +1,8 @@
-import type { FC } from "react";
-import { Route, Routes } from "react-router-dom";
-import PracticeScreen from "../features/practice-session/components/practiceScreen";
-import SettingsScreen from "../features/settings/components/settingsScreen";
-import TableSelection from "../features/table-selection/components/tableSelection";
+import type { FC } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import PracticeScreen from '../features/practice-session/components/practiceScreen';
+import SettingsScreen from '../features/settings/components/settingsScreen';
+import TableSelection from '../features/table-selection/components/tableSelection';
 
 const App: FC = () => {
   return (

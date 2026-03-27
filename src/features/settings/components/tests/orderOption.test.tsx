@@ -1,13 +1,13 @@
-import { screen } from "@testing-library/react";
-import renderComponent from "../../../../shared/testing/renderComponent.tsx";
-import OrderOption from "../orderSetting/orderOption.tsx";
-import "./useDutchLocale.ts";
+import { screen } from '@testing-library/react';
+import renderComponent from '../../../../shared/testing/renderComponent.tsx';
+import OrderOption from '../orderSetting/orderOption.tsx';
+import './useDutchLocale.ts';
 
 beforeEach(() => {
   localStorage.clear();
 });
 
-test("GIVEN a selected structured option, WHEN it renders, THEN it shows the option content and selected badge", async () => {
+test('GIVEN a selected structured option, WHEN it renders, THEN it shows the option content and selected badge', () => {
   renderComponent(
     <OrderOption
       isSelected
@@ -19,14 +19,14 @@ test("GIVEN a selected structured option, WHEN it renders, THEN it shows the opt
     />,
   );
 
-  expect(screen.getByRole("radio", { name: "In volgorde" })).toBeChecked();
-  expect(screen.getByRole("heading", { name: "In volgorde" })).toBeVisible();
-  expect(screen.getByText("Vragen volgen de tafelvolgorde.")).toBeVisible();
-  expect(screen.getByText("Op volgorde")).toBeVisible();
-  expect(screen.getByText("Geselecteerd")).toBeVisible();
+  expect(screen.getByRole('radio', { name: 'In volgorde' })).toBeChecked();
+  expect(screen.getByRole('heading', { name: 'In volgorde' })).toBeVisible();
+  expect(screen.getByText('Vragen volgen de tafelvolgorde.')).toBeVisible();
+  expect(screen.getByText('Op volgorde')).toBeVisible();
+  expect(screen.getByText('Geselecteerd')).toBeVisible();
 });
 
-test("GIVEN an unselected varied option, WHEN it renders, THEN it shows the varied mode label", async () => {
+test('GIVEN an unselected varied option, WHEN it renders, THEN it shows the varied mode label', () => {
   renderComponent(
     <OrderOption
       isSelected={false}
@@ -38,11 +38,9 @@ test("GIVEN an unselected varied option, WHEN it renders, THEN it shows the vari
     />,
   );
 
-  expect(screen.getByRole("radio", { name: "Willekeurig" })).not.toBeChecked();
-  expect(screen.getByRole("heading", { name: "Willekeurig" })).toBeVisible();
-  expect(
-    screen.getByText("Vragen verschijnen in een andere volgorde."),
-  ).toBeVisible();
-  expect(screen.getByText("Gemengd")).toBeVisible();
-  expect(screen.queryByText("Geselecteerd")).not.toBeInTheDocument();
+  expect(screen.getByRole('radio', { name: 'Willekeurig' })).not.toBeChecked();
+  expect(screen.getByRole('heading', { name: 'Willekeurig' })).toBeVisible();
+  expect(screen.getByText('Vragen verschijnen in een andere volgorde.')).toBeVisible();
+  expect(screen.getByText('Gemengd')).toBeVisible();
+  expect(screen.queryByText('Geselecteerd')).not.toBeInTheDocument();
 });

@@ -1,22 +1,13 @@
-import {
-  Badge,
-  Card,
-  Center,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { MemoryRouter } from "react-router-dom";
-import LanguageSwitcher from "../../../shared/i18n/languageSwitcher";
-import MultiplicationTableCard from "./multiplicationTableCard";
-import TableSelection from "./tableSelection";
-import classes from "./tableSelection.module.css";
+import { Badge, Card, Center, Group, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { MemoryRouter } from 'react-router-dom';
+import LanguageSwitcher from '../../../shared/i18n/languageSwitcher';
+import MultiplicationTableCard from './multiplicationTableCard';
+import TableSelection from './tableSelection';
+import classes from './tableSelection.module.css';
 
 const meta = {
-  title: "Practice/TableSelection",
+  title: 'Practice/TableSelection',
   component: TableSelection,
   decorators: [
     (Story) => (
@@ -55,7 +46,7 @@ export const WithLanguageSwitcherHeader: Story = {
           <MultiplicationTableCard
             table={{
               id: 3,
-              label: "3 times table",
+              label: '3 times table',
               unlockState: { unlocked: true, rewardsNeeded: 0 },
             }}
             onSelect={() => {}}
@@ -63,7 +54,7 @@ export const WithLanguageSwitcherHeader: Story = {
           <MultiplicationTableCard
             table={{
               id: 4,
-              label: "4 times table",
+              label: '4 times table',
               unlockState: { unlocked: true, rewardsNeeded: 0 },
             }}
             onSelect={() => {}}
@@ -71,7 +62,7 @@ export const WithLanguageSwitcherHeader: Story = {
           <MultiplicationTableCard
             table={{
               id: 5,
-              label: "5 times table",
+              label: '5 times table',
               unlockState: { unlocked: false, rewardsNeeded: 3 },
             }}
             onSelect={() => {}}

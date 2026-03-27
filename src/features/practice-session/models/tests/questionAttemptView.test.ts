@@ -1,13 +1,10 @@
-import PracticeFlow from "../practiceFlow.ts";
-import { questionAttemptView } from "../questionAttemptView.ts";
-import type { CurrentQuestionState } from "../types.ts";
+import PracticeFlow from '../practiceFlow.ts';
+import { questionAttemptView } from '../questionAttemptView.ts';
+import type { CurrentQuestionState } from '../types.ts';
 
-test("GIVEN a current question state with correct feedback, WHEN hasCorrectFeedback is called, THEN it returns true", () => {
+test('GIVEN a current question state with correct feedback, WHEN hasCorrectFeedback is called, THEN it returns true', () => {
   const sut = PracticeFlow.checkAnswer(
-    PracticeFlow.selectAnswer(
-      PracticeFlow.start(3) as CurrentQuestionState,
-      3,
-    ) as CurrentQuestionState,
+    PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 3) as CurrentQuestionState,
   ) as CurrentQuestionState;
 
   const result = questionAttemptView.hasCorrectFeedback(sut);
@@ -15,12 +12,9 @@ test("GIVEN a current question state with correct feedback, WHEN hasCorrectFeedb
   expect(result).toBe(true);
 });
 
-test("GIVEN a current question state with incorrect feedback, WHEN hasCorrectFeedback is called, THEN it returns false", () => {
+test('GIVEN a current question state with incorrect feedback, WHEN hasCorrectFeedback is called, THEN it returns false', () => {
   const sut = PracticeFlow.checkAnswer(
-    PracticeFlow.selectAnswer(
-      PracticeFlow.start(3) as CurrentQuestionState,
-      6,
-    ) as CurrentQuestionState,
+    PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 6) as CurrentQuestionState,
   ) as CurrentQuestionState;
 
   const result = questionAttemptView.hasCorrectFeedback(sut);
@@ -28,7 +22,7 @@ test("GIVEN a current question state with incorrect feedback, WHEN hasCorrectFee
   expect(result).toBe(false);
 });
 
-test("GIVEN a current question state without checked answer, WHEN hasCorrectFeedback is called, THEN it returns false", () => {
+test('GIVEN a current question state without checked answer, WHEN hasCorrectFeedback is called, THEN it returns false', () => {
   const sut = PracticeFlow.start(3) as CurrentQuestionState;
 
   const result = questionAttemptView.hasCorrectFeedback(sut);
@@ -36,18 +30,15 @@ test("GIVEN a current question state without checked answer, WHEN hasCorrectFeed
   expect(result).toBe(false);
 });
 
-test("GIVEN a session with a selected answer, WHEN selectedAnswer is called, THEN it returns that answer", () => {
-  const sut = PracticeFlow.selectAnswer(
-    PracticeFlow.start(3) as CurrentQuestionState,
-    12,
-  ) as CurrentQuestionState;
+test('GIVEN a session with a selected answer, WHEN selectedAnswer is called, THEN it returns that answer', () => {
+  const sut = PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 12) as CurrentQuestionState;
 
   const result = questionAttemptView.selectedAnswer(sut);
 
   expect(result).toBe(12);
 });
 
-test("GIVEN a session without a selected answer, WHEN selectedAnswer is called, THEN it returns null", () => {
+test('GIVEN a session without a selected answer, WHEN selectedAnswer is called, THEN it returns null', () => {
   const sut = PracticeFlow.start(3) as CurrentQuestionState;
 
   const result = questionAttemptView.selectedAnswer(sut);
@@ -55,18 +46,15 @@ test("GIVEN a session without a selected answer, WHEN selectedAnswer is called, 
   expect(result).toBeNull();
 });
 
-test("GIVEN a session with an answer selected, WHEN canCheck is called, THEN it returns true", () => {
-  const sut = PracticeFlow.selectAnswer(
-    PracticeFlow.start(3) as CurrentQuestionState,
-    12,
-  ) as CurrentQuestionState;
+test('GIVEN a session with an answer selected, WHEN canCheck is called, THEN it returns true', () => {
+  const sut = PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 12) as CurrentQuestionState;
 
   const result = questionAttemptView.canCheck(sut);
 
   expect(result).toBe(true);
 });
 
-test("GIVEN a session without an answer selected, WHEN canCheck is called, THEN it returns false", () => {
+test('GIVEN a session without an answer selected, WHEN canCheck is called, THEN it returns false', () => {
   const sut = PracticeFlow.start(3) as CurrentQuestionState;
 
   const result = questionAttemptView.canCheck(sut);
@@ -76,31 +64,25 @@ test("GIVEN a session without an answer selected, WHEN canCheck is called, THEN 
 
 test("GIVEN a session with correct feedback, WHEN feedbackAnimation is called, THEN it returns 'pop'", () => {
   const sut = PracticeFlow.checkAnswer(
-    PracticeFlow.selectAnswer(
-      PracticeFlow.start(3) as CurrentQuestionState,
-      3,
-    ) as CurrentQuestionState,
+    PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 3) as CurrentQuestionState,
   ) as CurrentQuestionState;
 
   const result = questionAttemptView.feedbackAnimation(sut);
 
-  expect(result).toBe("pop");
+  expect(result).toBe('pop');
 });
 
 test("GIVEN a session with incorrect feedback, WHEN feedbackAnimation is called, THEN it returns 'wobble'", () => {
   const sut = PracticeFlow.checkAnswer(
-    PracticeFlow.selectAnswer(
-      PracticeFlow.start(3) as CurrentQuestionState,
-      6,
-    ) as CurrentQuestionState,
+    PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 6) as CurrentQuestionState,
   ) as CurrentQuestionState;
 
   const result = questionAttemptView.feedbackAnimation(sut);
 
-  expect(result).toBe("wobble");
+  expect(result).toBe('wobble');
 });
 
-test("GIVEN a session without feedback, WHEN feedbackAnimation is called, THEN it returns null", () => {
+test('GIVEN a session without feedback, WHEN feedbackAnimation is called, THEN it returns null', () => {
   const sut = PracticeFlow.start(3) as CurrentQuestionState;
 
   const result = questionAttemptView.feedbackAnimation(sut);
@@ -110,31 +92,25 @@ test("GIVEN a session without feedback, WHEN feedbackAnimation is called, THEN i
 
 test("GIVEN a session with correct feedback, WHEN feedbackState is called, THEN it returns 'correct'", () => {
   const sut = PracticeFlow.checkAnswer(
-    PracticeFlow.selectAnswer(
-      PracticeFlow.start(3) as CurrentQuestionState,
-      3,
-    ) as CurrentQuestionState,
+    PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 3) as CurrentQuestionState,
   ) as CurrentQuestionState;
 
   const result = questionAttemptView.feedbackState(sut);
 
-  expect(result).toBe("correct");
+  expect(result).toBe('correct');
 });
 
 test("GIVEN a session with incorrect feedback, WHEN feedbackState is called, THEN it returns 'incorrect'", () => {
   const sut = PracticeFlow.checkAnswer(
-    PracticeFlow.selectAnswer(
-      PracticeFlow.start(3) as CurrentQuestionState,
-      6,
-    ) as CurrentQuestionState,
+    PracticeFlow.selectAnswer(PracticeFlow.start(3) as CurrentQuestionState, 6) as CurrentQuestionState,
   ) as CurrentQuestionState;
 
   const result = questionAttemptView.feedbackState(sut);
 
-  expect(result).toBe("incorrect");
+  expect(result).toBe('incorrect');
 });
 
-test("GIVEN a session without feedback, WHEN feedbackState is called, THEN it returns null", () => {
+test('GIVEN a session without feedback, WHEN feedbackState is called, THEN it returns null', () => {
   const sut = PracticeFlow.start(3) as CurrentQuestionState;
 
   const result = questionAttemptView.feedbackState(sut);
@@ -142,7 +118,7 @@ test("GIVEN a session without feedback, WHEN feedbackState is called, THEN it re
   expect(result).toBeNull();
 });
 
-test("GIVEN a current question state, WHEN getAnswerOptions is called, THEN it returns the answer options from the current question", () => {
+test('GIVEN a current question state, WHEN getAnswerOptions is called, THEN it returns the answer options from the current question', () => {
   const sut = PracticeFlow.start(3) as CurrentQuestionState;
 
   const result = questionAttemptView.getAnswerOptions(sut);

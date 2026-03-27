@@ -1,36 +1,21 @@
-import {
-  ActionIcon,
-  Badge,
-  Card,
-  Center,
-  Group,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import { IconChevronLeft } from "@tabler/icons-react";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import LanguageSwitcher from "../../../shared/i18n/languageSwitcher.tsx";
-import { useAppStore } from "../../../shared/store/appStore.ts";
-import HesitationRuleOption from "./hesitationRuleOption.tsx";
-import { OrderSetting } from "./orderSetting/orderSetting.tsx";
-import classes from "./settingsScreen.module.css";
+import { ActionIcon, Badge, Card, Center, Group, Stack, Text, Title } from '@mantine/core';
+import { IconChevronLeft } from '@tabler/icons-react';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import LanguageSwitcher from '../../../shared/i18n/languageSwitcher.tsx';
+import { useAppStore } from '../../../shared/store/appStore.ts';
+import HesitationRuleOption from './hesitationRuleOption.tsx';
+import { OrderSetting } from './orderSetting/orderSetting.tsx';
+import classes from './settingsScreen.module.css';
 
 const SettingsScreen: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const questionOrderMode = useAppStore((state) => state.questionOrderMode);
-  const setQuestionOrderMode = useAppStore(
-    (state) => state.setQuestionOrderMode,
-  );
-  const isHesitationRuleEnabled = useAppStore(
-    (state) => state.isHesitationRuleEnabled,
-  );
-  const setHesitationRuleEnabled = useAppStore(
-    (state) => state.setHesitationRuleEnabled,
-  );
+  const setQuestionOrderMode = useAppStore((state) => state.setQuestionOrderMode);
+  const isHesitationRuleEnabled = useAppStore((state) => state.isHesitationRuleEnabled);
+  const setHesitationRuleEnabled = useAppStore((state) => state.setHesitationRuleEnabled);
 
   return (
     <Center className={classes.page}>
@@ -39,12 +24,12 @@ const SettingsScreen: FC = () => {
           <Group component="header">
             <Stack>
               <Badge variant="light" color="teal">
-                {t("settingsScreen.badge")}
+                {t('settingsScreen.badge')}
               </Badge>
 
-              <Title order={1}>{t("settingsScreen.title")}</Title>
+              <Title order={1}>{t('settingsScreen.title')}</Title>
 
-              <Text c="dimmed">{t("settingsScreen.description")}</Text>
+              <Text c="dimmed">{t('settingsScreen.description')}</Text>
             </Stack>
 
             <Group>
@@ -52,9 +37,9 @@ const SettingsScreen: FC = () => {
               <ActionIcon
                 className={classes.backButton}
                 radius="xl"
-                aria-label={t("settingsScreen.backButtonLabel")}
+                aria-label={t('settingsScreen.backButtonLabel')}
                 size="lg"
-                onClick={() => navigate("/")}
+                onClick={() => navigate('/')}
               >
                 <IconChevronLeft stroke={1.5} />
               </ActionIcon>
@@ -63,15 +48,9 @@ const SettingsScreen: FC = () => {
 
           <Card component="main" withBorder radius="xl">
             <Stack>
-              <OrderSetting
-                currentMode={questionOrderMode}
-                onChange={setQuestionOrderMode}
-              />
+              <OrderSetting currentMode={questionOrderMode} onChange={setQuestionOrderMode} />
 
-              <HesitationRuleOption
-                isEnabled={isHesitationRuleEnabled}
-                onToggle={setHesitationRuleEnabled}
-              />
+              <HesitationRuleOption isEnabled={isHesitationRuleEnabled} onToggle={setHesitationRuleEnabled} />
             </Stack>
           </Card>
         </Stack>

@@ -1,19 +1,9 @@
-import {
-  Button,
-  Card,
-  Center,
-  Group,
-  Paper,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import HesitationTimerCounter from "../hesitationTimerCounter";
+import { Button, Card, Center, Group, Paper, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import HesitationTimerCounter from '../hesitationTimerCounter';
 
 const meta = {
-  title: "Practice/HesitationRule",
+  title: 'Practice/HesitationRule',
 } satisfies Meta;
 
 export default meta;
@@ -21,7 +11,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const renderHesitationRuleFrame = () => (
-  <Center mih="100vh" p={{ base: "md", sm: "xl" }}>
+  <Center mih="100vh" p={{ base: 'md', sm: 'xl' }}>
     <Card w="100%" maw={720} variant="shell">
       <Stack gap="lg">
         <Stack gap="xs">
@@ -29,17 +19,11 @@ const renderHesitationRuleFrame = () => (
             Hesitation rule enabled
           </Text>
           <Title order={1}>1 x 3 = ?</Title>
-          <Text c="dimmed">
-            Answer within 5 seconds or the practice session resets.
-          </Text>
+          <Text c="dimmed">Answer within 5 seconds or the practice session resets.</Text>
         </Stack>
 
         <Group gap="lg" align="center">
-          <HesitationTimerCounter
-            enabled
-            onElapsed={() => undefined}
-            timeoutSeconds={5}
-          />
+          <HesitationTimerCounter enabled onElapsed={() => undefined} timeoutSeconds={5} />
 
           <Stack gap={4}>
             <Text fw={600}>Elapsed time</Text>
@@ -70,15 +54,13 @@ export const Counter: Story = {
 
 export const PlacedInPracticeScreen: Story = {
   render: () => (
-    <Center mih="100vh" p={{ base: "md", sm: "xl" }}>
+    <Center mih="100vh" p={{ base: 'md', sm: 'xl' }}>
       <Card w="100%" maw={1200} variant="shell">
         <Stack gap="xl">
           <Group component="header" align="flex-start" justify="space-between">
             <Stack gap="xs" maw={640}>
               <Title order={1}>Oefen de tafel van 3</Title>
-              <Text c="dimmed">
-                Los elke vraag een voor een op. Ga door tot alle 10 klaar zijn.
-              </Text>
+              <Text c="dimmed">Los elke vraag een voor een op. Ga door tot alle 10 klaar zijn.</Text>
             </Stack>
 
             <Group gap="xs">
@@ -103,11 +85,7 @@ export const PlacedInPracticeScreen: Story = {
                   </Title>
                 </Stack>
 
-                <HesitationTimerCounter
-                  enabled
-                  onElapsed={() => undefined}
-                  timeoutSeconds={5}
-                />
+                <HesitationTimerCounter enabled onElapsed={() => undefined} timeoutSeconds={5} />
               </Group>
             </Paper>
 

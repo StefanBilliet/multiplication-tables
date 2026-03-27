@@ -1,4 +1,4 @@
-import { Factory } from "fishery";
+import { Factory } from 'fishery';
 
 type Table = {
   id: number;

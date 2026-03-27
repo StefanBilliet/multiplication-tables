@@ -1,8 +1,5 @@
-import type { RefObject } from "react";
-import {
-  DEFAULT_TIMER_GRACE_PERIOD_MS,
-  type TimeoutId,
-} from "./useTimerElapsed.constants";
+import type { RefObject } from 'react';
+import { DEFAULT_TIMER_GRACE_PERIOD_MS, type TimeoutId } from './useTimerElapsed.constants';
 
 const scheduleElapsedCallback = (
   timeoutIdRef: RefObject<TimeoutId | null>,

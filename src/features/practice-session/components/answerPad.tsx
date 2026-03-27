@@ -1,12 +1,12 @@
-import { Button, SimpleGrid, Stack, Text } from "@mantine/core";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import AnswerField from "./answerField";
+import { Button, SimpleGrid, Stack, Text } from '@mantine/core';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import AnswerField from './answerField';
 
 type AnswerPadProps = {
   answerOptions: number[];
-  feedbackAnimation: "pop" | "wobble" | null;
-  feedbackState: "correct" | "incorrect" | null;
+  feedbackAnimation: 'pop' | 'wobble' | null;
+  feedbackState: 'correct' | 'incorrect' | null;
   hasCorrectFeedback: boolean;
   selectedAnswer: number | null;
   onSelectAnswer: (answer: number) => void;
@@ -24,7 +24,7 @@ const AnswerPad: FC<AnswerPadProps> = ({
 
   return (
     <Stack gap="md">
-      <Text fw={600}>{t("practiceSession.answerPad.answerLabel")}</Text>
+      <Text fw={600}>{t('practiceSession.answerPad.answerLabel')}</Text>
 
       <AnswerField
         feedbackAnimation={feedbackAnimation}

@@ -1,8 +1,8 @@
-import { Group, Paper, Stack, Text, Title } from "@mantine/core";
-import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import classes from "./currentQuestionPrompt.module.css";
-import HesitationTimerCounter from "./hesitationTimerCounter";
+import { Group, Paper, Stack, Text, Title } from '@mantine/core';
+import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import classes from './currentQuestionPrompt.module.css';
+import HesitationTimerCounter from './hesitationTimerCounter';
 
 type CurrentQuestionPromptProps = {
   isHesitationRuleEnabled?: boolean;
@@ -28,7 +28,7 @@ const CurrentQuestionPrompt: FC<CurrentQuestionPromptProps> = ({
       <Group align="flex-start" justify="space-between" wrap="nowrap">
         <Stack gap={0}>
           <Text size="sm" tt="uppercase" fw={700} c="teal.8">
-            {t("practiceSession.questionPrompt.title")}
+            {t('practiceSession.questionPrompt.title')}
           </Text>
           <Title order={2} size="h1">
             {multiplier} x {table} = ?
