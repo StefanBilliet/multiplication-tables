@@ -42,7 +42,7 @@ test('GIVEN the home route is shown, WHEN an available table is selected, THEN t
 
   await user.click(screen.getAllByRole('button', { name: /start practice/i })[0]);
 
-  expect(screen.getByText('Practice screen stub')).toBeVisible();
+  expect(await screen.findByText('Practice screen stub')).toBeVisible();
 });
 
 test('GIVEN the home route is shown, WHEN I open settings, THEN the settings screen is shown', async () => {
@@ -51,7 +51,7 @@ test('GIVEN the home route is shown, WHEN I open settings, THEN the settings scr
 
   await user.click(screen.getByRole('button', { name: /settings/i }));
 
-  expect(screen.getByText('Settings screen stub')).toBeVisible();
+  expect(await screen.findByText('Settings screen stub')).toBeVisible();
 });
 
 test('GIVEN the home route is shown, WHEN the app is rendered, THEN the table selection screen is shown', () => {

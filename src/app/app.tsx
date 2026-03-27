@@ -1,18 +1,28 @@
-import type { FC } from 'react';
+import { Center, Loader } from '@mantine/core';
+import { type FC, lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import PracticeHistoryScreen from '../features/practice-history/components/practiceHistoryScreen';
-import PracticeScreen from '../features/practice-session/components/practiceScreen';
-import SettingsScreen from '../features/settings/components/settingsScreen';
 import TableSelection from '../features/table-selection/components/tableSelection';
+
+const PracticeHistoryScreen = lazy(() => import('../features/practice-history/components/practiceHistoryScreen'));
+const PracticeScreen = lazy(() => import('../features/practice-session/components/practiceScreen'));
+const SettingsScreen = lazy(() => import('../features/settings/components/settingsScreen'));
 
 const App: FC = () => {
   return (
-    <Routes>
-      <Route path="/" element={<TableSelection />} />
-      <Route path="/settings" element={<SettingsScreen />} />
-      <Route path="/practice-history" element={<PracticeHistoryScreen />} />
-      <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
-    </Routes>
+    <Suspense
+      fallback={
+        <Center style={{ minHeight: '100vh' }}>
+          <Loader color="teal" type="dots" />
+        </Center>
+      }
+    >
+      <Routes>
+        <Route path="/" element={<TableSelection />} />
+        <Route path="/settings" element={<SettingsScreen />} />
+        <Route path="/practice-history" element={<PracticeHistoryScreen />} />
+        <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
+      </Routes>
+    </Suspense>
   );
 };
 
