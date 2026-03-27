@@ -32,7 +32,7 @@ beforeEach(() => {
   i18nChain.use.mockClear();
   localStorage.clear();
 
-  Object.defineProperty(window.navigator, 'language', {
+  Object.defineProperty(globalThis.navigator, 'language', {
     configurable: true,
     value: 'nl-BE',
   });
@@ -73,7 +73,7 @@ test('GIVEN the browser language starts with nl WHEN i18n is initialized THEN Du
 });
 
 test('GIVEN the browser language starts with en WHEN i18n is initialized THEN English is supported as a detected language', async () => {
-  Object.defineProperty(window.navigator, 'language', {
+  Object.defineProperty(globalThis.navigator, 'language', {
     configurable: true,
     value: 'en-GB',
   });
@@ -94,7 +94,7 @@ test('GIVEN the browser language starts with en WHEN i18n is initialized THEN En
 });
 
 test('GIVEN the browser language is unsupported WHEN i18n is initialized THEN Dutch is used as the fallback language', async () => {
-  Object.defineProperty(window.navigator, 'language', {
+  Object.defineProperty(globalThis.navigator, 'language', {
     configurable: true,
     value: 'fr-FR',
   });

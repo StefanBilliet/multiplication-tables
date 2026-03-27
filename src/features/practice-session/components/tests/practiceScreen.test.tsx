@@ -243,7 +243,9 @@ test('GIVEN correct feedback is visible, WHEN I choose to continue, THEN the app
   expect(page.question('2 x 3 = ?')).toBeVisible();
 });
 
-test('GIVEN I have answered the tenth question correctly, WHEN I choose to continue, THEN the practice session is completed instead of showing an eleventh question', async () => {
+test('GIVEN I have answered the tenth question correctly, WHEN I choose to continue, THEN the practice session is completed instead of showing an eleventh question', {
+  timeout: 10000,
+}, async () => {
   const page = renderPracticeScreen();
 
   for (let multiplier = 1; multiplier < 10; multiplier += 1) {

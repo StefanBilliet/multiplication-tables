@@ -22,7 +22,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Lint
         run: npm run check
@@ -39,8 +39,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=${{ github.repository_owner }}
-            -Dsonar.projectKey=${{ github.repository }}
+            -Dsonar.organization=stefanbilliet
+            -Dsonar.projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}
             -Dsonar.host.url=https://sonarcloud.io
 
       - name: Upload artifact
