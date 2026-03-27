@@ -15,9 +15,7 @@ export const AppStoreProvider: FC<PropsWithChildren<{ store?: AppStore }>> = ({ 
 };
 
 const getAppStore = () => {
-  if (!appStore) {
-    appStore = createAppStore();
-  }
+  appStore ??= createAppStore();
 
   return appStore;
 };
