@@ -3,7 +3,7 @@ import { afterEach, beforeEach, expect, test, vi } from "vitest";
 import useTimerElapsed, {
   DEFAULT_TIMER_GRACE_PERIOD_MS,
   DEFAULT_TIMER_UPDATE_INTERVAL_MS,
-} from "../useTimerElapsed";
+} from "../index.ts";
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -71,6 +71,22 @@ test("GIVEN a custom timeout is provided, WHEN that many seconds and the grace p
   expect(onElapsed).toHaveBeenCalledTimes(1);
 });
 
+test("GIVEN the timer reaches five seconds, WHEN the grace period is still running, THEN the displayed elapsed seconds stay at five", () => {
+  const { result } = renderHook(() => useTimerElapsed(true));
+
+  act(() => {
+    vi.advanceTimersByTime(5000);
+  });
+
+  expect(result.current).toBe(5);
+
+  act(() => {
+    vi.advanceTimersByTime(DEFAULT_TIMER_GRACE_PERIOD_MS);
+  });
+
+  expect(result.current).toBe(5);
+});
+
 test("GIVEN the timer already timed out once, WHEN a new question starts, THEN it starts counting again", () => {
   const onElapsed = vi.fn();
   const { result, rerender } = renderHook(
@@ -98,6 +114,22 @@ test("GIVEN the timer already timed out once, WHEN a new question starts, THEN i
 
   act(() => {
     vi.advanceTimersByTime(DEFAULT_TIMER_UPDATE_INTERVAL_MS);
+  });
+
+  expect(result.current).toBe(1);
+});
+
+test("GIVEN the timer is running, WHEN the hook rerenders before the next tick, THEN the elapsed seconds still tick after one full second", () => {
+  const { result, rerender } = renderHook(() => useTimerElapsed(true));
+
+  act(() => {
+    vi.advanceTimersByTime(DEFAULT_TIMER_UPDATE_INTERVAL_MS / 2);
+  });
+
+  rerender();
+
+  act(() => {
+    vi.advanceTimersByTime(DEFAULT_TIMER_UPDATE_INTERVAL_MS / 2);
   });
 
   expect(result.current).toBe(1);

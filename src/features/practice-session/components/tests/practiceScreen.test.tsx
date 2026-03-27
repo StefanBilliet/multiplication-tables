@@ -108,6 +108,67 @@ test("GIVEN the hesitation rule is enabled and the session has advanced, WHEN th
   vi.useRealTimers();
 });
 
+test("GIVEN the hesitation rule is enabled, WHEN the child keeps selecting answers, THEN the timer keeps advancing and still times out", async () => {
+  vi.useFakeTimers();
+  const store = createAppStore({ persist: false });
+  store.setState({ isHesitationRuleEnabled: true });
+
+  renderComponent(
+    <MemoryRouter initialEntries={["/tables/3/practice"]}>
+      <Routes>
+        <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
+      </Routes>
+    </MemoryRouter>,
+    { store },
+  );
+
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name: "6" }));
+  });
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(1000);
+  });
+
+  expect(screen.getByText("1s")).toBeVisible();
+
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name: "9" }));
+  });
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(1000);
+  });
+
+  expect(screen.getByText("2s")).toBeVisible();
+
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name: "6" }));
+    fireEvent.click(screen.getByRole("button", { name: "9" }));
+    fireEvent.click(screen.getByRole("button", { name: "3" }));
+  });
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(1000);
+  });
+
+  expect(screen.getByText("3s")).toBeVisible();
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(3000);
+  });
+
+  expect(screen.getByText("1 x 3 = ?")).toBeVisible();
+
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(DEFAULT_TIMER_GRACE_PERIOD_MS);
+  });
+
+  expect(screen.getByText("1 x 3 = ?")).toBeVisible();
+
+  vi.useRealTimers();
+});
+
 test("GIVEN a question is shown, WHEN I select several answers before submitting, THEN the currently selected answer wins", async () => {
   const page = renderPracticeScreen();
 
