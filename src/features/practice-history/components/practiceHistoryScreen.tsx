@@ -1,9 +1,8 @@
-import { ActionIcon, Badge, Card, Center, Group, Stack, Text, Title } from '@mantine/core';
-import { IconChevronLeft } from '@tabler/icons-react';
+import { Badge, Card, Center, Group, Stack, Text, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import LanguageSwitcher from '../../../shared/i18n/languageSwitcher.tsx';
+import BackButton from '../../../shared/navigation/backButton.tsx';
 import classes from './practiceHistoryScreen.module.css';
 
 type PracticeHistoryScreenProps = {
@@ -16,7 +15,6 @@ type PracticeHistoryScreenProps = {
 
 const PracticeHistoryScreen: FC<PracticeHistoryScreenProps> = ({ sessions }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   return (
     <Center className={classes.page}>
@@ -35,15 +33,7 @@ const PracticeHistoryScreen: FC<PracticeHistoryScreenProps> = ({ sessions }) => 
 
             <Group>
               <LanguageSwitcher />
-              <ActionIcon
-                className={classes.backButton}
-                radius="xl"
-                aria-label={t('practiceHistory.backButtonLabel')}
-                size="lg"
-                onClick={() => navigate('/')}
-              >
-                <IconChevronLeft stroke={1.5} />
-              </ActionIcon>
+              <BackButton />
             </Group>
           </Group>
 
