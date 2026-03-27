@@ -10,5 +10,10 @@ export default defineConfig({
     setupFiles: './src/shared/testing/setup.ts',
     css: true,
     execArgv: [`--localstorage-file=${localStorageFilePath}`],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+      reportsDirectory: './coverage',
+    },
   },
 });
