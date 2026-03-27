@@ -67,5 +67,14 @@
     "backToTablesButton": "Terug naar tafels",
     "continueButton": "Verder",
     "checkAnswerButton": "Controleer"
+  },
+  "practiceHistory": {
+    "badge": "Oefengeschiedenis",
+    "title": "Vorige sessies",
+    "description": "Bekijk de oefengeschiedenis van je kind",
+    "emptyMessage": "Je oefengeschiedenis verschijnt hier zodra je je eerste oefensessie hebt voltooid.",
+    "emptyTitle": "Nog geen sessies",
+    "tableLabel": "Tafel van {{table}}",
+    "scoreLabel": "{{score}} goede antwoorden"
   }
 }

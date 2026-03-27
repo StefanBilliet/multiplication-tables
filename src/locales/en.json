@@ -67,5 +67,14 @@
     "backToTablesButton": "Back to tables",
     "continueButton": "Continue",
     "checkAnswerButton": "Check answer"
+  },
+  "practiceHistory": {
+    "badge": "Practice history",
+    "title": "Past sessions",
+    "description": "Review your child's practice history",
+    "emptyMessage": "Your practice history will appear here, once you completed your first practice session.",
+    "emptyTitle": "No sessions yet",
+    "tableLabel": "{{table}} times table",
+    "scoreLabel": "{{score}} correct answers"
   }
 }
