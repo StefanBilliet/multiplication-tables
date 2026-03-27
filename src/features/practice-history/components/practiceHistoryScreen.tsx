@@ -11,6 +11,7 @@ type PracticeHistoryScreenProps = {
     table: number;
     firstTryCorrectAnswerCount: number;
     timestamp: string;
+    hasEarnedReward: boolean;
   }>;
 };
 
@@ -61,7 +62,7 @@ const PracticeHistoryScreen: FC<PracticeHistoryScreenProps> = ({ sessions }) => 
                       <Text size="xl" fw={700} c="gray.8">
                         {t('practiceHistory.tableLabel', { table: session.table })}
                       </Text>
-                      <Text size="sm" c="dimmed">
+                      <Text size="sm" c={session.hasEarnedReward ? 'green.6' : 'dimmed'}>
                         {t('practiceHistory.scoreLabel', {
                           score: session.firstTryCorrectAnswerCount,
                         })}

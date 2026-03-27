@@ -29,7 +29,8 @@
     "hesitationRuleSectionLabel": "Hesitation rule",
     "hesitationRuleTitle": "Timer on questions",
     "hesitationRuleDescription": "Show a 5-second timer when answering; if time runs out, reset question",
-    "backButtonLabel": "Back"
+    "backButtonLabel": "Back",
+    "practiceHistoryButton": "Practice history"
   },
   "tableCard": {
     "available": "Available",

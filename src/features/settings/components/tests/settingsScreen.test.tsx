@@ -34,3 +34,18 @@ test('GIVEN the hesitation rule is disabled by default, WHEN the user clicks to 
 
   expect(hesitationOption).toBeChecked();
 });
+
+test('GIVEN the settings screen is open, WHEN the user clicks practice history, THEN the history screen opens', async () => {
+  const { user } = renderComponent(
+    <MemoryRouter initialEntries={['/settings']}>
+      <Routes>
+        <Route path="/settings" element={<SettingsScreen />} />
+        <Route path="/practice-history" element={<div>Practice history screen</div>} />
+      </Routes>
+    </MemoryRouter>,
+  );
+
+  await user.click(screen.getByRole('button', { name: /practice history/i }));
+
+  expect(screen.getByText('Practice history screen')).toBeVisible();
+});

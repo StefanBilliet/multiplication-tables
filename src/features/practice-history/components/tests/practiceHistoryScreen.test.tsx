@@ -54,4 +54,28 @@ describe('PracticeHistoryScreen', () => {
     expect(tableLabels[0]).toHaveTextContent('5 times table');
     expect(tableLabels[1]).toHaveTextContent('3 times table');
   });
+
+  test('GIVEN rewarded and non-rewarded sessions WHEN the screen renders THEN only the rewarded score text is green.6', () => {
+    const sessions = [
+      sessionCompletedEventFactory.build({
+        firstTryCorrectAnswerCount: 8,
+        hasEarnedReward: true,
+      }),
+      sessionCompletedEventFactory.build({
+        firstTryCorrectAnswerCount: 6,
+        hasEarnedReward: false,
+      }),
+    ];
+
+    const { getByText } = renderComponent(
+      <MemoryRouter initialEntries={['/practice-history']}>
+        <Routes>
+          <Route path="/practice-history" element={<PracticeHistoryScreen sessions={sessions} />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(getByText('8 correct answers')).toHaveStyle({ color: 'var(--mantine-color-green-6)' });
+    expect(getByText('6 correct answers')).toHaveStyle({ color: 'var(--mantine-color-dimmed)' });
+  });
 });

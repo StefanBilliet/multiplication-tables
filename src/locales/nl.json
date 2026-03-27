@@ -29,7 +29,8 @@
     "hesitationRuleSectionLabel": "Aarzelregel",
     "hesitationRuleTitle": "Timer op vragen",
     "hesitationRuleDescription": "Toon een 5-seconden timer bij het beantwoorden; als de tijd verloopt, wordt de vraag gereset",
-    "backButtonLabel": "Terug"
+    "backButtonLabel": "Terug",
+    "practiceHistoryButton": "Oefengeschiedenis"
   },
   "tableCard": {
     "available": "Beschikbaar",
