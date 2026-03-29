@@ -1,19 +1,19 @@
 import { screen } from '@testing-library/react';
-import i18n from '../shared/i18n';
+import i18n from '../platform/i18n';
 import renderWithRouter from '../shared/testing/renderWithRouter';
 import App from './app';
 
 const useLifetimeRewardTotalMock = vi.fn();
 
-vi.mock('../features/practice-session/components/practiceScreen', () => ({
+vi.mock('../practice-session/components/practiceScreen', () => ({
   default: () => <div>Practice screen stub</div>,
 }));
 
-vi.mock('../features/settings/components/settingsScreen', () => ({
+vi.mock('../settings/components/settingsScreen', () => ({
   default: () => <div>Settings screen stub</div>,
 }));
 
-vi.mock('../shared/rewards/useLifetimeRewardTotal', () => ({
+vi.mock('./hooks/useLifetimeRewardTotal', () => ({
   default: () => useLifetimeRewardTotalMock(),
 }));
 

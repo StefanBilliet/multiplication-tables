@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import type { StoreApi } from 'zustand/vanilla';
 import { AppProviders } from '../../app/providers/appProviders';
-import type { AppState } from '../store/appStore';
-import { createAppStore } from '../store/appStore';
+import type { AppState } from '../../app/store/appStore';
+import { createAppStore } from '../../app/store/appStore';
 
 type RenderComponentOptions = {
   store?: StoreApi<AppState>;

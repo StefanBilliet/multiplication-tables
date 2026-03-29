@@ -1,12 +1,12 @@
 import { Center, Loader } from '@mantine/core';
 import { type FC, lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import TableSelection from '../features/table-selection/components/tableSelection';
-import { semanticColors } from '../theme/semanticColors';
+import { semanticColors } from '../platform/theme/semanticColors';
+import TableSelection from '../table-selection/components/tableSelection';
 
-const PracticeHistoryScreen = lazy(() => import('../features/practice-history/components/practiceHistoryScreen'));
-const PracticeScreen = lazy(() => import('../features/practice-session/components/practiceScreen'));
-const SettingsScreen = lazy(() => import('../features/settings/components/settingsScreen'));
+const PracticeHistoryScreen = lazy(() => import('../practice-history/components/practiceHistoryScreen'));
+const PracticeScreen = lazy(() => import('../practice-session/components/practiceScreen'));
+const SettingsScreen = lazy(() => import('../settings/components/settingsScreen'));
 
 const App: FC = () => {
   return (

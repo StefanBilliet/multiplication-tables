@@ -1,7 +1,7 @@
 import { Card, createTheme, MantineProvider } from '@mantine/core';
 import type { FC, PropsWithChildren } from 'react';
-import { AppStoreProvider } from '../../shared/store/appStore';
-import { semanticColors } from '../../theme/semanticColors';
+import { semanticColors } from '../../platform/theme/semanticColors';
+import { AppStoreProvider } from '../store/appStore';
 
 const theme = createTheme({
   primaryColor: semanticColors.primary,

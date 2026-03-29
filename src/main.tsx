@@ -5,8 +5,8 @@ import './app/styles/index.css';
 import '@mantine/core/styles.css';
 import App from './app/app';
 import { AppProviders } from './app/providers/appProviders';
-import { registerServiceWorker } from './pwa/registerServiceWorker';
-import './shared/i18n';
+import { registerServiceWorker } from './platform/pwa/registerServiceWorker';
+import './platform/i18n';
 
 registerServiceWorker();
 

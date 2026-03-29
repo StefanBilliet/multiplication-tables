@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom/vitest';
-import i18n from '../i18n';
-import { resetAppStore } from '../store/appStore.ts';
+import { resetAppStore } from '../../app/store/appStore.ts';
+import i18n from '../../platform/i18n';
 
 localStorage.clear();
 resetAppStore();
 
-await import('../i18n');
+await import('../../platform/i18n');
 await i18n.changeLanguage('en');
 
 Object.defineProperty(globalThis, 'matchMedia', {

@@ -4,6 +4,14 @@
 
 This project uses strict, conversation-driven TDD for behavior changes. The goal is not just passing tests, but small, explicit steps with readable tests and clear boundaries between UI concerns, routing, and behavior.
 
+## Folder Layout
+
+- Keep top-level `src/` folders feature-first whenever possible.
+- Use `src/app/` for app-shell composition, providers, and app-wide UI helpers.
+- Use `src/platform/` for non-feature support code such as theme, styles, locales, and PWA wiring.
+- Keep `src/shared/` small and generic: test plumbing, bootstrap helpers, and other code with no clear feature owner.
+- If a folder starts mixing responsibilities, split the feature-owned code out early instead of letting `shared` become a catch-all.
+
 ## Workflow
 
 - Use strict TDD for any runtime behavior change.
