@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { act } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { beforeEach, vi } from 'vitest';
+import { vi } from 'vitest';
 import { createAppStore } from '../../../app/store/appStore';
 import { DEFAULT_TIMER_GRACE_PERIOD_MS } from '../../../practice-session/hooks/useTimerElapsed';
 import testI18n from '../../../shared/testing/i18n';
@@ -10,10 +10,6 @@ import renderWithRouter from '../../../shared/testing/renderWithRouter.tsx';
 import PracticeScreen from '../../components/practiceScreen.tsx';
 import { practiceScreenPage } from './practiceScreenPage.tsx';
 import { renderPracticeScreen } from './renderPracticeScreen.tsx';
-
-beforeEach(() => {
-  localStorage.clear();
-});
 
 test.each([
   { table: 1, question: '1 x 1 = ?' },

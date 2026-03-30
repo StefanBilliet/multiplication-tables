@@ -3,10 +3,6 @@ import renderComponent from '../../../shared/testing/renderComponent.tsx';
 import OrderOption from '../../components/orderSetting/orderOption.tsx';
 import './useDutchLocale.ts';
 
-beforeEach(() => {
-  localStorage.clear();
-});
-
 test('GIVEN a selected structured option, WHEN it renders, THEN it shows the option content and selected badge', () => {
   renderComponent(
     <OrderOption
