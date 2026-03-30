@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import i18n from '../../../platform/i18n';
+import testI18n from '../../../shared/testing/i18n';
 import renderWithRouter from '../../../shared/testing/renderWithRouter';
 import TableSelection from '../../components/tableSelection';
 
@@ -37,7 +37,7 @@ test('GIVEN 4 lifetime rewards, WHEN the table selection is rendered, THEN the f
 });
 
 test('GIVEN Dutch is the active language, WHEN the table selection is rendered, THEN visible table-selection text is shown in Dutch', async () => {
-  await i18n.changeLanguage('nl');
+  await testI18n.changeLanguage('nl');
 
   renderWithRouter(<TableSelection />);
 

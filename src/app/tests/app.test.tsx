@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import i18n from '../../platform/i18n';
+import testI18n from '../../shared/testing/i18n';
 import renderWithRouter from '../../shared/testing/renderWithRouter';
 import App from '../app';
 
@@ -18,7 +18,7 @@ vi.mock('../hooks/useLifetimeRewardTotal', () => ({
 }));
 
 beforeEach(async () => {
-  await i18n.changeLanguage('en');
+  await testI18n.changeLanguage('en');
   useLifetimeRewardTotalMock.mockReturnValue({
     addReward: vi.fn(),
     lifetimeRewardTotal: 46,
@@ -26,7 +26,7 @@ beforeEach(async () => {
 });
 
 test('GIVEN Dutch is active, WHEN I switch the app language to English, THEN the table-selection text updates immediately', async () => {
-  await i18n.changeLanguage('nl');
+  await testI18n.changeLanguage('nl');
 
   const sut = <App />;
   const { user } = renderWithRouter(sut);

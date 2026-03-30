@@ -1,10 +1,10 @@
 import { Temporal } from '@js-temporal/polyfill';
-import i18n from '../../../platform/i18n';
+import testI18n from '../../../shared/testing/i18n';
 import renderComponent from '../../../shared/testing/renderComponent';
 import SessionTimestamp from '../../components/sessionTimestamp.tsx';
 
 test('GIVEN the Dutch locale is active WHEN a timestamp is rendered THEN it shows a localized date and time', async () => {
-  await i18n.changeLanguage('nl');
+  await testI18n.changeLanguage('nl');
 
   const sut = <SessionTimestamp timestamp={Temporal.Instant.from('2026-03-01T12:00:00Z')} />;
 

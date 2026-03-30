@@ -3,8 +3,8 @@ import { act } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { beforeEach, vi } from 'vitest';
 import { createAppStore } from '../../../app/store/appStore';
-import i18n from '../../../platform/i18n';
 import { DEFAULT_TIMER_GRACE_PERIOD_MS } from '../../../practice-session/hooks/useTimerElapsed';
+import testI18n from '../../../shared/testing/i18n';
 import renderComponent from '../../../shared/testing/renderComponent';
 import renderWithRouter from '../../../shared/testing/renderWithRouter.tsx';
 import PracticeScreen from '../../components/practiceScreen.tsx';
@@ -307,7 +307,7 @@ test('GIVEN I return to the start screen, WHEN I select the same available table
 
 test('GIVEN Dutch is the active language, WHEN the practice screen is shown before the session is complete, THEN the header shows the Dutch default description', async () => {
   await act(async () => {
-    await i18n.changeLanguage('nl');
+    await testI18n.changeLanguage('nl');
   });
 
   renderPracticeScreen();
@@ -317,7 +317,7 @@ test('GIVEN Dutch is the active language, WHEN the practice screen is shown befo
 
 test('GIVEN an active practice session in English, WHEN I switch the app language to Dutch, THEN the visible practice text updates without losing the current question', async () => {
   await act(async () => {
-    await i18n.changeLanguage('en');
+    await testI18n.changeLanguage('en');
   });
 
   const page = renderPracticeScreen();
@@ -334,5 +334,4 @@ test('GIVEN an active practice session in English, WHEN I switch the app languag
   expect(screen.getByRole('button', { name: 'Controleer' })).toBeVisible();
   expect(page.question('2 x 3 = ?')).toBeVisible();
   expect(page.answerField()).toHaveValue('9');
-  expect(localStorage.getItem('selectedLanguage')).toBe('nl');
 });

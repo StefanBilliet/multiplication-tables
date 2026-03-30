@@ -1,14 +1,14 @@
 import { act } from 'react';
-import i18n from '../../../platform/i18n';
+import testI18n from '../../../shared/testing/i18n';
 
 beforeAll(async () => {
   await act(async () => {
-    await i18n.changeLanguage('nl');
+    await testI18n.changeLanguage('nl');
   });
 });
 
 afterAll(async () => {
   await act(async () => {
-    await i18n.changeLanguage('en');
+    await testI18n.changeLanguage('en');
   });
 });
