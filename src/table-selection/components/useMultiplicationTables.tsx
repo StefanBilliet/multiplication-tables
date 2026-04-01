@@ -1,7 +1,16 @@
 import { useTranslation } from 'react-i18next';
 import { getRewardsNeededForTable } from '../tableRewards.ts';
 
-export function useMultiplicationTables(lifetimeRewardTotal: number) {
+export type MultiplicationTable = {
+  id: number;
+  label: string;
+  unlockState: {
+    rewardsNeeded: number;
+    unlocked: boolean;
+  };
+};
+
+export function useMultiplicationTables(lifetimeRewardTotal: number): MultiplicationTable[] {
   const { t } = useTranslation();
 
   return Array.from({ length: 10 }, (_, index) => {

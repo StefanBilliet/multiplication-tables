@@ -1,24 +1,19 @@
-import { Badge, Card, Center, Group, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+import { Badge, Card, Center, Group, Stack, Text, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import LanguageSwitcher from '../../app/components/languageSwitcher';
 import SettingsButton from '../../app/components/settingsButton';
 import useLifetimeRewardTotal from '../../app/hooks/useLifetimeRewardTotal';
 import { semanticColors } from '../../platform/theme/semanticColors';
-import MultiplicationTableCard from './multiplicationTableCard';
+import { PracticeSection } from './practiceSection.tsx';
 import classes from './tableSelection.module.css';
+import { TestSection } from './testSection.tsx';
 import { useMultiplicationTables } from './useMultiplicationTables.tsx';
 
 const TableSelection: FC = () => {
-  const navigate = useNavigate();
   const { lifetimeRewardTotal } = useLifetimeRewardTotal();
   const tables = useMultiplicationTables(lifetimeRewardTotal);
   const { t } = useTranslation();
-
-  const handleTableSelected = (tableId: number) => {
-    navigate(`/tables/${tableId}/practice`);
-  };
 
   return (
     <Center className={classes.page}>
@@ -38,11 +33,8 @@ const TableSelection: FC = () => {
           </Group>
         </Group>
 
-        <SimpleGrid component="section" cols={{ base: 1, sm: 2, md: 3 }}>
-          {tables.map((table) => (
-            <MultiplicationTableCard key={table.id} table={table} onSelect={handleTableSelected} />
-          ))}
-        </SimpleGrid>
+        <PracticeSection tables={tables} />
+        <TestSection />
       </Card>
     </Center>
   );
