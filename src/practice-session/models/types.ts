@@ -1,3 +1,8 @@
+export type Question = {
+  table: number;
+  multiplier: number;
+};
+
 type CurrentQuestion = {
   answerOptions: number[];
   canCheckAnswer: boolean;
@@ -22,5 +27,5 @@ export type CurrentQuestionState = {
   currentQuestion: CurrentQuestion;
   firstTryCorrectAnswerCount: number;
   multiplicationErrors: { table: number; multiplier: number }[];
-  questionSequence: number[];
+  questionSequence: Question[];
 };

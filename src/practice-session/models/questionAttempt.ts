@@ -1,9 +1,7 @@
-import type { QuestionOrderMode } from '../../settings/models/questionOrderMode.ts';
 import { shuffleAnswerOptions } from '../utils/practiceFlowUtils.ts';
 import { attemptOutcome } from './attemptOutcome.ts';
-import { createQuestionCursor, getCurrentMultiplier, type QuestionCursor } from './questionCursor.ts';
-import { createQuestionSequenceFactory, QUESTION_SEQUENCE_SHUFFLE_RANGE } from './questionSequenceFactory.ts';
-import type { CurrentQuestionState, SessionComplete } from './types.ts';
+import { createQuestionCursor, getCurrentQuestion } from './questionCursor.ts';
+import type { CurrentQuestionState, Question, SessionComplete } from './types.ts';
 
 type PracticeFlow = CurrentQuestionState | SessionComplete;
 
@@ -15,31 +13,26 @@ const createAnswerOptions = (table: number, multiplier: number): number[] => {
   return shuffleAnswerOptions(options, table * 100 + multiplier);
 };
 
-const createCurrentQuestion = (table: number, cursor: QuestionCursor) => ({
-  answerOptions: createAnswerOptions(table, getCurrentMultiplier(cursor)),
+const createCurrentQuestion = (question: Question) => ({
+  answerOptions: createAnswerOptions(question.table, question.multiplier),
   canCheckAnswer: false,
   canContinue: false,
   feedbackState: null,
   hasRetriedCurrentQuestion: false,
-  multiplier: getCurrentMultiplier(cursor),
+  multiplier: question.multiplier,
   selectedAnswer: null,
-  table,
+  table: question.table,
 });
 
-const createRandomShuffleSeed = () => Math.floor(Math.random() * QUESTION_SEQUENCE_SHUFFLE_RANGE) + 1;
-
 export const questionAttempt = {
-  start(table: number, questionOrderMode: QuestionOrderMode = 'structured'): PracticeFlow {
-    const questionSequenceFactory = createQuestionSequenceFactory(table, createRandomShuffleSeed());
-    const questionSequence =
-      questionOrderMode === 'structured' ? questionSequenceFactory.regular() : questionSequenceFactory.shuffled();
+  start(questionSequence: Question[]): PracticeFlow {
     const currentQuestionCursor = createQuestionCursor(questionSequence, 0);
 
     return {
       kind: 'currentQuestion',
       currentQuestionIndex: 0,
       currentQuestion: {
-        ...createCurrentQuestion(table, currentQuestionCursor),
+        ...createCurrentQuestion(getCurrentQuestion(currentQuestionCursor)),
       },
       firstTryCorrectAnswerCount: 0,
       multiplicationErrors: [],
@@ -82,7 +75,7 @@ export const questionAttempt = {
       ...flow,
       currentQuestionIndex: nextQuestionIndex,
       currentQuestion: {
-        ...createCurrentQuestion(flow.currentQuestion.table, nextQuestionCursor),
+        ...createCurrentQuestion(getCurrentQuestion(nextQuestionCursor)),
       },
     };
   },
@@ -94,7 +87,7 @@ export const questionAttempt = {
       kind: 'currentQuestion',
       currentQuestionIndex: 0,
       currentQuestion: {
-        ...createCurrentQuestion(flow.currentQuestion.table, createQuestionCursor(flow.questionSequence, 0)),
+        ...createCurrentQuestion(getCurrentQuestion(createQuestionCursor(flow.questionSequence, 0))),
       },
       firstTryCorrectAnswerCount: 0,
       multiplicationErrors: [],

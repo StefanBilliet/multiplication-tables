@@ -24,7 +24,18 @@ test('GIVEN the active session mode is rendered, WHEN a question is active, THEN
     },
     firstTryCorrectAnswerCount: 0,
     multiplicationErrors: [],
-    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    questionSequence: [
+      { table: 3, multiplier: 1 },
+      { table: 3, multiplier: 2 },
+      { table: 3, multiplier: 3 },
+      { table: 3, multiplier: 4 },
+      { table: 3, multiplier: 5 },
+      { table: 3, multiplier: 6 },
+      { table: 3, multiplier: 7 },
+      { table: 3, multiplier: 8 },
+      { table: 3, multiplier: 9 },
+      { table: 3, multiplier: 10 },
+    ],
   };
 
   renderComponent(
@@ -51,7 +62,18 @@ test('GIVEN the current question has correct feedback, WHEN the active session m
     },
     firstTryCorrectAnswerCount: 1,
     multiplicationErrors: [],
-    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    questionSequence: [
+      { table: 3, multiplier: 1 },
+      { table: 3, multiplier: 2 },
+      { table: 3, multiplier: 3 },
+      { table: 3, multiplier: 4 },
+      { table: 3, multiplier: 5 },
+      { table: 3, multiplier: 6 },
+      { table: 3, multiplier: 7 },
+      { table: 3, multiplier: 8 },
+      { table: 3, multiplier: 9 },
+      { table: 3, multiplier: 10 },
+    ],
   };
 
   renderComponent(

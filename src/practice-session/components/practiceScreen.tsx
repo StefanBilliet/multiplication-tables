@@ -11,6 +11,7 @@ import classes from './practiceScreen.module.css';
 import SummaryMode from './summaryMode';
 import useActiveSessionViewModel from './useActiveSessionViewModel';
 import usePracticeSession from './usePracticeSession';
+import useQuestionSource from './useQuestionSource';
 
 const PracticeScreen: FC = () => {
   const { tableId } = useParams();
@@ -24,7 +25,7 @@ const PracticeScreen: FC = () => {
     checkAnswer: handleCheckAnswer,
     continueSession: handleContinue,
     resetSession: handleReset,
-  } = usePracticeSession(selectedTable);
+  } = usePracticeSession(selectedTable, useQuestionSource);
   const activeSessionViewModel = useActiveSessionViewModel(session);
   const isHesitationTimerEnabled = isHesitationRuleEnabled && !activeSessionViewModel.hasCorrectFeedback;
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useAppStore } from '../../app/store/appStore';
 import PracticeFlow, { type PracticeFlow as PracticeSession } from '../models/practiceFlow';
 import usePracticeSessionCompletionEffects from './usePracticeSessionCompletionEffects';
+import useQuestionSource, { type QuestionSource } from './useQuestionSource';
 
 type UsePracticeSessionResult = {
   session: PracticeSession;
@@ -12,9 +12,12 @@ type UsePracticeSessionResult = {
   resetSession: () => void;
 };
 
-const usePracticeSession = (selectedTable: number): UsePracticeSessionResult => {
-  const questionOrderMode = useAppStore((state) => state.questionOrderMode);
-  const [session, setSession] = useState(() => PracticeFlow.start(selectedTable, questionOrderMode));
+const usePracticeSession = (
+  selectedTable: number,
+  questionSource: QuestionSource = useQuestionSource,
+): UsePracticeSessionResult => {
+  const questionSequence = questionSource(selectedTable);
+  const [session, setSession] = useState(() => PracticeFlow.start(questionSequence));
   const [hesitationTimerResetKey, setHesitationTimerResetKey] = useState(0);
   usePracticeSessionCompletionEffects({ selectedTable, session });
 

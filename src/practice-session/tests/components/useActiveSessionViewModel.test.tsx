@@ -18,7 +18,18 @@ test('GIVEN a current question session, WHEN the hook is created, THEN it return
     },
     firstTryCorrectAnswerCount: 2,
     multiplicationErrors: [],
-    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    questionSequence: [
+      { table: 6, multiplier: 1 },
+      { table: 6, multiplier: 2 },
+      { table: 6, multiplier: 3 },
+      { table: 6, multiplier: 4 },
+      { table: 6, multiplier: 5 },
+      { table: 6, multiplier: 6 },
+      { table: 6, multiplier: 7 },
+      { table: 6, multiplier: 8 },
+      { table: 6, multiplier: 9 },
+      { table: 6, multiplier: 10 },
+    ],
   };
 
   const { result } = renderHook(() => useActiveSessionViewModel(session));

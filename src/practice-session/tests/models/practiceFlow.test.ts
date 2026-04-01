@@ -1,6 +1,8 @@
-import { vi } from 'vitest';
 import PracticeFlow from '../../models/practiceFlow.ts';
+import { createQuestionSequenceFactory } from '../../models/questionSequenceFactory.ts';
 import type { CurrentQuestionState } from '../../models/types.ts';
+
+const regularQuestionSequence = createQuestionSequenceFactory(3).regular();
 
 function completeSession(startFlow: CurrentQuestionState, wrongMultipliers: number[] = []): PracticeFlow {
   let flow: CurrentQuestionState = startFlow;
@@ -19,7 +21,7 @@ function completeSession(startFlow: CurrentQuestionState, wrongMultipliers: numb
 }
 
 test('GIVEN a table is started, WHEN the first practice flow state is created, THEN it exposes the first current question', () => {
-  const sut = PracticeFlow.start(3);
+  const sut = PracticeFlow.start(regularQuestionSequence);
 
   expect(sut).toEqual({
     kind: 'currentQuestion',
@@ -36,12 +38,12 @@ test('GIVEN a table is started, WHEN the first practice flow state is created, T
     },
     firstTryCorrectAnswerCount: 0,
     multiplicationErrors: [],
-    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    questionSequence: regularQuestionSequence,
   });
 });
 
 test('GIVEN a current question is shown, WHEN a correct answer is selected and checked, THEN the flow shows correct feedback', () => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
 
   const flowWithSelectedAnswer = PracticeFlow.selectAnswer(sut, 3) as CurrentQuestionState;
   const nextFlow = PracticeFlow.checkAnswer(flowWithSelectedAnswer) as CurrentQuestionState;
@@ -61,12 +63,12 @@ test('GIVEN a current question is shown, WHEN a correct answer is selected and c
     },
     firstTryCorrectAnswerCount: 1,
     multiplicationErrors: [],
-    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    questionSequence: regularQuestionSequence,
   });
 });
 
 test('GIVEN a current question is shown, WHEN an incorrect answer is selected and checked, THEN the flow shows feedback that the answer was wrong', () => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
 
   const flowWithSelectedAnswer = PracticeFlow.selectAnswer(sut, 6) as CurrentQuestionState;
   const nextFlow = PracticeFlow.checkAnswer(flowWithSelectedAnswer) as CurrentQuestionState;
@@ -86,12 +88,12 @@ test('GIVEN a current question is shown, WHEN an incorrect answer is selected an
     },
     firstTryCorrectAnswerCount: 0,
     multiplicationErrors: [{ table: 3, multiplier: 1 }],
-    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    questionSequence: regularQuestionSequence,
   });
 });
 
 test('GIVEN a current question is shown, WHEN an incorrect answer is selected and checked, THEN the flow tracks that multiplication error', () => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
 
   const flowWithSelectedAnswer = PracticeFlow.selectAnswer(sut, 6) as CurrentQuestionState;
   const nextFlow = PracticeFlow.checkAnswer(flowWithSelectedAnswer) as CurrentQuestionState;
@@ -100,7 +102,7 @@ test('GIVEN a current question is shown, WHEN an incorrect answer is selected an
 });
 
 test('GIVEN a correct answer was checked, WHEN the user continues to the next question, THEN the next question is shown with multiplier 2', () => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
 
   const flowWithSelectedAnswer = PracticeFlow.selectAnswer(sut, 3) as CurrentQuestionState;
   const flowWithCheckedAnswer = PracticeFlow.checkAnswer(flowWithSelectedAnswer) as CurrentQuestionState;
@@ -121,12 +123,12 @@ test('GIVEN a correct answer was checked, WHEN the user continues to the next qu
     },
     firstTryCorrectAnswerCount: 1,
     multiplicationErrors: [],
-    questionSequence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    questionSequence: regularQuestionSequence,
   });
 });
 
 test('GIVEN an incorrect answer was checked and the user retries, WHEN the correct answer is selected and checked, THEN the question does not count toward first-try correct answers', () => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
 
   const flowWithWrongAnswer = PracticeFlow.selectAnswer(sut, 6) as CurrentQuestionState;
   const flowWithCheckedWrongAnswer = PracticeFlow.checkAnswer(flowWithWrongAnswer) as CurrentQuestionState;
@@ -137,7 +139,7 @@ test('GIVEN an incorrect answer was checked and the user retries, WHEN the corre
 });
 
 test('GIVEN a session in progress, WHEN isComplete is called, THEN it returns false', () => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
 
   const result = PracticeFlow.isComplete(sut);
 
@@ -145,7 +147,7 @@ test('GIVEN a session in progress, WHEN isComplete is called, THEN it returns fa
 });
 
 test('GIVEN a completed session, WHEN isComplete is called, THEN it returns true', () => {
-  const sut = completeSession(PracticeFlow.start(3) as CurrentQuestionState);
+  const sut = completeSession(PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState);
 
   const result = PracticeFlow.isComplete(sut);
 
@@ -153,26 +155,23 @@ test('GIVEN a completed session, WHEN isComplete is called, THEN it returns true
 });
 
 test('GIVEN a session in progress, WHEN hasEarnedReward is called, THEN it returns false', () => {
-  const sut = PracticeFlow.start(3) as CurrentQuestionState;
+  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
 
   const result = PracticeFlow.hasEarnedReward(sut);
 
   expect(result).toBe(false);
 });
 
-test('GIVEN varied mode is started twice with different random seeds, WHEN the sessions are created, THEN the question sequences differ', () => {
-  const randomSpy = vi.spyOn(Math, 'random').mockReturnValueOnce(0.01).mockReturnValueOnce(0.99);
+test('GIVEN a shuffled question sequence is started, WHEN the session is created, THEN it preserves the provided sequence', () => {
+  const shuffledQuestionSequence = createQuestionSequenceFactory(3, 1).shuffled();
 
-  const first = PracticeFlow.start(3, 'varied') as CurrentQuestionState;
-  const second = PracticeFlow.start(3, 'varied') as CurrentQuestionState;
+  const sut = PracticeFlow.start(shuffledQuestionSequence) as CurrentQuestionState;
 
-  randomSpy.mockRestore();
-
-  expect(first.questionSequence).not.toEqual(second.questionSequence);
+  expect(sut.questionSequence).toEqual(shuffledQuestionSequence);
 });
 
 test('GIVEN a completed session with 7+ correct answers, WHEN hasEarnedReward is called, THEN it returns true', () => {
-  const sut = completeSession(PracticeFlow.start(3) as CurrentQuestionState);
+  const sut = completeSession(PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState);
 
   const result = PracticeFlow.hasEarnedReward(sut);
 
@@ -180,7 +179,7 @@ test('GIVEN a completed session with 7+ correct answers, WHEN hasEarnedReward is
 });
 
 test('GIVEN a completed session with 6 correct answers, WHEN hasEarnedReward is called, THEN it returns false', () => {
-  const sut = completeSession(PracticeFlow.start(3) as CurrentQuestionState, [1, 2, 3, 4]);
+  const sut = completeSession(PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState, [1, 2, 3, 4]);
 
   const result = PracticeFlow.hasEarnedReward(sut);
 
@@ -201,7 +200,10 @@ test.each([
   hasEarnedReward,
   wrongMultipliers,
 }) => {
-  const completedFlow = completeSession(PracticeFlow.start(3) as CurrentQuestionState, wrongMultipliers);
+  const completedFlow = completeSession(
+    PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState,
+    wrongMultipliers,
+  );
 
   expect(completedFlow).toEqual({
     kind: 'sessionComplete',

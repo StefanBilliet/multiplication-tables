@@ -5,6 +5,8 @@ import { AppProviders } from '../../../app/providers/appProviders';
 import { createAppStore } from '../../../app/store/appStore';
 import usePracticeSession from '../../components/usePracticeSession';
 import PracticeFlow from '../../models/practiceFlow';
+import { createQuestionSequenceFactory } from '../../models/questionSequenceFactory';
+import type { Question } from '../../models/types';
 
 const addReward = vi.fn();
 
@@ -74,17 +76,32 @@ test('GIVEN a wrong answer during a practice session, WHEN the session completes
   ]);
 });
 
-test('GIVEN question order is varied, WHEN the practice session starts, THEN it passes the order mode into the session model', () => {
-  const session = PracticeFlow.start(3);
+test('GIVEN a practice session starts, WHEN the hook initializes the model, THEN it passes the generated question sequence into the session model', () => {
+  const questionSequence = createQuestionSequenceFactory(3).regular();
+  const session = PracticeFlow.start(questionSequence);
   const startSpy = vi.spyOn(PracticeFlow, 'start').mockReturnValue(session);
-  const { TestProviders, store } = createPracticeSessionTestProviders();
-  store.setState({ questionOrderMode: 'varied' });
+  const { TestProviders } = createPracticeSessionTestProviders();
 
   renderHook(() => usePracticeSession(3), {
     wrapper: TestProviders,
   });
 
-  expect(startSpy).toHaveBeenCalledWith(3, 'varied');
+  expect(startSpy).toHaveBeenCalledWith(questionSequence);
+});
+
+test('GIVEN a custom question source, WHEN the hook initializes the model, THEN it uses the provided question source', () => {
+  const questionSequence: Question[] = [{ table: 3, multiplier: 7 }];
+  const questionSource = vi.fn(() => questionSequence);
+  const session = PracticeFlow.start(questionSequence);
+  const startSpy = vi.spyOn(PracticeFlow, 'start').mockReturnValue(session);
+  const { TestProviders } = createPracticeSessionTestProviders();
+
+  renderHook(() => usePracticeSession(3, questionSource), {
+    wrapper: TestProviders,
+  });
+
+  expect(questionSource).toHaveBeenCalledWith(3);
+  expect(startSpy).toHaveBeenCalledWith(questionSequence);
 });
 
 test('GIVEN a practice session is in progress, WHEN the session is reset, THEN it returns to question 1', () => {
