@@ -9,6 +9,18 @@
   width: min(100%, 45rem);
 }
 
+@media (min-width: 48em) {
+  .pageCard {
+    width: min(100%, 60rem);
+  }
+}
+
+@media (min-width: 62em) {
+  .pageCard {
+    width: min(100%, 75rem);
+  }
+}
+
 .pageCard > header {
   align-items: flex-start;
   display: flex;

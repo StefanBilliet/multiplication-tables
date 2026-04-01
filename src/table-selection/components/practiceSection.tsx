@@ -15,7 +15,7 @@ export const PracticeSection: FC<PracticeSectionProps> = ({ tables }: PracticeSe
   };
 
   return (
-    <SimpleGrid component="section" cols={{ base: 1, sm: 2, md: 3 }}>
+    <SimpleGrid component="section" cols={{ base: 1, sm: 2, md: 4 }}>
       {tables.map((table) => (
         <MultiplicationTableCard key={table.id} table={table} onSelect={handleTableSelected} />
       ))}

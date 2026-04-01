@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react';
+import { Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
 import testI18n from '../../../shared/testing/i18n';
 import renderWithRouter from '../../../shared/testing/renderWithRouter';
@@ -44,4 +45,20 @@ test('GIVEN Dutch is the active language, WHEN the table selection is rendered, 
   expect(screen.getByRole('heading', { name: 'Kies een tafel om te oefenen' })).toBeVisible();
   expect(screen.getAllByRole('button', { name: 'Start oefenen' })).toHaveLength(10);
   expect(screen.queryByText('1 times table')).not.toBeInTheDocument();
+});
+
+test('GIVEN the table selection is rendered, WHEN clicking Start test mode, THEN navigate to /test', async () => {
+  await testI18n.changeLanguage('en');
+
+  const sut = (
+    <Routes>
+      <Route path="/test" element={<div>Test mode screen</div>} />
+      <Route path="/" element={<TableSelection />} />
+    </Routes>
+  );
+  const { user } = renderWithRouter(sut);
+
+  await user.click(screen.getByRole('button', { name: 'Start test mode' }));
+
+  expect(screen.getByText('Test mode screen')).toBeVisible();
 });

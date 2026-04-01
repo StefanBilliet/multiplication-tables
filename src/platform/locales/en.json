@@ -5,6 +5,12 @@
     "startScreenBadge": "Start screen",
     "tableLabel": "{{table}} times table"
   },
+  "testSection": {
+    "sectionLabel": "Or take a test",
+    "title": "20 random questions across unlocked tables",
+    "description": "Questions are mixed automatically and the result is shown at the end of the session.",
+    "startButton": "Start test mode"
+  },
   "languageSwitcher": {
     "switchToDutch": "Nederlands",
     "switchToEnglish": "English"

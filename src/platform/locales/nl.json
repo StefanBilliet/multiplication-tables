@@ -5,6 +5,12 @@
     "startScreenBadge": "Startscherm",
     "tableLabel": "Tafel van {{table}}"
   },
+  "testSection": {
+    "sectionLabel": "Of neem een test",
+    "title": "20 willekeurige vragen over alle vrijgespeelde tafels",
+    "description": "Vragen worden automatisch door elkaar gehaald en het resultaat wordt aan het einde van de sessie getoond.",
+    "startButton": "Start testmodus"
+  },
   "languageSwitcher": {
     "switchToDutch": "Nederlands",
     "switchToEnglish": "English"
