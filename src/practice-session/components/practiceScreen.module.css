@@ -9,6 +9,30 @@
   width: min(100%, 45rem);
 }
 
+.progressFrame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--mantine-radius-sm);
+}
+
+.progressFrame::after {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(10% - 1px),
+    rgba(0, 0, 0, 0.14) calc(10% - 1px),
+    rgba(0, 0, 0, 0.14) 10%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.progressBar {
+  height: 0.5rem;
+}
+
 @media (min-width: 48em) {
   .page {
     padding: var(--mantine-spacing-xl);

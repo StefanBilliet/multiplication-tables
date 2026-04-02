@@ -1,4 +1,4 @@
-import { Card, Center } from '@mantine/core';
+import { Card, Center, Progress, Stack } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -40,7 +40,7 @@ const PracticeScreen: FC = () => {
         {PracticeFlow.isComplete(session) ? (
           <SummaryMode session={session} />
         ) : (
-          <>
+          <Stack gap="xl">
             <CurrentQuestionPrompt
               isHesitationRuleEnabled={isHesitationTimerEnabled}
               multiplier={activeSessionViewModel.multiplier}
@@ -55,7 +55,11 @@ const PracticeScreen: FC = () => {
               onContinue={handleContinue}
               onSelectAnswer={handleSelectAnswer}
             />
-          </>
+
+            <div className={classes.progressFrame}>
+              <Progress aria-label="Practice progress" className={classes.progressBar} value={60} />
+            </div>
+          </Stack>
         )}
       </Card>
     </Center>
