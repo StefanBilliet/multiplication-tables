@@ -7,8 +7,6 @@ const createRecordTestSessionCompleted = (
   recordTestSessionCompleted: (event) => {
     set((state) => ({
       testSessionCompletedEvents: [...state.testSessionCompletedEvents, event].slice(-50),
-      recentWeaknesses: state.recentWeaknesses,
-      sessionCompletedEvents: state.sessionCompletedEvents,
     }));
   },
 });
