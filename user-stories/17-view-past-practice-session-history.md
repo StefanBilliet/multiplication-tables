@@ -1,4 +1,5 @@
 # US-17: View past practice session history
+Status: closed
 
 ## Background
 
