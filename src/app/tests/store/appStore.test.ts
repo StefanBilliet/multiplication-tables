@@ -68,6 +68,36 @@ test('GIVEN persisted session history contains a timestamp string, WHEN the stor
   expect(timestamp).toBeInstanceOf(Temporal.Instant);
 });
 
+test('GIVEN persisted test session history contains a timestamp string, WHEN the store is rehydrated, THEN the timestamp is exposed as a Temporal.Instant', () => {
+  localStorage.setItem(
+    'multiplication-app',
+    JSON.stringify({
+      state: {
+        lifetimeRewardTotal: 0,
+        recentWeaknesses: [],
+        sessionCompletedEvents: [],
+        testSessionCompletedEvents: [
+          {
+            id: 'test-session-1',
+            type: 'test',
+            firstTryCorrectAnswerCount: 12,
+            timestamp: '2026-03-27T12:00:00Z',
+            multiplicationErrors: [],
+          },
+        ],
+        isHesitationRuleEnabled: false,
+        questionOrderMode: 'default',
+      },
+      version: 0,
+    }),
+  );
+
+  const store = createAppStore();
+
+  const timestamp = store.getState().testSessionCompletedEvents[0].timestamp as unknown;
+  expect(timestamp).toBeInstanceOf(Temporal.Instant);
+});
+
 test('GIVEN persisted session history is still in the legacy format, WHEN the store is rehydrated, THEN reward totals and completed sessions are restored', () => {
   localStorage.setItem(
     'multiplication-app',

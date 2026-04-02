@@ -15,7 +15,7 @@ test('GIVEN 4 lifetime rewards, WHEN the test question source is created, THEN i
   setAppStore(store);
 
   const { result } = renderHook(() => useTestQuestionSource(), { wrapper: TestProviders });
-  const questionSequence = result.current();
+  const questionSequence = result.current;
 
   expect(questionSequence).toHaveLength(20);
   expect(

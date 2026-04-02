@@ -5,6 +5,7 @@ import LanguageSwitcher from '../../app/components/languageSwitcher';
 import SettingsButton from '../../app/components/settingsButton';
 import useLifetimeRewardTotal from '../../app/hooks/useLifetimeRewardTotal';
 import { semanticColors } from '../../platform/theme/semanticColors';
+import { hasMultipleUnlockedTables } from './hasMultipleUnlockedTables.ts';
 import { PracticeSection } from './practiceSection.tsx';
 import classes from './tableSelection.module.css';
 import { TestSection } from './testSection.tsx';
@@ -14,6 +15,7 @@ const TableSelection: FC = () => {
   const { lifetimeRewardTotal } = useLifetimeRewardTotal();
   const tables = useMultiplicationTables(lifetimeRewardTotal);
   const { t } = useTranslation();
+  const isTestModeAvailable = hasMultipleUnlockedTables(tables);
 
   return (
     <Center className={classes.page}>
@@ -34,7 +36,7 @@ const TableSelection: FC = () => {
         </Group>
 
         <PracticeSection tables={tables} />
-        <TestSection />
+        {isTestModeAvailable ? <TestSection /> : null}
       </Card>
     </Center>
   );

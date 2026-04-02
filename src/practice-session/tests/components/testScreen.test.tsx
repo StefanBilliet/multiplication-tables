@@ -5,7 +5,7 @@ import renderWithRouter from '../../../shared/testing/renderWithRouter.tsx';
 import TestScreen from '../../components/testScreen';
 
 vi.mock('../../components/useTestQuestionSource', () => ({
-  default: () => () =>
+  default: () =>
     Array.from({ length: 20 }, (_, index) => ({
       table: 2,
       multiplier: index + 1,

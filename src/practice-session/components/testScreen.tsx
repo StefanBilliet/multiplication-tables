@@ -10,8 +10,8 @@ import useTestSession from './useTestSession';
 
 const TestScreen: FC = () => {
   const { t } = useTranslation();
-  const questionSource = useTestQuestionSource();
-  const { session, continueSession, checkAnswer, selectAnswer, resetSession } = useTestSession(questionSource);
+  const questionSequence = useTestQuestionSource();
+  const { session, continueSession, checkAnswer, selectAnswer, resetSession } = useTestSession(questionSequence);
   const currentQuestion = session.kind === 'currentQuestion' ? session.currentQuestion : null;
 
   return (

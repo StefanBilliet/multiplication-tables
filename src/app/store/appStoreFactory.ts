@@ -1,15 +1,16 @@
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { createStore, type StoreApi } from 'zustand/vanilla';
-import {
-  createSessionHistorySlice,
-  hydrateSessionCompletedEvent,
-  type SerializedSessionCompletedEvent,
-  type SessionHistorySlice,
-} from '../../practice-history/state/sessionHistorySlice';
+import { createSessionHistorySlice, type SessionHistorySlice } from '../../practice-history/state/sessionHistorySlice';
 import { createHesitationRuleSlice, type HesitationRuleSlice } from '../../settings/state/hesitationRuleSlice';
 import { createQuestionOrderModeSlice, type QuestionOrderModeSlice } from '../../settings/state/questionOrderModeSlice';
 import { createRewardsSlice, type RewardsSlice } from '../state/rewardsSlice';
 import { createPersistStorage, migrateLegacyStorage } from './appStorePersistence';
+import {
+  hydrateSessionCompletedEvent,
+  hydrateTestSessionCompletedEvent,
+  type SerializedSessionCompletedEvent,
+  type SerializedTestSessionCompletedEvent,
+} from './sessionHistoryPersistence';
 
 export type AppState = RewardsSlice & SessionHistorySlice & HesitationRuleSlice & QuestionOrderModeSlice;
 
@@ -80,7 +81,9 @@ export const createAppStore = ({ persist: shouldPersist = true }: CreateAppStore
             sessionCompletedEvents: sessionCompletedEvents.map((event) =>
               hydrateSessionCompletedEvent(event as unknown as SerializedSessionCompletedEvent),
             ),
-            testSessionCompletedEvents,
+            testSessionCompletedEvents: testSessionCompletedEvents.map((event) =>
+              hydrateTestSessionCompletedEvent(event as unknown as SerializedTestSessionCompletedEvent),
+            ),
           };
         },
       },

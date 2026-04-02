@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react';
-import { vi } from 'vitest';
 import { createTestProviders } from '../../../shared/testing/createTestProviders';
 import useTestSession from '../../components/useTestSession';
 import type { Question } from '../../models/types';
@@ -9,8 +8,7 @@ test('GIVEN a test question source, WHEN the hook completes the sequence, THEN i
     table: 3,
     multiplier: index + 1,
   }));
-  const questionSource = vi.fn(() => questionSequence);
-  const { result } = renderHook(() => useTestSession(questionSource));
+  const { result } = renderHook(() => useTestSession(questionSequence));
 
   act(() => {
     for (let multiplier = 1; multiplier <= 10; multiplier += 1) {
@@ -20,7 +18,6 @@ test('GIVEN a test question source, WHEN the hook completes the sequence, THEN i
     }
   });
 
-  expect(questionSource).toHaveBeenCalled();
   expect(result.current.session.kind).toBe('sessionComplete');
 });
 
@@ -30,8 +27,7 @@ test('GIVEN a completed test session, WHEN the session ends, THEN a test event i
     table: 3,
     multiplier: index + 1,
   }));
-  const questionSource = vi.fn(() => questionSequence);
-  const { result } = renderHook(() => useTestSession(questionSource), { wrapper: TestProviders });
+  const { result } = renderHook(() => useTestSession(questionSequence), { wrapper: TestProviders });
 
   act(() => {
     for (let multiplier = 1; multiplier <= 10; multiplier += 1) {

@@ -37,6 +37,17 @@ test('GIVEN 4 lifetime rewards, WHEN the table selection is rendered, THEN the f
   expect(screen.getAllByRole('button', { name: 'Locked for now' })).toHaveLength(7);
 });
 
+test('GIVEN only the first table is unlocked, WHEN the table selection is rendered, THEN test mode is hidden', () => {
+  useLifetimeRewardTotalMock.mockReturnValue({
+    addReward: vi.fn(),
+    lifetimeRewardTotal: 0,
+  });
+
+  renderWithRouter(<TableSelection />);
+
+  expect(screen.queryByRole('button', { name: 'Start test mode' })).not.toBeInTheDocument();
+});
+
 test('GIVEN Dutch is the active language, WHEN the table selection is rendered, THEN visible table-selection text is shown in Dutch', async () => {
   await testI18n.changeLanguage('nl');
 
