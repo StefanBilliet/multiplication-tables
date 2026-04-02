@@ -5,6 +5,7 @@ import PracticeFlow from '../models/practiceFlow';
 import ActiveSessionMode from './activeSessionMode';
 import CurrentQuestionPrompt from './currentQuestionPrompt';
 import SummaryMode from './summaryMode';
+import classes from './testScreen.module.css';
 import useTestQuestionSource from './useTestQuestionSource';
 import useTestSession from './useTestSession';
 
@@ -15,8 +16,8 @@ const TestScreen: FC = () => {
   const currentQuestion = session.kind === 'currentQuestion' ? session.currentQuestion : null;
 
   return (
-    <Center>
-      <Card variant="shell">
+    <Center className={classes.page}>
+      <Card variant="shell" className={classes.pageCard}>
         <Stack>
           <Stack gap="xs">
             <Title order={1}>{t('testSection.title')}</Title>
