@@ -1,4 +1,5 @@
 # US-14: Test mode with random questions across all unlocked tables
+Status: closed
 
 ## Background
 
