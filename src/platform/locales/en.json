@@ -79,9 +79,11 @@
     "badge": "Practice history",
     "title": "Past sessions",
     "description": "Review your child's practice history",
-    "emptyMessage": "Your practice history will appear here, once you completed your first practice session.",
+    "emptyMessage": "Your practice and test history will appear here, once you completed your first session.",
     "emptyTitle": "No sessions yet",
     "tableLabel": "{{table}} times table",
+    "mixedTablesLabel": "Mixed tables test",
+    "testLabel": "Test",
     "scoreLabel": "{{score}} correct answers"
   }
 }

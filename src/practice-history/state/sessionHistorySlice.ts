@@ -16,6 +16,7 @@ export type TestSessionCompletedEvent = {
   id: string;
   type: 'test';
   firstTryCorrectAnswerCount: number;
+  hasEarnedReward: boolean;
   timestamp: Temporal.Instant;
   multiplicationErrors: { table: number; multiplier: number }[];
 };

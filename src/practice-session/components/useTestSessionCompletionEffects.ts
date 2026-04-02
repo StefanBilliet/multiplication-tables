@@ -1,6 +1,7 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { useEffect } from 'react';
 import { useAppStore } from '../../app/store/appStore';
+import hasTestSessionEarnedReward from '../models/hasTestSessionEarnedReward';
 import type { PracticeFlow as PracticeSession } from '../models/practiceFlow';
 
 type UseTestSessionCompletionEffectsProps = {
@@ -16,6 +17,7 @@ const useTestSessionCompletionEffects = ({ session }: UseTestSessionCompletionEf
         id: crypto.randomUUID(),
         type: 'test',
         firstTryCorrectAnswerCount: session.firstTryCorrectAnswerCount,
+        hasEarnedReward: hasTestSessionEarnedReward(session),
         timestamp: Temporal.Now.instant(),
         multiplicationErrors: session.multiplicationErrors,
       });

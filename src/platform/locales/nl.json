@@ -79,9 +79,11 @@
     "badge": "Oefengeschiedenis",
     "title": "Vorige sessies",
     "description": "Bekijk de oefengeschiedenis van je kind",
-    "emptyMessage": "Je oefengeschiedenis verschijnt hier zodra je je eerste oefensessie hebt voltooid.",
+    "emptyMessage": "Je oefen- en testgeschiedenis verschijnt hier zodra je je eerste sessie hebt voltooid.",
     "emptyTitle": "Nog geen sessies",
     "tableLabel": "Tafel van {{table}}",
+    "mixedTablesLabel": "Test met gemengde tafels",
+    "testLabel": "Test",
     "scoreLabel": "{{score}} goede antwoorden"
   }
 }

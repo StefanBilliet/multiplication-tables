@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { AppProviders } from '../../../app/providers/appProviders';
 import { createAppStore } from '../../../app/store/appStore';
 import { sessionCompletedEventFactory } from '../../../shared/testing/factories/sessionCompletedEventFactory';
+import { testSessionCompletedEventFactory } from '../../../shared/testing/factories/testSessionCompletedEventFactory';
 import PracticeHistoryScreen from '../practiceHistoryScreen.tsx';
 
 const meta = {
@@ -41,8 +42,16 @@ const mockSessions = [
   }),
 ];
 
+const mockTestSessions = [
+  testSessionCompletedEventFactory.build({
+    firstTryCorrectAnswerCount: 15,
+    timestamp: Temporal.Instant.from('2026-03-27T11:00:00Z'),
+    hasEarnedReward: true,
+  }),
+];
+
 const defaultStore = createAppStore({ persist: false });
-defaultStore.setState({ sessionCompletedEvents: mockSessions });
+defaultStore.setState({ sessionCompletedEvents: mockSessions, testSessionCompletedEvents: mockTestSessions });
 
 const emptyStore = createAppStore({ persist: false });
 

@@ -1,21 +1,19 @@
-import { Alert, Card, Center, Stack, Text } from '@mantine/core';
+import { Alert, Card, Center, Stack } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../../app/components/backButton.tsx';
 import LanguageSwitcher from '../../app/components/languageSwitcher.tsx';
 import ScreenHeader from '../../app/components/screenHeader.tsx';
-import { useAppStore } from '../../app/store/appStore';
 import { semanticColors } from '../../platform/theme/semanticColors';
+import usePracticeHistoryRecords from '../hooks/usePracticeHistoryRecords';
 import classes from './practiceHistoryScreen.module.css';
-import SessionTimestamp from './sessionTimestamp.tsx';
+import PracticeSessionHistoryCard from './practiceSessionHistoryCard';
+import TestSessionHistoryCard from './testSessionHistoryCard';
 
 const PracticeHistoryScreen: FC = () => {
   const { t } = useTranslation();
-  const sessions = useAppStore((state) => state.sessionCompletedEvents);
-  const sortedSessions = sessions.toSorted((left, right) =>
-    right.timestamp.toString().localeCompare(left.timestamp.toString()),
-  );
+  const historyRecords = usePracticeHistoryRecords();
 
   return (
     <Center className={classes.page}>
@@ -32,7 +30,7 @@ const PracticeHistoryScreen: FC = () => {
 
           <Card component="main" withBorder radius="xl">
             <Stack>
-              {sessions.length === 0 ? (
+              {historyRecords.length === 0 ? (
                 <Alert
                   variant="light"
                   color={semanticColors.info}
@@ -43,21 +41,13 @@ const PracticeHistoryScreen: FC = () => {
                   {t('practiceHistory.emptyMessage')}
                 </Alert>
               ) : (
-                sortedSessions.map((session) => (
-                  <Card key={session.id} withBorder radius="lg" className={classes.sessionCard}>
-                    <Stack>
-                      <SessionTimestamp timestamp={session.timestamp} />
-                      <Text size="xl" fw={700} c="gray.8">
-                        {t('practiceHistory.tableLabel', { table: session.table })}
-                      </Text>
-                      <Text size="sm" c={session.hasEarnedReward ? semanticColors.success : 'dimmed'}>
-                        {t('practiceHistory.scoreLabel', {
-                          score: session.firstTryCorrectAnswerCount,
-                        })}
-                      </Text>
-                    </Stack>
-                  </Card>
-                ))
+                historyRecords.map((session) =>
+                  session.kind === 'practice' ? (
+                    <PracticeSessionHistoryCard key={session.id} session={session} />
+                  ) : (
+                    <TestSessionHistoryCard key={session.id} session={session} />
+                  ),
+                )
               )}
             </Stack>
           </Card>

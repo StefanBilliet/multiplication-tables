@@ -3,6 +3,7 @@ import { within } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { createAppStore } from '../../../app/store/appStore';
 import { sessionCompletedEventFactory } from '../../../shared/testing/factories/sessionCompletedEventFactory';
+import { testSessionCompletedEventFactory } from '../../../shared/testing/factories/testSessionCompletedEventFactory';
 import renderComponent from '../../../shared/testing/renderComponent';
 import PracticeHistoryScreen from '../../components/practiceHistoryScreen.tsx';
 
@@ -23,7 +24,7 @@ describe('PracticeHistoryScreen', () => {
     expect(emptyTitle).toBeInTheDocument();
 
     const emptyMessage = within(getByRole('alert')).getByText(
-      'Your practice history will appear here, once you completed your first practice session.',
+      'Your practice and test history will appear here, once you completed your first session.',
     );
     expect(emptyMessage).toBeInTheDocument();
   });
@@ -87,5 +88,38 @@ describe('PracticeHistoryScreen', () => {
 
     expect(getByText('8 correct answers')).toHaveStyle({ color: 'var(--mantine-color-teal-text)' });
     expect(getByText('6 correct answers')).toHaveStyle({ color: 'var(--mantine-color-dimmed)' });
+  });
+
+  test('GIVEN practice and test sessions WHEN the screen renders THEN it shows test sessions mixed into the history', () => {
+    const store = createAppStore({ persist: false });
+    store.setState({
+      sessionCompletedEvents: [
+        sessionCompletedEventFactory.build({
+          table: 3,
+          firstTryCorrectAnswerCount: 10,
+          hasEarnedReward: false,
+          timestamp: Temporal.Instant.from('2026-03-25T16:45:00Z'),
+        }),
+      ],
+      testSessionCompletedEvents: [
+        testSessionCompletedEventFactory.build({
+          firstTryCorrectAnswerCount: 15,
+          hasEarnedReward: true,
+          timestamp: Temporal.Instant.from('2026-03-26T14:30:00Z'),
+        }),
+      ],
+    });
+
+    const { getByText } = renderComponent(
+      <MemoryRouter initialEntries={['/practice-history']}>
+        <Routes>
+          <Route path="/practice-history" element={<PracticeHistoryScreen />} />
+        </Routes>
+      </MemoryRouter>,
+      { store },
+    );
+
+    expect(getByText('Mixed tables test')).toBeVisible();
+    expect(getByText('Test')).toBeVisible();
   });
 });
