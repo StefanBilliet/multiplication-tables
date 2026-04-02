@@ -1,3 +1,4 @@
+import orderBy from 'es-toolkit/compat/orderBy';
 import type { RecentWeakness, SessionCompletedEvent } from './sessionHistorySlice';
 
 const extractMultiplicationErrors = (
@@ -29,17 +30,7 @@ const projectRecentWeaknesses = (events: SessionCompletedEvent[]): RecentWeaknes
     });
   }
 
-  return [...counts.values()].sort((left, right) => {
-    if (right.mistakeCount !== left.mistakeCount) {
-      return right.mistakeCount - left.mistakeCount;
-    }
-
-    if (left.table !== right.table) {
-      return left.table - right.table;
-    }
-
-    return left.multiplier - right.multiplier;
-  });
+  return orderBy([...counts.values()], ['mistakeCount', 'table', 'multiplier'], ['desc', 'asc', 'asc']);
 };
 
 export default projectRecentWeaknesses;
