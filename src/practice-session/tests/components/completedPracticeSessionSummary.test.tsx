@@ -38,10 +38,11 @@ test('GIVEN a completed non-qualifying session, WHEN the completed summary is re
     multiplicationErrors: [],
   };
 
-  renderComponent(<CompletedPracticeSessionSummary session={session} />);
+  renderComponent(<CompletedPracticeSessionSummary session={session} totalQuestionCount={20} />);
 
   expect(screen.queryByText('You earned 1 reward')).not.toBeInTheDocument();
   expect(screen.getByText('6 correct answers')).toBeVisible();
+  expect(screen.getByText('Great work. You answered 6 out of 20 questions correctly.')).toBeVisible();
 });
 
 test('GIVEN a completed qualifying session, WHEN the completed summary is rendered, THEN confetti is triggered', () => {

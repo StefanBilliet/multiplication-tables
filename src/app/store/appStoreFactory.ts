@@ -19,7 +19,11 @@ type CreateAppStoreOptions = {
 
 type AppStorePersist = Omit<
   AppState,
-  'addReward' | 'recordSessionCompleted' | 'setHesitationRuleEnabled' | 'setQuestionOrderMode'
+  | 'addReward'
+  | 'recordSessionCompleted'
+  | 'recordTestSessionCompleted'
+  | 'setHesitationRuleEnabled'
+  | 'setQuestionOrderMode'
 >;
 
 type AppStore = StoreApi<AppState>;
@@ -54,6 +58,7 @@ export const createAppStore = ({ persist: shouldPersist = true }: CreateAppStore
           lifetimeRewardTotal: state.lifetimeRewardTotal,
           recentWeaknesses: state.recentWeaknesses,
           sessionCompletedEvents: state.sessionCompletedEvents,
+          testSessionCompletedEvents: state.testSessionCompletedEvents,
           isHesitationRuleEnabled: state.isHesitationRuleEnabled,
           questionOrderMode: state.questionOrderMode,
         }),
@@ -67,6 +72,7 @@ export const createAppStore = ({ persist: shouldPersist = true }: CreateAppStore
           }
 
           const sessionCompletedEvents = state.sessionCompletedEvents ?? [];
+          const testSessionCompletedEvents = state.testSessionCompletedEvents ?? [];
 
           return {
             ...currentState,
@@ -74,6 +80,7 @@ export const createAppStore = ({ persist: shouldPersist = true }: CreateAppStore
             sessionCompletedEvents: sessionCompletedEvents.map((event) =>
               hydrateSessionCompletedEvent(event as unknown as SerializedSessionCompletedEvent),
             ),
+            testSessionCompletedEvents,
           };
         },
       },

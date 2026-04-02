@@ -9,6 +9,10 @@ vi.mock('../../practice-session/components/practiceScreen', () => ({
   default: () => <div>Practice screen stub</div>,
 }));
 
+vi.mock('../../practice-session/components/testScreen', () => ({
+  default: () => <div>Test screen stub</div>,
+}));
+
 vi.mock('../../settings/components/settingsScreen', () => ({
   default: () => <div>Settings screen stub</div>,
 }));
@@ -70,4 +74,12 @@ test('GIVEN the home route is shown, WHEN the app is rendered, THEN table option
   for (let table = 1; table <= 10; table += 1) {
     expect(screen.getByText(`${table} times table`)).toBeVisible();
   }
+});
+
+test('GIVEN the /test route is shown, WHEN the app is rendered, THEN the test screen is shown', async () => {
+  const sut = <App />;
+
+  renderWithRouter(sut, { initialEntries: ['/test'] });
+
+  expect(await screen.findByText('Test screen stub')).toBeVisible();
 });

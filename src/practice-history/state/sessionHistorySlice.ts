@@ -10,6 +10,14 @@ export type SessionCompletedEvent = {
   multiplicationErrors: { table: number; multiplier: number }[];
 };
 
+export type TestSessionCompletedEvent = {
+  id: string;
+  type: 'test';
+  firstTryCorrectAnswerCount: number;
+  timestamp: Temporal.Instant;
+  multiplicationErrors: { table: number; multiplier: number }[];
+};
+
 export type SerializedSessionCompletedEvent = Omit<SessionCompletedEvent, 'timestamp'> & {
   timestamp: string;
 };
@@ -22,8 +30,10 @@ export type RecentWeakness = {
 
 export type SessionHistorySlice = {
   sessionCompletedEvents: SessionCompletedEvent[];
+  testSessionCompletedEvents: TestSessionCompletedEvent[];
   recentWeaknesses: RecentWeakness[];
   recordSessionCompleted: (event: SessionCompletedEvent) => void;
+  recordTestSessionCompleted: (event: TestSessionCompletedEvent) => void;
 };
 
 export const hydrateSessionCompletedEvent = (event: SerializedSessionCompletedEvent): SessionCompletedEvent => ({
@@ -75,6 +85,7 @@ const extractMultiplicationErrors = (
 
 export const createSessionHistorySlice: StateCreator<SessionHistorySlice> = (set) => ({
   sessionCompletedEvents: [],
+  testSessionCompletedEvents: [],
   recentWeaknesses: [],
   recordSessionCompleted: (event) => {
     set((state) => {
@@ -85,5 +96,12 @@ export const createSessionHistorySlice: StateCreator<SessionHistorySlice> = (set
         sessionCompletedEvents,
       };
     });
+  },
+  recordTestSessionCompleted: (event) => {
+    set((state) => ({
+      testSessionCompletedEvents: [...state.testSessionCompletedEvents, event].slice(-50),
+      recentWeaknesses: state.recentWeaknesses,
+      sessionCompletedEvents: state.sessionCompletedEvents,
+    }));
   },
 });

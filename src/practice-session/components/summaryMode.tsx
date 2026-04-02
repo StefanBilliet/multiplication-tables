@@ -7,11 +7,12 @@ import classes from './summaryMode.module.css';
 
 type SummaryModeProps = {
   session: PracticeFlowType;
+  totalQuestionCount?: number;
 };
 
-const SummaryMode: FC<SummaryModeProps> = ({ session }) => (
+const SummaryMode: FC<SummaryModeProps> = ({ session, totalQuestionCount }) => (
   <Stack className={classes.content}>
-    <CompletedPracticeSessionSummary session={session} />
+    <CompletedPracticeSessionSummary session={session} totalQuestionCount={totalQuestionCount} />
 
     <Group component="footer">
       <BackToTablesButton />

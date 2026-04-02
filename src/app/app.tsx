@@ -6,6 +6,7 @@ import TableSelection from '../table-selection/components/tableSelection';
 
 const PracticeHistoryScreen = lazy(() => import('../practice-history/components/practiceHistoryScreen'));
 const PracticeScreen = lazy(() => import('../practice-session/components/practiceScreen'));
+const TestScreen = lazy(() => import('../practice-session/components/testScreen'));
 const SettingsScreen = lazy(() => import('../settings/components/settingsScreen'));
 
 const App: FC = () => {
@@ -21,6 +22,7 @@ const App: FC = () => {
         <Route path="/" element={<TableSelection />} />
         <Route path="/settings" element={<SettingsScreen />} />
         <Route path="/practice-history" element={<PracticeHistoryScreen />} />
+        <Route path="/test" element={<TestScreen />} />
         <Route path="/tables/:tableId/practice" element={<PracticeScreen />} />
       </Routes>
     </Suspense>

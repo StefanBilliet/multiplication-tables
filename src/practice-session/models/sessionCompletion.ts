@@ -3,16 +3,16 @@ import type { CurrentQuestionState, SessionComplete } from './types.ts';
 
 type PracticeFlow = CurrentQuestionState | SessionComplete;
 
-const REWARD_ELIGIBILITY_THRESHOLD = 7;
-
 export const sessionCompletion = {
   continueSession(flow: PracticeFlow): PracticeFlow {
     if (flow.kind === 'sessionComplete') return flow;
     if (flow.currentQuestionIndex >= flow.questionSequence.length - 1) {
+      const rewardEligibilityThreshold = Math.ceil(flow.questionSequence.length * 0.7);
+
       return {
         kind: 'sessionComplete',
         firstTryCorrectAnswerCount: flow.firstTryCorrectAnswerCount,
-        hasEarnedReward: flow.firstTryCorrectAnswerCount >= REWARD_ELIGIBILITY_THRESHOLD,
+        hasEarnedReward: flow.firstTryCorrectAnswerCount >= rewardEligibilityThreshold,
         multiplicationErrors: flow.multiplicationErrors,
       };
     }

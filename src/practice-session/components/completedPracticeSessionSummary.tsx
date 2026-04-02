@@ -7,9 +7,10 @@ import SessionSummary from './sessionSummary';
 
 type CompletedPracticeSessionSummaryProps = {
   session: PracticeFlowType;
+  totalQuestionCount?: number;
 };
 
-const CompletedPracticeSessionSummary: FC<CompletedPracticeSessionSummaryProps> = ({ session }) => {
+const CompletedPracticeSessionSummary: FC<CompletedPracticeSessionSummaryProps> = ({ session, totalQuestionCount }) => {
   const { lifetimeRewardTotal } = useLifetimeRewardTotal();
   const hasEarnedReward = PracticeFlow.hasEarnedReward(session);
 
@@ -17,9 +18,10 @@ const CompletedPracticeSessionSummary: FC<CompletedPracticeSessionSummaryProps> 
     <RewardEarnedSummary
       correctAnswerCount={session.firstTryCorrectAnswerCount}
       lifetimeRewardTotal={lifetimeRewardTotal}
+      totalQuestionCount={totalQuestionCount}
     />
   ) : (
-    <SessionSummary correctAnswerCount={session.firstTryCorrectAnswerCount} />
+    <SessionSummary correctAnswerCount={session.firstTryCorrectAnswerCount} totalQuestionCount={totalQuestionCount} />
   );
 };
 

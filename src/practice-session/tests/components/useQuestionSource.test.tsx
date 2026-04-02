@@ -1,19 +1,9 @@
 import { renderHook } from '@testing-library/react';
-import type { PropsWithChildren } from 'react';
-import { AppProviders } from '../../../app/providers/appProviders';
-import { createAppStore } from '../../../app/store/appStore';
+import { createTestProviders } from '../../../shared/testing/createTestProviders';
 import useQuestionSource from '../../components/useQuestionSource';
 
-const createQuestionSourceTestProviders = () => {
-  const store = createAppStore({ persist: false });
-
-  const TestProviders = ({ children }: PropsWithChildren) => <AppProviders store={store}>{children}</AppProviders>;
-
-  return { TestProviders, store };
-};
-
 test('GIVEN a selected table and structured order, WHEN the question source is read, THEN it returns the regular question sequence for that table', () => {
-  const { TestProviders } = createQuestionSourceTestProviders();
+  const { TestProviders } = createTestProviders();
 
   const { result } = renderHook(() => useQuestionSource(3), {
     wrapper: TestProviders,

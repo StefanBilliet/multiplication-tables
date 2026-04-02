@@ -21,6 +21,7 @@
     "@mantine/core": "^8.3.18",
     "@mantine/hooks": "^8.3.18",
     "@tabler/icons-react": "^3.41.0",
+    "es-toolkit": "^1.45.1",
     "i18next": "^25.10.10",
     "i18next-browser-languagedetector": "^8.2.1",
     "react": "^19.2.4",

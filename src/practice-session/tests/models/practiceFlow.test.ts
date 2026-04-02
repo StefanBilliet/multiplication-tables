@@ -3,16 +3,21 @@ import { createQuestionSequenceFactory } from '../../models/questionSequenceFact
 import type { CurrentQuestionState } from '../../models/types.ts';
 
 const regularQuestionSequence = createQuestionSequenceFactory(3).regular();
+const twentyQuestionSequence = Array.from({ length: 20 }, (_, index) => ({
+  table: 3,
+  multiplier: index + 1,
+}));
 
 function completeSession(startFlow: CurrentQuestionState, wrongMultipliers: number[] = []): PracticeFlow {
   let flow: CurrentQuestionState = startFlow;
+  const questionCount = startFlow.questionSequence.length;
 
-  for (let i = 1; i <= 10; i += 1) {
+  for (let i = 1; i <= questionCount; i += 1) {
     const answer = wrongMultipliers.includes(i) ? 999 : i * startFlow.currentQuestion.table;
     flow = PracticeFlow.checkAnswer(
       PracticeFlow.selectAnswer(flow, answer) as CurrentQuestionState,
     ) as CurrentQuestionState;
-    if (i < 10) {
+    if (i < questionCount) {
       flow = PracticeFlow.nextQuestion(flow) as CurrentQuestionState;
     }
   }
@@ -184,6 +189,20 @@ test('GIVEN a completed session with 6 correct answers, WHEN hasEarnedReward is 
   const result = PracticeFlow.hasEarnedReward(sut);
 
   expect(result).toBe(false);
+});
+
+test.each([
+  { correctCount: 13, hasEarnedReward: false, wrongMultipliers: [1, 2, 3, 4, 5, 6, 7] },
+  { correctCount: 14, hasEarnedReward: true, wrongMultipliers: [1, 2, 3, 4, 5, 6] },
+])('GIVEN a completed 20-question session with $correctCount correct answers, WHEN hasEarnedReward is called, THEN it is $hasEarnedReward', ({
+  correctCount,
+  hasEarnedReward,
+  wrongMultipliers,
+}) => {
+  const sut = completeSession(PracticeFlow.start(twentyQuestionSequence) as CurrentQuestionState, wrongMultipliers);
+
+  expect(sut.firstTryCorrectAnswerCount).toBe(correctCount);
+  expect(PracticeFlow.hasEarnedReward(sut)).toBe(hasEarnedReward);
 });
 
 test.each([

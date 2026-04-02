@@ -9,9 +9,14 @@ import SessionSummary from './sessionSummary';
 type RewardEarnedSummaryProps = {
   correctAnswerCount: number;
   lifetimeRewardTotal: number;
+  totalQuestionCount?: number;
 };
 
-const RewardEarnedSummary: FC<RewardEarnedSummaryProps> = ({ correctAnswerCount, lifetimeRewardTotal }) => {
+const RewardEarnedSummary: FC<RewardEarnedSummaryProps> = ({
+  correctAnswerCount,
+  lifetimeRewardTotal,
+  totalQuestionCount,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -37,7 +42,7 @@ const RewardEarnedSummary: FC<RewardEarnedSummaryProps> = ({ correctAnswerCount,
           </Group>
         </Paper>
 
-        <SessionSummary correctAnswerCount={correctAnswerCount} />
+        <SessionSummary correctAnswerCount={correctAnswerCount} totalQuestionCount={totalQuestionCount} />
       </Stack>
     </>
   );
