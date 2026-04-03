@@ -1,9 +1,10 @@
 import { Card, Center, Stack, Text, Title } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import PracticeFlow from '../models/practiceFlow';
 import ActiveSessionMode from './activeSessionMode';
 import CurrentQuestionPrompt from './currentQuestionPrompt';
+import derivePracticeProgress from './derivePracticeProgress';
+import PracticeProgress from './practiceProgress';
 import SummaryMode from './summaryMode';
 import classes from './testScreen.module.css';
 import useTestQuestionSource from './useTestQuestionSource';
@@ -24,7 +25,7 @@ const TestScreen: FC = () => {
             <Text c="dimmed">{t('testSection.description')}</Text>
           </Stack>
 
-          {PracticeFlow.isComplete(session) ? (
+          {session.kind === 'sessionComplete' ? (
             <SummaryMode session={session} totalQuestionCount={20} />
           ) : (
             <>
@@ -40,6 +41,7 @@ const TestScreen: FC = () => {
                 onContinue={continueSession}
                 onSelectAnswer={selectAnswer}
               />
+              <PracticeProgress {...derivePracticeProgress(session)} />
             </>
           )}
         </Stack>

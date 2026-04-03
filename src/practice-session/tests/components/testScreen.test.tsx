@@ -21,3 +21,11 @@ test('GIVEN test mode is opened, WHEN the screen renders, THEN the first questio
   expect(screen.getByText('1 x 2 = ?')).toBeVisible();
   expect(screen.getByRole('button', { name: /check answer/i })).toBeVisible();
 });
+
+test('GIVEN test mode is opened, WHEN the screen renders, THEN the progress bar starts empty', async () => {
+  await testI18n.changeLanguage('en');
+
+  renderWithRouter(<TestScreen />);
+
+  expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0');
+});

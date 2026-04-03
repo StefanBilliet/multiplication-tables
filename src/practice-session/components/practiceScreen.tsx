@@ -1,12 +1,13 @@
-import { Card, Center, Progress, Stack } from '@mantine/core';
+import { Card, Center, Stack } from '@mantine/core';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppStore } from '../../app/store/appStore';
-import PracticeFlow from '../models/practiceFlow';
 import ActiveSessionMode from './activeSessionMode';
 import CurrentQuestionPrompt from './currentQuestionPrompt';
+import derivePracticeProgress from './derivePracticeProgress';
 import Header from './header';
+import PracticeProgress from './practiceProgress';
 import classes from './practiceScreen.module.css';
 import SummaryMode from './summaryMode';
 import useActiveSessionViewModel from './useActiveSessionViewModel';
@@ -33,11 +34,13 @@ const PracticeScreen: FC = () => {
     <Center className={classes.page}>
       <Card variant="shell" className={classes.pageCard}>
         <Header
-          description={PracticeFlow.isComplete(session) ? t('practiceSession.header.completedDescription') : undefined}
+          description={
+            session.kind === 'sessionComplete' ? t('practiceSession.header.completedDescription') : undefined
+          }
           selectedTable={selectedTable}
         />
 
-        {PracticeFlow.isComplete(session) ? (
+        {session.kind === 'sessionComplete' ? (
           <SummaryMode session={session} />
         ) : (
           <Stack gap="xl">
@@ -56,9 +59,7 @@ const PracticeScreen: FC = () => {
               onSelectAnswer={handleSelectAnswer}
             />
 
-            <div className={classes.progressFrame}>
-              <Progress aria-label="Practice progress" className={classes.progressBar} value={60} />
-            </div>
+            <PracticeProgress {...derivePracticeProgress(session)} />
           </Stack>
         )}
       </Card>
