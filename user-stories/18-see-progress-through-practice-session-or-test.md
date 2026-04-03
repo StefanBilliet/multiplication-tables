@@ -1,4 +1,5 @@
-# US-001 — Progress notion during sessions
+# US-18: Progress notion during sessions
+Status: closed
 
 As a practitioner, I want to see my progress through a practice session or test so that I don’t feel stressed about how much is left.
 
