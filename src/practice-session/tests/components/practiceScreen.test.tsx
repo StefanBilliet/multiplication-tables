@@ -3,13 +3,27 @@ import { act } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { vi } from 'vitest';
 import { createAppStore } from '../../../app/store/appStore';
+import useQuestionSource from '../../../practice-session/components/useQuestionSource';
 import { DEFAULT_TIMER_GRACE_PERIOD_MS } from '../../../practice-session/hooks/useTimerElapsed';
+import { createQuestionSequenceFactory } from '../../../practice-session/models/questionSequenceFactory';
 import testI18n from '../../../shared/testing/i18n';
 import renderComponent from '../../../shared/testing/renderComponent';
 import renderWithRouter from '../../../shared/testing/renderWithRouter.tsx';
 import PracticeScreen from '../../components/practiceScreen.tsx';
 import { practiceScreenPage } from './practiceScreenPage.tsx';
 import { renderPracticeScreen } from './renderPracticeScreen.tsx';
+
+vi.mock('../../../practice-session/components/useQuestionSource', () => ({
+  default: vi.fn(),
+}));
+
+const mockedUseQuestionSource = vi.mocked(useQuestionSource);
+
+beforeEach(() => {
+  mockedUseQuestionSource.mockImplementation((selectedTable: number) =>
+    createQuestionSequenceFactory(selectedTable).regular(),
+  );
+});
 
 test.each([
   { table: 1, question: '1 x 1 = ?' },
@@ -239,21 +253,23 @@ test('GIVEN correct feedback is visible, WHEN I choose to continue, THEN the app
   expect(page.question('2 x 3 = ?')).toBeVisible();
 });
 
-test('GIVEN I have answered the tenth question correctly, WHEN I choose to continue, THEN the practice session is completed instead of showing an eleventh question', {
-  timeout: 10000,
-}, async () => {
+test('GIVEN the final question is answered correctly, WHEN I choose to continue, THEN the practice session is completed instead of showing another question', async () => {
+  mockedUseQuestionSource.mockReturnValueOnce([
+    { table: 3, multiplier: 1 },
+    { table: 3, multiplier: 2 },
+  ]);
+
   const page = renderPracticeScreen();
 
-  for (let multiplier = 1; multiplier < 10; multiplier += 1) {
-    await page.answerQuestion(multiplier * 3);
-    await page.continuePractice();
-  }
+  await page.answerQuestion(3);
+  await page.continuePractice();
+  expect(page.question('2 x 3 = ?')).toBeVisible();
 
-  await page.answerQuestion(30);
+  await page.answerQuestion(6);
   await page.continuePractice();
 
   expect(page.completionMessage()).toBeVisible();
-  expect(screen.queryByText('11 x 3 = ?')).not.toBeInTheDocument();
+  expect(screen.queryByText('3 x 3 = ?')).not.toBeInTheDocument();
 });
 
 test('GIVEN the next question is shown, WHEN I submit the correct answer for that question, THEN the app evaluates the currently visible answer against the current question', async () => {

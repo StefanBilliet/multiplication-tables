@@ -13,17 +13,23 @@ type RenderComponentOptions = {
 };
 
 function renderComponent(sut: ReactNode, options: RenderComponentOptions = {}) {
-  const user = userEvent.setup();
   const store = options.store ?? createAppStore({ persist: false });
+  const rendered = render(
+    <I18nextProvider i18n={testI18n}>
+      <AppProviders store={store}>{sut}</AppProviders>
+    </I18nextProvider>,
+  );
 
-  return {
-    user,
-    ...render(
-      <I18nextProvider i18n={testI18n}>
-        <AppProviders store={store}>{sut}</AppProviders>
-      </I18nextProvider>,
-    ),
-  };
+  let user: ReturnType<typeof userEvent.setup> | undefined;
+
+  return Object.defineProperty(rendered, 'user', {
+    enumerable: true,
+    get: () => {
+      user ??= userEvent.setup();
+
+      return user;
+    },
+  }) as typeof rendered & { user: ReturnType<typeof userEvent.setup> };
 }
 
 export default renderComponent;

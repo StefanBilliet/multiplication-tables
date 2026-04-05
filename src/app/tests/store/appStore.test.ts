@@ -2,6 +2,10 @@ import { Temporal } from '@js-temporal/polyfill';
 import { sessionCompletedEventFactory } from '../../../shared/testing/factories/sessionCompletedEventFactory.ts';
 import { createAppStore } from '../../store/appStore.ts';
 
+beforeEach(() => {
+  localStorage.clear();
+});
+
 test('GIVEN the app store is created, WHEN inspecting its state, THEN legacy multiplication error state is no longer present', () => {
   const store = createAppStore({ persist: false });
 

@@ -1,5 +1,5 @@
 # US-18: Improve test performance without reducing coverage
-Status: open
+Status: closed
 
 ## Background
 
