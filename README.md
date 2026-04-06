@@ -30,28 +30,28 @@ An interactive learning application for mastering multiplication tables with gam
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm run dev
+pnpm run dev
 
 # Build for production
-npm run build
+pnpm run build
 
 # Preview production build
-npm run preview
+pnpm run preview
 
 # Run tests
-npm run test
+pnpm run test
 
 # Run tests in watch mode
-npm run test:watch
+pnpm run test:watch
 
 # Start Storybook
-npm run storybook
+pnpm run storybook
 
 # Quality check (lint + format + build + test + storybook)
-npm run isEverythingOk
+pnpm run isEverythingOk
 ```
 
 ## Project Structure
@@ -96,7 +96,7 @@ This project follows a strict Test-Driven Development (TDD) approach:
 Run the full quality gate before committing:
 
 ```bash
-npm run isEverythingOk
+pnpm run isEverythingOk
 ```
 
 This command runs:

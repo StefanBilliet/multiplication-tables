@@ -39,7 +39,7 @@ All acceptance criteria are implemented and verified:
 - An in-app language switcher is available through `src/features/table-selection/components/languageSwitcher.tsx`
 - The language switcher is also available during practice sessions via the practice-screen header
 - All runtime user-visible text is localized
-- `npm run isEverythingOk` passes (11 test files, 90 tests)
+- `pnpm run isEverythingOk` passes
 
 ### Out of Scope
 

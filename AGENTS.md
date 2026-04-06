@@ -68,7 +68,7 @@ This project uses strict, conversation-driven TDD for behavior changes. The goal
 - Before finishing meaningful work, run:
 
 ```bash
-npm run isEverythingOk
+pnpm run isEverythingOk
 ```
 
 ## Commits
