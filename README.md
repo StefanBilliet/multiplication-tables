@@ -6,10 +6,10 @@ An interactive learning application for mastering multiplication tables with gam
 
 ## Features
 
-- **10 Multiplication Tables**: Practice with tables 1-10
-- **Progressive Unlock System**: Earn rewards by completing practice sessions to unlock higher tables
 - **Interactive Practice Sessions**: Answer questions using a number pad with instant feedback
-- **Rewards System**: Track your lifetime rewards across sessions
+- **Test Mode**: Challenge yourself with timed sessions to build speed and accuracy
+- **Practice History**: Review your previous sessions and track your progress over time
+- **Settings**: Customize your learning experience, including question ordering and hesitation rules
 - **Multi-Language Support**: Available in English and Dutch
 - **Offline-Capable**: Progressive Web App (PWA) with service worker
 
@@ -61,28 +61,14 @@ src/
 ├── app/
 │   ├── app.tsx              # Route definitions
 │   └── providers/          # App-level providers
-├── features/
-│   ├── table-selection/    # Table selection screen
-│   │   ├── components/
-│   │   │   ├── tableSelection.tsx
-│   │   │   ├── multiplicationTableCard.tsx
-│   │   │   └── languageSwitcher.tsx
-│   │   └── utils/
-│   └── practice-session/   # Practice session flow
-│       ├── components/
-│       │   ├── practiceScreen.tsx
-│       │   ├── answerPad.tsx
-│       │   ├── answerField.tsx
-│       │   └── summaryMode.tsx
-│       └── models/
+├── practice-history/       # History recording and UI components
+├── practice-session/       # Core gameplay implementation
+├── settings/               # User configuration logic and UI
 ├── shared/
 │   ├── i18n/               # Internationalization
-│   │   ├── index.ts
-│   │   ├── en.json
-│   │   └── nl.json
-│   ├── rewards/           # Reward tracking system
-│   └── testing/           # Test utilities and factories
-└── locales/               # Translation files
+│   ├── testing/            # Test utilities and factories
+│   └── ...                 # Other shared utilities
+└── platform/               # Theme, styles, locales, and PWA wiring
 ```
 
 ## Development Workflow
