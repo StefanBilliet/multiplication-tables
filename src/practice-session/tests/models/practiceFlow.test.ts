@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import PracticeFlow from '../../models/practiceFlow.ts';
 import { createQuestionSequenceFactory } from '../../models/questionSequenceFactory.ts';
 import type { CurrentQuestionState } from '../../models/types.ts';
@@ -7,6 +8,14 @@ const twentyQuestionSequence = Array.from({ length: 20 }, (_, index) => ({
   table: 3,
   multiplier: index + 1,
 }));
+
+const startSessionWithControlledAnswerOrder = (): CurrentQuestionState => {
+  const random = vi.spyOn(Math, 'random').mockReturnValue(301 / 233280);
+  const session = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
+  random.mockRestore();
+
+  return session;
+};
 
 function completeSession(startFlow: CurrentQuestionState, wrongMultipliers: number[] = []): PracticeFlow {
   let flow: CurrentQuestionState = startFlow;
@@ -26,13 +35,13 @@ function completeSession(startFlow: CurrentQuestionState, wrongMultipliers: numb
 }
 
 test('GIVEN a table is started, WHEN the first practice flow state is created, THEN it exposes the first current question', () => {
-  const sut = PracticeFlow.start(regularQuestionSequence);
+  const sut = startSessionWithControlledAnswerOrder();
 
   expect(sut).toEqual({
     kind: 'currentQuestion',
     currentQuestionIndex: 0,
     currentQuestion: {
-      answerOptions: [6, 9, 15, 21, 30, 24, 18, 3, 12, 27],
+      answerOptions: [6, 9, 12, 15, 18, 21, 24, 27, 30, 3],
       canCheckAnswer: false,
       canContinue: false,
       feedbackState: null,
@@ -48,7 +57,7 @@ test('GIVEN a table is started, WHEN the first practice flow state is created, T
 });
 
 test('GIVEN a current question is shown, WHEN a correct answer is selected and checked, THEN the flow shows correct feedback', () => {
-  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
+  const sut = startSessionWithControlledAnswerOrder();
 
   const flowWithSelectedAnswer = PracticeFlow.selectAnswer(sut, 3) as CurrentQuestionState;
   const nextFlow = PracticeFlow.checkAnswer(flowWithSelectedAnswer) as CurrentQuestionState;
@@ -57,7 +66,7 @@ test('GIVEN a current question is shown, WHEN a correct answer is selected and c
     kind: 'currentQuestion',
     currentQuestionIndex: 0,
     currentQuestion: {
-      answerOptions: [6, 9, 15, 21, 30, 24, 18, 3, 12, 27],
+      answerOptions: [6, 9, 12, 15, 18, 21, 24, 27, 30, 3],
       canCheckAnswer: false,
       canContinue: true,
       feedbackState: 'correct',
@@ -73,7 +82,7 @@ test('GIVEN a current question is shown, WHEN a correct answer is selected and c
 });
 
 test('GIVEN a current question is shown, WHEN an incorrect answer is selected and checked, THEN the flow shows feedback that the answer was wrong', () => {
-  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
+  const sut = startSessionWithControlledAnswerOrder();
 
   const flowWithSelectedAnswer = PracticeFlow.selectAnswer(sut, 6) as CurrentQuestionState;
   const nextFlow = PracticeFlow.checkAnswer(flowWithSelectedAnswer) as CurrentQuestionState;
@@ -82,7 +91,7 @@ test('GIVEN a current question is shown, WHEN an incorrect answer is selected an
     kind: 'currentQuestion',
     currentQuestionIndex: 0,
     currentQuestion: {
-      answerOptions: [6, 9, 15, 21, 30, 24, 18, 3, 12, 27],
+      answerOptions: [6, 9, 12, 15, 18, 21, 24, 27, 30, 3],
       canCheckAnswer: false,
       canContinue: false,
       feedbackState: 'incorrect',
@@ -168,11 +177,21 @@ test('GIVEN a session in progress, WHEN hasEarnedReward is called, THEN it retur
 });
 
 test('GIVEN a shuffled question sequence is started, WHEN the session is created, THEN it preserves the provided sequence', () => {
-  const shuffledQuestionSequence = createQuestionSequenceFactory(3, 1).shuffled();
+  const shuffledQuestionSequence = createQuestionSequenceFactory(3, () => 0.1).shuffled();
 
   const sut = PracticeFlow.start(shuffledQuestionSequence) as CurrentQuestionState;
 
   expect(sut.questionSequence).toEqual(shuffledQuestionSequence);
+});
+
+test('GIVEN the same multiplication, WHEN two sessions start, THEN they can have different answer orders', () => {
+  const random = vi.spyOn(Math, 'random').mockReturnValueOnce(0.1).mockReturnValueOnce(0.9);
+
+  const firstSession = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
+  const secondSession = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
+  random.mockRestore();
+
+  expect(firstSession.currentQuestion.answerOptions).not.toEqual(secondSession.currentQuestion.answerOptions);
 });
 
 test('GIVEN a completed session with 7+ correct answers, WHEN hasEarnedReward is called, THEN it returns true', () => {

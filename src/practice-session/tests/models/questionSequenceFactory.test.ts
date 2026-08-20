@@ -18,7 +18,7 @@ test('GIVEN a table number, WHEN the regular question sequence is requested, THE
 });
 
 test('GIVEN a table number, WHEN the shuffled question sequence is requested, THEN it returns a shuffled copy of the regular sequence', () => {
-  const sut = createQuestionSequenceFactory(3);
+  const sut = createQuestionSequenceFactory(3, () => 0.1);
 
   const shuffled = sut.shuffled();
 
@@ -27,9 +27,9 @@ test('GIVEN a table number, WHEN the shuffled question sequence is requested, TH
   expect([...shuffled].sort((a, b) => a.multiplier - b.multiplier)).toEqual(sut.regular());
 });
 
-test('GIVEN two different shuffle seeds, WHEN the shuffled question sequence is requested, THEN it can produce different orders', () => {
-  const first = createQuestionSequenceFactory(3, 1);
-  const second = createQuestionSequenceFactory(3, 2);
+test('GIVEN two different random values, WHEN the shuffled question sequence is requested, THEN it can produce different orders', () => {
+  const first = createQuestionSequenceFactory(3, () => 0.1);
+  const second = createQuestionSequenceFactory(3, () => 0.9);
 
   expect(first.shuffled()).not.toEqual(second.shuffled());
 });

@@ -7,14 +7,14 @@ type PracticeFlow = CurrentQuestionState | SessionComplete;
 
 const isCurrentQuestion = (flow: PracticeFlow): flow is CurrentQuestionState => flow.kind === 'currentQuestion';
 
-const createAnswerOptions = (table: number, multiplier: number): number[] => {
+const createAnswerOptions = (table: number): number[] => {
   const options = Array.from({ length: 10 }, (_, index) => table * (index + 1));
 
-  return shuffleAnswerOptions(options, table * 100 + multiplier);
+  return shuffleAnswerOptions(options);
 };
 
 const createCurrentQuestion = (question: Question) => ({
-  answerOptions: createAnswerOptions(question.table, question.multiplier),
+  answerOptions: createAnswerOptions(question.table),
   canCheckAnswer: false,
   canContinue: false,
   feedbackState: null,

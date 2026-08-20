@@ -145,10 +145,17 @@ test('GIVEN a session without feedback, WHEN feedbackState is called, THEN it re
   expect(result).toBeNull();
 });
 
-test('GIVEN a current question state, WHEN getAnswerOptions is called, THEN it returns the answer options from the current question', () => {
-  const sut = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
+test('GIVEN a current question state, WHEN getAnswerOptions is called, THEN it preserves the answer option order', () => {
+  const session = PracticeFlow.start(regularQuestionSequence) as CurrentQuestionState;
+  const sut: CurrentQuestionState = {
+    ...session,
+    currentQuestion: {
+      ...session.currentQuestion,
+      answerOptions: [12, 3, 9],
+    },
+  };
 
   const result = questionAttemptView.getAnswerOptions(sut);
 
-  expect(result).toEqual([6, 9, 15, 21, 30, 24, 18, 3, 12, 27]);
+  expect(result).toEqual([12, 3, 9]);
 });
